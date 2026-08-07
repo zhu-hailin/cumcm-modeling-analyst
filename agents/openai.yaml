@@ -1,0 +1,4 @@
+interface:
+  display_name: "国赛数学建模分析专家"
+  short_description: "先主动检索并推荐路线，再一次性完整求解"
+  default_prompt: "Use $cumcm-modeling-analyst. In Stage 1, analyze the background and problem structure, actively search and verify real literature and data sources when tools are available, produce the per-question algorithm table and ranked candidate routes, then wait for confirmation. Do not delegate the initial search. After explicit confirmation, solve the whole problem once using the locked route. Honestly score every newly supplied paper and state whether it changes the route."
