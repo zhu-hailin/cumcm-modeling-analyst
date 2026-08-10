@@ -1,8 +1,25 @@
 # 两阶段赛题工作流
 
+## 开题前：先确定联网研究模式
+
+在第一次外部联网检索之前，如果用户尚未明确说明，必须先询问一次：
+
+> 这是 **A. 实战赛题**，还是 **B. 旧题盲测**？
+
+- **实战赛题**：进入 `LIVE_RESEARCH_MODE`，保留正常联网研究能力，可搜索论文、数据、参数、官方资料、相似案例、算法与代码文档，但不得以寻找当前比赛现成完整答案为目的。
+- **旧题盲测**：进入 `BLIND_BENCHMARK_MODE`，禁止使用年份、题号、题名、题面原句、附件特征等可定位旧题的信息去搜索历史优秀论文、现成解答或源码；仍允许去题目标识化地搜索通用理论、原始模型文献、官方数据和方法资料。
+
+盲测中一旦意外命中该旧题的历史完整答案，必须立即停止继续读取并标记 `ANSWER_LEAKAGE_DETECTED`；该次严格盲测不能再宣称完全独立。完整规则见 [search-mode-policy.md](search-mode-policy.md)。
+
+搜索模式与后面的“逐题深度求解 / 一次性完整求解”是两个独立选择。
+
+---
+
 ## 总体流程
 
 ```text
+确定联网研究模式
+↓
 深读题目与附件
 ↓
 第一阶段探索性研究
@@ -24,6 +41,7 @@ A. 逐题深度求解  或  B. 一次性完整求解
 
 同时遵循：
 
+- [search-mode-policy.md](search-mode-policy.md)
 - [exploratory-research.md](exploratory-research.md)
 - [solve-modes.md](solve-modes.md)
 - [source-verification-policy.md](source-verification-policy.md)
@@ -40,6 +58,8 @@ A. 逐题深度求解  或  B. 一次性完整求解
 允许使用 Python 做：数据结构检查、缺失/异常、描述统计、必要可视化、趋势/季节性、相关性、baseline、可行域/计算规模、小规模模型前提验证等。
 
 第一阶段不要求生成最终正式代码和最终结果；探索只服务于“理解题目”和“选择路线”。
+
+联网检索必须始终服从已选择的 `LIVE_RESEARCH_MODE` 或 `BLIND_BENCHMARK_MODE`，不得在盲测中为了补证据绕过防泄漏规则。
 
 ## 用户看到的输出顺序
 
@@ -147,6 +167,8 @@ A. 逐题深度求解  或  B. 一次性完整求解
 检查是否漏掉：动作词、子要求、边界、单位、指定输出格式和问题间真实传递。
 
 没有完成 Requirement Traceability，不得进入最终论文和 `FINAL_DELIVERY`。
+
+如果当前为 `BLIND_BENCHMARK_MODE`，到这里仍不得自动搜索历史答案。只有全部独立求解结果固定，并且用户明确同意后，才能进入 `POST_SOLUTION_COMPARISON` 搜索历史优秀论文或已有解法进行对照。任何对照后产生的改进必须标记 `POST_HOC_IMPROVEMENT`，不得冒充盲测原始能力。
 
 ---
 
