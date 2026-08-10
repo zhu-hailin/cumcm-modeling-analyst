@@ -1,3 +1,5 @@
+> **⚠️ 禁止直接提交 AI 生成的论文。参赛队员应该详细核查并重写论文。**
+
 <div align="center">
 
 # 🏆 CUMCM Modeling Analyst
