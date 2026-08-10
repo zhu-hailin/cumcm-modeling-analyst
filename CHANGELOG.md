@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v4 — README 与项目可发现性优化
+
+- 重构 README 首页，让项目定位、核心价值和使用流程能够在首屏快速理解。
+- 新增中英文检索关键词，覆盖 CUMCM、数学建模、Mathematical Modeling、Optimization、Time Series、Sensitivity Analysis、Robustness Analysis 等主题。
+- 新增项目徽章、Quick Start、适用任务、两阶段 Mermaid 工作流、100 分评分体系和与普通 AI 建模回答的差异说明。
+- 强化“逐问核心思路 → 候选解法评分 → 本问推荐 → 整体路线”的核心卖点。
+- 优化 `agents/openai.yaml` 的展示名称、简短描述和默认提示，使其与当前逐问分析工作流保持一致。
+- 不改变核心建模协议、评分矩阵、文献核验规则和第二阶段交付逻辑。
+
 ## v3 — AI 主动检索与持续论文审查
 
 - 修正首轮文献与数据检索的职责设计。
