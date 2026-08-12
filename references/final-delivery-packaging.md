@@ -19,6 +19,7 @@
 
 - [output-artifact-policy.md](output-artifact-policy.md)
 - [reference-paper-writing.md](reference-paper-writing.md)
+- [equation-rendering-policy.md](equation-rendering-policy.md)
 - [source-verification-policy.md](source-verification-policy.md)
 
 ---
@@ -81,6 +82,21 @@ A题_参考论文.pdf
 至少覆盖：标题、摘要、关键词、问题重述、问题分析、模型假设、符号说明、数据预处理、总体路线、各实际子问题模型与求解、结果与图表解释、模型检验、误差/敏感性/鲁棒性分析、模型优缺点、结论、参考文献和必要附录。
 
 不得用教程复制件、第二阶段草稿或空壳模板冒充论文。
+
+### 公式渲染要求
+
+Word/PDF 公式必须完整执行 [equation-rendering-policy.md](equation-rendering-policy.md)。
+
+硬性要求：
+
+- Markdown/LaTeX 可以作为公式源，但 `.docx/.pdf` 中不能残留未经渲染的 LaTeX 源码；
+- Word 优先使用 OMML / Office 原生数学公式；
+- 符号说明表第一列的变量也必须按数学公式正确渲染；
+- 独立公式、行内公式、表格公式、附录公式都要检查；
+- DOCX 生成后必须做公式源码残留扫描和 OMML/结构检查；
+- Word 与 PDF 都必须进行公式视觉验收；
+- PDF 不得只是把公式错误的 Word 原样导出；
+- 任何 `FORMULA_RENDERING_FAILED` 都必须先修复。
 
 ### 论文与参考文献的区别
 
@@ -166,6 +182,11 @@ AI 自行创建的文本型文件统一为 UTF-8 Markdown。
 - 参考论文同时有 `.docx` 和 `.pdf`；
 - Word 与 PDF 内容一致；
 - 论文中的数值、图表和表格与源码实际结果一致；
+- Word/PDF 中公式均已正确渲染，无明显 LaTeX 源码残留；
+- 符号说明表数学变量正确渲染；
+- DOCX 公式结构检查通过；
+- Word 与 PDF 公式视觉检查通过；
+- 不存在 `FORMULA_RENDERING_FAILED`；
 - 所有正式参考文献真实；
 - 所有论文链接实际核验可打开；
 - 标记“可下载”的链接已达到 `DOWNLOAD_VERIFIED`；
