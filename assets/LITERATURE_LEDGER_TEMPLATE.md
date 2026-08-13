@@ -1,14 +1,14 @@
 # LITERATURE_LEDGER
 
-> 持续记录论文、报告、数据和优秀论文。只将已核验来源写入正式参考文献候选。最终参考论文中出现的参考文献链接必须达到 `DOWNLOAD_VERIFIED`。保留已排除来源和原因，避免重复检索。
+> 持续记录论文、报告、数据和优秀论文。只将已核验来源写入正式参考文献候选。最终 AI 参考论文中出现的参考文献链接必须达到 `DOWNLOAD_VERIFIED`。
 
 ## 当前赛题与阶段
 
 - 赛题：
-- 当前阶段：`STAGE_1_ANALYSIS / WAITING_FOR_CONFIRMATION / PAPER_REVIEW / STAGE_2_LOCKED / ROUTE_REOPEN_REQUIRED / FINAL_DELIVERY`
+- 当前阶段：`STAGE_1_ANALYSIS / WAITING_FOR_CONFIRMATION / STAGE_2_QUESTION_BY_QUESTION / STAGE_2_ONE_PASS / PAPER_REVIEW / ROUTE_REOPEN_REQUIRED / INTERNAL_DELIVERY / INTERNAL_DELIVERY_COMPLETE / FINAL_PAPER_AUDIT / OFFICIAL_SUBMISSION_EXPORT`
 - 当前主路线：
-- 主路线推荐指数：
 - 路线是否已锁定：
+- 搜索模式：
 - 最后更新：
 
 ## 文献总表
@@ -18,29 +18,29 @@
 
 文献状态：核心依据 / 方法候选 / 参数来源 / 数据来源 / 验证依据 / 背景 / 待核验 / 已排除
 
-链接状态必须使用：
+链接状态：
 
-- `PAGE_VERIFIED`：页面已实际打开，元数据匹配；
-- `DOWNLOAD_VERIFIED`：已确认真实、可用全文下载入口；
-- `METADATA_ONLY`：只有元数据；
-- `PAYWALLED`：真实但需付费/机构权限；
-- `DOWNLOAD_UNVERIFIED`：页面存在但未可靠确认全文下载；
-- `BROKEN_LINK`：链接失效；
-- `REJECTED`：来源不可靠或信息不匹配。
+- `PAGE_VERIFIED`
+- `DOWNLOAD_VERIFIED`
+- `METADATA_ONLY`
+- `PAYWALLED`
+- `DOWNLOAD_UNVERIFIED`
+- `BROKEN_LINK`
+- `REJECTED`
 
-**只有 `DOWNLOAD_VERIFIED` 的链接才允许进入最终参考论文。**
+**只有 `DOWNLOAD_VERIFIED` 的链接才允许在 AI 参考论文中描述为可下载链接。**
 
 ## 下载核验记录
 
-| 文献 ID | 页面是否打开 | 元数据是否匹配 | 是否找到全文入口 | 是否实际确认可下载 | 下载文件是否匹配 | 最终状态 | 核验日期 |
+| 文献 ID | 页面打开 | 元数据匹配 | 全文入口 | 实际确认可下载 | 下载文件匹配 | 最终状态 | 核验日期 |
 |---|---|---|---|---|---|---|---|
 
 ## 文献问题反馈
 
-| 文献 ID | 问题 | 已尝试替代来源 | 是否解决 | 是否需要反馈用户 | 用户需要决定什么 |
+| 文献 ID | 问题 | 已尝试替代来源 | 是否解决 | 是否需反馈用户 | 用户需决定什么 |
 |---|---|---|---|---|---|
 
-遇到页面打不开、DOI 不匹配、只能看摘要、付费墙、下载失败、文件不匹配或无法确认下载稳定性时，必须记录。不得伪造替代链接。
+不得伪造替代链接。
 
 ## 主张—证据矩阵
 
@@ -59,7 +59,7 @@
 
 ## 检索缺口
 
-| 子问题 | 缺少的证据 | 中文关键词 | 英文关键词 | 优先来源 |
+| 子问题 | 缺少证据 | 中文关键词 | 英文关键词 | 优先来源 |
 |---|---|---|---|---|
 
 ## 路线变化记录
@@ -67,12 +67,14 @@
 | 日期 | 新证据 | 原路线 | 调整 | 理由 |
 |---|---|---|---|---|
 
-## 对当前路线的影响汇总
+## 对当前路线影响
 
 | 文献 ID | 影响问题 | 原方法/分数 | 新证据 | 是否调整 | 调整后方法/分数 | 理由 |
 |---|---|---|---|---|---|---|
 
-## 最终参考论文引用检查
+## AI 参考论文引用检查
 
-| 文献 ID | 是否进入最终论文 | 链接是否 DOWNLOAD_VERIFIED | 引用位置 | 若未进入，原因 |
+| 文献 ID | 是否进入 AI 参考论文 | 链接是否 DOWNLOAD_VERIFIED | 引用位置 | 若未进入，原因 |
 |---|---|---|---|---|
+
+> `OFFICIAL_SUBMISSION_EXPORT` 的最终引用格式、AI 使用说明和提交结构仍以当年最新官方规则为准；本账本不写死官方格式。
