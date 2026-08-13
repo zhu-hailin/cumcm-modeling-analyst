@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## v9.0 — Python Visualization System 与 Official Submission Export
+
+- 新增 `references/python-visualization-policy.md`，把原本原则性的“Python 专业图表”升级为完整科学可视化系统。
+- 图表采用 A/B/C 三级：A 级核心结果图、B 级诊断/验证图、C 级探索图；禁止规定每问固定图数，删除后不影响理解/验证/决策的图通常视为装饰。
+- 中文论文候选图默认中文标题、坐标轴、图例、注释和单位；新增跨 Windows/Linux/macOS 的真实字体检测与回退，禁止只硬编码 SimHei；新增 `CHINESE_FONT_RENDERING_FAILED`。
+- 新增预测、评价、优化、TSP/VRP、聚类、Monte Carlo、敏感性/鲁棒性等题型的推荐图表映射，但明确不是机械强制。
+- 鼓励有真实信息密度的复合 Figure、inset、共享坐标轴和主结果+诊断组合，继续禁止无意义 3D、渐变、发光、彩虹色和装饰性复杂图。
+- 启发式算法若支撑最终结论，应保存真实迭代历史和适当的收敛/重复实验稳定性证据；缺失时标记 `OPTIMIZATION_CONVERGENCE_EVIDENCE_MISSING`。
+- 推荐公共 `visualization.py` / `table_export.py`，统一中文字体、DPI、布局、保存和结果表导出，避免各问题复制不同绘图配置。
+- 正式论文候选图建议 PNG + SVG，PNG 默认不少于 300 DPI，并以真实 A4 插图尺寸检查；新增 `PAPER_FIGURE_READABILITY_FAILED`。
+- 升级结果表格系统：普通 DataFrame 优先 `CSV/XLSX → Word 原生表格`，不默认截图；相关/混淆/敏感性/场景/分配等二维结构矩阵才优先 heatmap。
+- 新增 `VISUALIZATION_MANIFEST.md` 机制，建立 `论文图号 ↔ 图文件 ↔ 问题 ↔ 数据源 ↔ 生成代码 ↔ 支撑结论` 的完整证据链。
+- 新增 Visual QA，检查真实生成、中文字体、坐标轴、单位、图例、遮挡、裁切、论文尺寸可读性和数据一致性；严重失败标记 `VISUALIZATION_QA_FAILED`。
+- 最终参考论文原则上增加真实整题建模框架图，使用 Graphviz / Mermaid / Matplotlib patches / NetworkX 等确定性方式，禁止生成式 AI 图片替代。
+- Stage 1 继续保持克制，仅生成会改变模型选择、数据理解或风险判断的 C 级探索图；Stage 2 才建立完整正式可视化计划。
+- 更新逐题和一次性求解模板，加入 A/B/C 图表计划、核心/明细表、Manifest、Visual QA、输出目录和启发式算法收敛证据。
+- 强化参考论文选图：禁止 Stage 1 旧图、已替换模型旧图、手画类似结果图；论文图必须从最终 Manifest 选择并与 Python 真实结果一致。
+- 强化终稿复审：增加中文图表、坐标轴/单位/图例、字体乱码、论文尺寸、旧版本图、图中数值/趋势和 Manifest 追溯检查。
+- 把原“四包最终交付”明确重定义为 `INTERNAL_DELIVERY`：`题目详解.zip / 参考论文.zip / 源码.zip / 其他.zip` 仅用于队伍内部学习、审核、复现、人工写论文与留档，不再等同于官方提交。
+- 新增 `references/official-submission-policy.md`：正式比赛在终稿复审后必须重新核验当年官方、赛区和提交系统最新规则，再进入 `OFFICIAL_SUBMISSION_EXPORT`；禁止长期写死某一年文件名、页数、支撑材料结构或 AI 使用说明格式。
+- `AI_USAGE_LOG.md` 明确为内部完整真实日志；官方 AI 使用说明必须根据当年最新规则从内部日志导出，不得伪造、删改真实使用记录。
+- 官方导出失败状态新增 `OFFICIAL_SUBMISSION_EXPORT_FAILED`。
+- 同步更新 `SKILL.md`、`agents/openai.yaml`、输出规范、探索规范、完整分析协议、求解模式、内部交付、参考论文、终稿复审和相关模板，修复旧规则把 `FINAL_DELIVERY` / 四包误当成官方终点的概念冲突。
+
 ## v8 — 探索性研究、双解题模式与第一阶段交互重构
 
 - 第一阶段从“纯理论预分析”升级为“深读题 + 探索性研究 + 路线决策”。
@@ -36,7 +60,7 @@
 ## v6 — Python 图表与 Markdown 文档规范
 
 - 默认禁止使用 AI 图片生成工具；只有用户明确提出生成、设计或风格化图片需求时才允许例外。
-- 数学建模中的统计图、预测图、误差图、敏感性图、热力图、路径图、网络图、Pareto 前沿、仿真图等默认全部使用 Python 从真实数据、模型结果或确定结构生成。
+- 数学建模中的统计图、预测图、误差图、敏感性图、热力图、相关性图、路径图、网络图、Pareto 前沿、仿真图和模型诊断图等，默认必须由 Python 根据真实数据、模型结果或确定结构生成。
 - 新增专业图表标准：标题、坐标轴、单位、图例、分辨率、必要注释与可复现性完整，同时禁止无意义 3D、渐变、发光、过多颜色、曲线、标记和信息堆叠。
 - 新增 `references/output-artifact-policy.md`，统一管理图片工具、Python 图表和文档格式规则。
 - 除最终参考论文这一正式成果例外外，AI 自行创建的教程、README、AI 使用说明、建模决策、文献账本、数据来源、运行环境等文本型文件统一使用 UTF-8 Markdown（`.md`）。
