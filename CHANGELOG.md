@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v10.0 — Evidence-first Figure、Run Ledger 与跨成果一致性
+
+- 参考 `nature-skills` 的成熟科研 Skill 架构与绘图质量控制思想进行适配，但不照搬 Nature 期刊尺寸、R backend 或 AI 示意图生成路线。
+- 新增根目录 `manifest.yaml`：主 `SKILL.md` 不再开局一次性加载全部深规范，仅默认加载赛时协作、搜索模式与两阶段核心工作流，再按 Stage 1、Stage 2、绘图、公式、文献、论文、交付、终稿复审和官方提交按需加载 references；减少 Codex 上下文负担，但不得借按需加载跳过质量门槛。
+- 新增 `references/figure-evidence-contract.md`：正式 A/B 级图在绘图前先定义核心结论、Hero evidence、Supporting evidence、每个 panel 的唯一任务、源数据、Run ID、不确定性与评阅风险，改为 claim-first 而非 table-first 绘图。
+- Figure Contract 增加数据完整性门：禁止为了图更漂亮、模板更容易适配或结论更有利而静默删除行、类别、失败随机种子、异常场景或时间段；合理排除必须记录前后数量、规则、理由和对结论的影响。
+- 强化配对/重复结构：同一地区、样本、车辆、模型、参数组或随机种子的对比应尽量保留 paired information，避免只看边缘分布而隐藏真实变化。
+- 强化不确定性一致性：可比 panel 的 SD/SE/CI/分位区间/随机种子波动等必须使用相同定义，或明确说明为什么例外；不得伪造误差条。
+- Python Visualization System 从“整图 QA”升级为 **panel-by-panel Visual QA**：逐 panel 检查唯一证据作用、Hero 层级、数据完整性、配对结构、不确定性、标签碰撞、裁切、最终论文尺寸可读性和 Run/数据一致性，再检查整张 Figure。
+- `VISUALIZATION_MANIFEST.md` 新增 `Run ID`，证据链升级为 `论文图号 ↔ Manifest ↔ Run ID ↔ Python 文件 ↔ 数据 ↔ 最终结果`。
+- 新增 `references/model-run-ledger.md` 与 `assets/RUN_LEDGER_TEMPLATE.md`：Codex/Claude Code 本地正式运行建立轻量运行账本，记录真正影响选模、最终结果、验证、正式图表或论文的运行。
+- 每个实际问题在完成前必须明确 `FINAL_RUN_ID = Rxxx`；最终数字、排名、预测、路径、参数、图表和表格优先从 Final Run 或关联 Validation Run 读取，禁止从聊天、旧截图、旧 CSV 或 `SUPERSEDED` 运行手抄。
+- 随机/启发式算法记录种子策略、重复次数和代表结果选择规则，禁止只挑最好或最漂亮的一次结果冒充稳定表现。
+- 新运行替代旧结果时，旧 Run 标记 `SUPERSEDED`，并要求同步更新 Visualization Manifest、教程、参考论文和结论。
+- 新增 `references/final-consistency-sweep.md`：在参考论文前后、组员终稿复审和重大修改后进行跨成果一致性扫描，检查数值版本/舍入、单位、术语、模型名、问题编号、图表版本、Claim vs Data 和复制残留。
+- 新增失败状态 `CROSS_ARTIFACT_CONSISTENCY_FAILED`；重大跨文件冲突修复前不得通过内部交付、终稿复审或官方提交准备。
+- P0/P1 模型或结果修改新增 ripple check：`模型/参数 → Python 重跑 → Final Run → 图表/表格 → 教程 → 摘要/正文/结论 → 再审`，禁止只改局部文字。
+- 逐题与一次性求解模板正式接入 Figure Contract、Run Ledger、Final Run ID、Run-bound Visualization Manifest 与跨成果一致性扫描。
+- 参考论文写作规则升级：写作前先冻结各问 Final Run，论文数值/表格/图表不得混用不同 Run；论文完成后再次执行 consistency sweep。
+- `其他.zip` 正式增加 `运行与实验/RUN_LEDGER.md` 与必要的重要运行记录，使队伍能从最终论文回溯到真实模型运行。
+- 终稿复审模板增加 Final Run、数值/精度/单位、术语漂移、Figure Contract、数据筛选、Claim vs Data 和 ripple check，审核重点从“读文章找错误”升级为“跨成果证据核对”。
+
 ## v9.0 — Python Visualization System 与 Official Submission Export
 
 - 新增 `references/python-visualization-policy.md`，把原本原则性的“Python 专业图表”升级为完整科学可视化系统。
