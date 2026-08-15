@@ -1,0 +1,8 @@
+<svg width="1440" height="720" viewBox="0 0 1440 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="30" x2="1360" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071426"/>
+      <stop offset="0.48" stop-color="#0B2340"/>
+      <stop offset="1" stop-color="#082F3A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1"
