@@ -4,7 +4,7 @@
 
 ### 参考论文
 
-指 **AI 基于最终锁定建模路线、真实 Python 运行结果、最终图表/表格和已核验参考文献，认真撰写的完整数学建模参考论文**。
+指 **AI 基于最终锁定建模路线、Final/Validation Run、最终图表/表格和已核验参考文献，认真撰写的完整数学建模参考论文**。
 
 它进入内部 `参考论文.zip`，供队员理解、核查和人工重写，不是官方提交成品。
 
@@ -34,7 +34,33 @@
 
 ---
 
-## 3. 参考论文必须认真编写
+## 3. 写作前必须冻结结果来源
+
+开始正式写参考论文前，先确认每个实际问题都有：
+
+```text
+FINAL_RUN_ID = Rxxx
+```
+
+并完成必要的 Validation Run。
+
+论文的关键数字、排名、预测、路径、参数、图表、结果表和验证结论必须从 Final/Validation Run 及其真实输出读取。
+
+禁止从：
+
+- 聊天记录；
+- 旧截图；
+- 早期 CSV；
+- 已标记 `SUPERSEDED` 的运行；
+- Stage 1 探索结果；
+
+手工拼出“最终结果”。
+
+如果写作过程中发现结果版本仍未冻结，应先回到模型运行和 Run Ledger，不能一边换结果一边继续排版论文。
+
+---
+
+## 4. 参考论文必须认真编写
 
 论文必须按正式数学建模论文重新组织，而不是复制教程或第二阶段报告。
 
@@ -45,55 +71,72 @@
 - 模型链统一；
 - 公式、变量、数据和结果互相对应；
 - 每个关键结论有真实计算或验证依据；
-- 图表来自最终 Python 运行；
+- 图表来自 Final/Validation Run 对应的最终 Python 运行；
 - 普通数值表来自最终结果数据并优先使用原生表格；
 - 参考文献真实；
 - 不虚构数值、实验、图表、参数来源或引用。
 
 ---
 
-## 4. 论文必须与源码和结果一致
+## 5. 论文必须与源码、Run Ledger 和结果一致
 
-论文中的模型、参数、数值、表格、敏感性/鲁棒性结论必须能追溯到最终代码和实际运行产物。
+论文中的模型、参数、数值、表格、敏感性/鲁棒性结论必须能追溯到：
+
+```text
+问题
+↔ FINAL_RUN_ID / Validation Run
+↔ 代码入口 + 输入数据 + 参数
+↔ 输出结果
+↔ 论文表述
+```
 
 不得出现：
 
-- 论文写模型 A，源码跑模型 B；
-- 论文写旧参数，代码使用新参数；
+- 论文写模型 A，Final Run 跑模型 B；
+- 论文写旧参数，Final Run 使用新参数；
 - 正文数字来自旧运行；
+- 摘要、正文和结论混用不同 Run；
 - 为了论文完整补造没有运行过的实验。
 
-发现冲突时先修正模型/代码/结果，再写论文。
+新运行若替代旧结果，应先在 Run Ledger 中将旧运行标记 `SUPERSEDED`，再同步更新图表、表格、教程和论文。
 
 ---
 
-## 5. 论文图表必须经过 Visualization Manifest
+## 6. 论文图表必须经过 Figure Contract + Visualization Manifest
 
-完整执行 [python-visualization-policy.md](python-visualization-policy.md)。
+完整执行：
 
-论文中的每一张结果图、验证图都必须形成可追溯链：
+- [python-visualization-policy.md](python-visualization-policy.md)
+- [figure-evidence-contract.md](figure-evidence-contract.md)
+
+论文中的每一张 A/B 级结果图、验证图都必须形成可追溯链：
 
 ```text
 论文图号
 ↔ VISUALIZATION_MANIFEST.md
+↔ Run ID
 ↔ Python 输出文件
 ↔ 生成代码
 ↔ 输入/中间数据
 ↔ 最终模型与结果
 ```
 
+正式复合图还应能说明：核心结论、Hero evidence、Supporting evidence、每个 panel 的唯一任务和不确定性定义。
+
 禁止：
 
 - 手动画一张“看起来像结果”的图；
 - 使用 Stage 1 的旧探索图替代最终结果图；
+- 使用 `SUPERSEDED` Run 的旧图；
 - 路线已从模型 A 换成 B，却继续使用 A 的旧图；
-- 图中数字、排名、路径、预测值与最终结果不一致；
+- 图中数字、排名、路径、预测值与 Final Run 不一致；
 - 图号与文件映射错误；
+- 为图更好看而静默删数据、删失败种子或选择性展示；
 - 图表只为装饰，不能说明它支撑什么结论。
 
-中文论文候选图默认使用中文标题、坐标轴、图例和必要注释，单位完整，并通过中文字体、论文尺寸可读性与 Visual QA。
+中文论文候选图默认使用中文标题、坐标轴、图例和必要注释，单位完整，并通过中文字体、论文尺寸可读性与逐 panel Visual QA。
 
-若某图无法通过 `VISUALIZATION_QA_FAILED`、`PAPER_FIGURE_READABILITY_FAILED` 或 `CHINESE_FONT_RENDERING_FAILED`，不得进入论文。
+若某图存在 `VISUALIZATION_QA_FAILED`、`PAPER_FIGURE_READABILITY_FAILED` 或 `CHINESE_FONT_RENDERING_FAILED`，不得进入论文。
 
 ### 模型总览图
 
@@ -103,7 +146,7 @@
 
 ---
 
-## 6. 论文结果表格
+## 7. 论文结果表格
 
 普通结果表不应由 DataFrame 截图替代。
 
@@ -119,11 +162,53 @@ Python DataFrame
 
 真正具有二维结构意义的矩阵才适合作为 heatmap。
 
-论文表格中的数值必须能追溯到最终输出表。
+论文表格中的数值必须能追溯到 Final/Validation Run 输出表。
 
 ---
 
-## 7. Word / PDF 公式必须真正渲染
+## 8. 写作前后都执行最终一致性扫描
+
+正式写作前先执行 [final-consistency-sweep.md](final-consistency-sweep.md)，至少保证：
+
+```text
+原题
+↔ Requirement Traceability
+↔ Final Run
+↔ 结果表
+↔ Visualization Manifest
+↔ 题目详解
+```
+
+论文 DOCX/PDF 完成后再次执行：
+
+```text
+Final Run
+↔ 摘要
+↔ 正文
+↔ 图表/表格
+↔ 结论
+```
+
+重点检查：
+
+- 同一指标不同数值/精度；
+- 单位漂移；
+- 模型名、变量名、问题编号漂移；
+- Claim 与真实数据冲突；
+- 图已更新但正文仍解释旧版本；
+- “始终最好”“稳定”“显著”“全局最优”等强结论是否真的有证据。
+
+存在未解决重大冲突：
+
+```text
+CROSS_ARTIFACT_CONSISTENCY_FAILED
+```
+
+不得进入内部交付。
+
+---
+
+## 9. Word / PDF 公式必须真正渲染
 
 完整遵循 [equation-rendering-policy.md](equation-rendering-policy.md)。
 
@@ -141,7 +226,7 @@ FORMULA_RENDERING_FAILED
 
 ---
 
-## 8. 最终论文参考文献链接
+## 10. 最终论文参考文献链接
 
 最终 AI 参考论文中若给出参考文献链接，必须达到 `DOWNLOAD_VERIFIED`。
 
@@ -153,7 +238,7 @@ FORMULA_RENDERING_FAILED
 
 ---
 
-## 9. 严禁伪造链接与元数据
+## 11. 严禁伪造链接与元数据
 
 禁止猜 URL、编 DOI、把搜索结果页当正式来源、把无法打开的链接写入论文、声称未验证的链接“可下载”。
 
@@ -161,15 +246,18 @@ FORMULA_RENDERING_FAILED
 
 ---
 
-## 10. 最终论文质量检查
+## 12. 最终论文质量检查
 
 生成内部参考论文前至少确认：
 
 - 覆盖所有实际子问题；
 - 使用最终锁定路线；
-- 数值来自实际 Python；
-- 每张论文图都在 `VISUALIZATION_MANIFEST.md` 中且来自最终 Python 输出；
-- 没有旧模型/旧结果图；
+- 每问存在 `FINAL_RUN_ID`；
+- 数值来自 Final/Validation Run；
+- `RUN_LEDGER.md` 与论文结果没有版本冲突；
+- 每张论文图都在 `VISUALIZATION_MANIFEST.md` 中且绑定正确 Run ID；
+- 没有旧模型/旧结果/`SUPERSEDED` 图；
+- 图表通过 Figure Contract、数据完整性门和逐 panel QA；
 - 图表中文、单位、字体和论文尺寸可读性正常；
 - 图表确实支撑正文对应主张；
 - 普通结果表使用真实原生数据表而非无必要截图；
@@ -178,6 +266,7 @@ FORMULA_RENDERING_FAILED
 - 没有编造题名、作者、DOI、URL；
 - 带链接参考文献达到 `DOWNLOAD_VERIFIED`；
 - Word 与 PDF 内容、公式、图表、编号一致；
+- 不存在 `CROSS_ARTIFACT_CONSISTENCY_FAILED`；
 - 用户提供模板时按模板排版。
 
 通过后才能进入 `INTERNAL_DELIVERY`。
