@@ -1,0 +1,85 @@
+name: cumcm-modeling-analyst
+version: 10.0
+description: >
+  Lightweight routing manifest for CUMCM modeling work. Keep the router small,
+  always load only the collaboration/search/workflow core, and load deep
+  references only when the current stage actually needs them.
+
+always_load:
+  - references/competition-collaboration.md
+  - references/search-mode-policy.md
+  - references/two-stage-workflow.md
+
+routes:
+  stage1_exploration:
+    when: Stage 1, attachment audit, EDA, baseline, route selection
+    load:
+      - references/exploratory-research.md
+      - references/source-verification-policy.md
+
+  stage2_question_by_question:
+    when: QUESTION_BY_QUESTION mode
+    load:
+      - references/solve-modes.md
+      - assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md
+      - references/model-run-ledger.md
+
+  stage2_one_pass:
+    when: ONE_PASS mode
+    load:
+      - references/solve-modes.md
+      - assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md
+      - references/model-run-ledger.md
+
+  visualization:
+    when: formal A/B figure planning, figure generation, figure revision or figure QA
+    load:
+      - references/python-visualization-policy.md
+      - references/figure-evidence-contract.md
+      - references/output-artifact-policy.md
+
+  formulas_and_tutorials:
+    when: Markdown tutorial formulas, DOCX/PDF equations or symbol tables are produced/audited
+    load:
+      - references/equation-rendering-policy.md
+
+  literature_and_external_data:
+    when: searching, validating, citing literature/data/parameters
+    load:
+      - references/source-verification-policy.md
+      - references/paper-evaluation-protocol.md
+
+  reference_paper:
+    when: AI reference paper is drafted or regenerated
+    load:
+      - references/reference-paper-writing.md
+      - references/python-visualization-policy.md
+      - references/final-consistency-sweep.md
+
+  internal_delivery:
+    when: four internal deliverable directories/ZIPs are built or validated
+    load:
+      - references/final-delivery-packaging.md
+      - references/delivery-integrity-policy.md
+      - references/output-artifact-policy.md
+      - references/final-consistency-sweep.md
+
+  final_paper_audit:
+    when: team-written final paper is submitted for review
+    load:
+      - references/final-paper-audit.md
+      - references/final-consistency-sweep.md
+      - assets/FINAL_PAPER_AUDIT_TEMPLATE.md
+
+  official_submission:
+    when: preparing the actual competition upload package
+    load:
+      - references/competition-compliance.md
+      - references/official-submission-policy.md
+      - references/final-consistency-sweep.md
+
+principles:
+  - Do not load every deep reference at startup.
+  - A route may load multiple references when the work crosses concerns.
+  - Specific current-year competition rules override generic defaults.
+  - Loading less context must never be used as a reason to skip a required quality gate.
