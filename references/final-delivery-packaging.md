@@ -21,14 +21,7 @@ INTERNAL_DELIVERY
 
 正式比赛需要上传官方文件时，必须在内部成果完成并经人工终审后，再执行 [official-submission-policy.md](official-submission-policy.md)。
 
-同时遵循：
-
-- [delivery-integrity-policy.md](delivery-integrity-policy.md)
-- [output-artifact-policy.md](output-artifact-policy.md)
-- [python-visualization-policy.md](python-visualization-policy.md)
-- [reference-paper-writing.md](reference-paper-writing.md)
-- [equation-rendering-policy.md](equation-rendering-policy.md)
-- [source-verification-policy.md](source-verification-policy.md)
+按需遵循：`delivery-integrity-policy.md`、`output-artifact-policy.md`、`python-visualization-policy.md`、`figure-evidence-contract.md`、`model-run-ledger.md`、`reference-paper-writing.md`、`equation-rendering-policy.md`、`source-verification-policy.md`、`final-consistency-sweep.md`。
 
 ---
 
@@ -72,7 +65,9 @@ Chat / 云端附件交付时，ZIP 和独立下载文件必须通过跨平台预
 └── ...
 ```
 
-每问教程至少包含：题意、输入输出、变量单位、选模理由、公式与解释、数据处理、算法、前后问衔接、源码路径、运行、实际输出、图表/表格解释、验证、常见错误和论文表达。
+每问教程至少包含：题意、输入输出、变量单位、选模理由、公式与解释、数据处理、算法、前后问衔接、源码路径、Final Run、运行命令、实际输出、图表/表格解释、验证、常见错误和论文表达。
+
+教程中的最终数字和图表必须能追到对应 `FINAL_RUN_ID`。
 
 公式遵循 [equation-rendering-policy.md](equation-rendering-policy.md)。
 
@@ -90,9 +85,17 @@ Chat / 云端附件交付时，ZIP 和独立下载文件必须通过跨平台预
 
 用户提供官方模板时按模板生成。
 
-论文必须基于最终锁定路线、真实 Python 结果、最终图表/表格和已核验参考文献，且公式真正渲染。
+论文必须基于最终锁定路线、Final/Validation Run、最终图表/表格和已核验参考文献，且公式真正渲染。
 
-论文中的图必须来自最终 `VISUALIZATION_MANIFEST.md` 对应的 Python 产物，禁止手绘类似结果、使用 Stage 1 旧图或使用已经被换掉模型的旧图。
+论文中的图必须来自最终 `VISUALIZATION_MANIFEST.md` 对应的 Python 产物，并满足：
+
+```text
+论文图号 ↔ Visualization Manifest ↔ Run ID ↔ Python 文件 ↔ 数据 ↔ 最终结果
+```
+
+禁止手绘类似结果、使用 Stage 1 旧图或使用已经被换掉模型/Run 的旧图。
+
+参考论文生成后必须通过 [final-consistency-sweep.md](final-consistency-sweep.md)。
 
 ---
 
@@ -128,6 +131,8 @@ Chat / 云端附件交付时，ZIP 和独立下载文件必须通过跨平台预
 
 普通 DataFrame 优先保存 CSV/XLSX；不要把所有表截图为 PNG。
 
+`VISUALIZATION_MANIFEST.md` 中正式图应绑定对应 Run ID。
+
 ---
 
 ## 4. 其他.zip
@@ -136,7 +141,13 @@ Chat / 云端附件交付时，ZIP 和独立下载文件必须通过跨平台预
 
 ```text
 其他/
-├── AI使用说明/AI_USAGE_LOG.md
+├── AI使用说明/
+│   └── AI_USAGE_LOG.md
+├── 运行与实验/
+│   ├── RUN_LEDGER.md
+│   └── runs/
+│       ├── R001.md
+│       └── ...仅重要运行
 ├── 建模决策/
 ├── 文献与来源/
 ├── 环境与复现/
@@ -144,27 +155,60 @@ Chat / 云端附件交付时，ZIP 和独立下载文件必须通过跨平台预
 └── 其他必要文件/
 ```
 
+`RUN_LEDGER.md` 必须至少列出每个实际问题的 Final Run、必要 Validation Run、关键参数/种子、输入版本和输出目录。
+
+不要求记录每一次 debug；只记录影响选模、最终结果、验证、正式图表或论文结论的真实运行。
+
 `AI_USAGE_LOG.md` 是内部完整日志。正式比赛若当年要求专门 AI 使用说明文件，应在 `OFFICIAL_SUBMISSION_EXPORT` 阶段根据当年规则从内部日志导出，不直接把内部日志等同于官方文件。
 
 ---
 
-## 5. Visualization / Table 验收
+## 5. Visualization / Table / Run 验收
 
 内部交付前必须检查：
 
-- A/B/C 图是否按真实需要生成，没有固定凑数；
+- A/B/C 图按真实需要生成，没有固定凑数；
+- A/B 级图有明确 Figure Contract；
+- 不存在为了图好看而静默删数据、删类别、删失败种子或只展示有利结果；
 - 中文论文候选图默认中文；
 - 中文字体自动回退正常；
-- 正式图通过 `VISUALIZATION_QA_FAILED` 和 `PAPER_FIGURE_READABILITY_FAILED` 检查；
+- 正式图已逐 panel 通过 Visual QA 和论文尺寸检查；
 - 启发式算法在需要时有收敛/稳定性证据；
-- `VISUALIZATION_MANIFEST.md` 能追溯图 → 数据 → 代码 → 问题 → 结论；
+- 每问存在真实 `FINAL_RUN_ID`；
+- `VISUALIZATION_MANIFEST.md` 能追溯图 → Run ID → 数据 → 代码 → 问题 → 结论；
 - 普通结果表使用 CSV/XLSX/Word 原生表格链路；
 - 长明细表没有塞进论文正文；
 - 模型总览图来自确定性绘图而不是生成式 AI 图片。
 
 ---
 
-## 6. ZIP 完整性预检
+## 6. 跨成果一致性验收
+
+打包前执行 [final-consistency-sweep.md](final-consistency-sweep.md)，至少核对：
+
+```text
+原题
+↔ Requirement Traceability
+↔ 各问 Final Run
+↔ 最终结果表
+↔ Visualization Manifest
+↔ 题目详解
+↔ AI 参考论文
+```
+
+重点检查：数值版本、舍入、单位、术语、模型名、问题编号、图表版本、Claim vs Data。
+
+存在未解决重大冲突时：
+
+```text
+CROSS_ARTIFACT_CONSISTENCY_FAILED
+```
+
+不得继续把内部成果标记完成。
+
+---
+
+## 7. ZIP 完整性预检
 
 每个 ZIP 不能只“成功压缩”。至少执行：
 
@@ -182,7 +226,7 @@ DELIVERY_INTEGRITY_FAILED
 
 ---
 
-## 7. 内部最终验收
+## 8. 内部最终验收
 
 必须确认：
 
@@ -192,8 +236,10 @@ DELIVERY_INTEGRITY_FAILED
 - 每个实际问题有完整 Markdown 教程；
 - 不存在 `FORMULA_DOCUMENTATION_FAILED`；
 - 最终 Python 可运行或已诚实记录限制；
-- 图表与表格来自真实运行；
-- `VISUALIZATION_MANIFEST.md` 已完成；
+- 每问有 Final Run ID；
+- `RUN_LEDGER.md` 已完成；
+- 图表与表格来自 Final/Validation Run；
+- `VISUALIZATION_MANIFEST.md` 已绑定 Run ID；
 - 不存在 `CHINESE_FONT_RENDERING_FAILED`；
 - 不存在 `PAPER_FIGURE_READABILITY_FAILED`；
 - 不存在 `VISUALIZATION_QA_FAILED`；
@@ -201,6 +247,7 @@ DELIVERY_INTEGRITY_FAILED
 - 参考论文 `.docx + .pdf` 均存在、非空、可打开；
 - 不存在 `FORMULA_RENDERING_FAILED`；
 - 文献、数据和参数真实；
+- 不存在 `CROSS_ARTIFACT_CONSISTENCY_FAILED`；
 - 不存在 `DELIVERY_INTEGRITY_FAILED`。
 
 全部通过后标记：
@@ -213,7 +260,7 @@ INTERNAL_DELIVERY_COMPLETE
 
 ---
 
-## 8. 下一步：队员终稿与官方导出
+## 9. 下一步：队员终稿与官方导出
 
 推荐顺序：
 
@@ -225,6 +272,8 @@ INTERNAL_DELIVERY_COMPLETE
 FINAL_PAPER_AUDIT
 ↓
 修订 / 二审
+↓
+最终一致性扫描
 ↓
 核验当年官方最新规则
 ↓
