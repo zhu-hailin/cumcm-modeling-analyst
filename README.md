@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="assets/readme-intro.svg" alt="CUMCM Modeling Analyst" width="100%" />
+<img src="assets/readme.png" alt="CUMCM Modeling Analyst" width="100%" />
 
 # 🏆 CUMCM Modeling Analyst
 
