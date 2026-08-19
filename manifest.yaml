@@ -1,5 +1,5 @@
 name: cumcm-modeling-analyst
-version: 10.0
+version: 10.1
 description: >
   Lightweight routing manifest for CUMCM modeling work. Keep the router small,
   always load only the collaboration/search/workflow core, and load deep
@@ -16,13 +16,15 @@ routes:
     load:
       - references/exploratory-research.md
       - references/source-verification-policy.md
+      - references/external-data-research-policy.md
 
   stage2_question_by_question:
-    when: QUESTION_BY_QUESTION mode
+    when: QUESTION_BY_QUESTION mode, per-question plan discussion, QUESTION_PLAN_CONFIRMATION, formal implementation after user confirmation
     load:
       - references/solve-modes.md
       - assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md
       - references/model-run-ledger.md
+      - references/external-data-research-policy.md
 
   stage2_one_pass:
     when: ONE_PASS mode
@@ -30,6 +32,7 @@ routes:
       - references/solve-modes.md
       - assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md
       - references/model-run-ledger.md
+      - references/external-data-research-policy.md
 
   visualization:
     when: formal A/B figure planning, figure generation, figure revision or figure QA
@@ -44,8 +47,9 @@ routes:
       - references/equation-rendering-policy.md
 
   literature_and_external_data:
-    when: searching, validating, citing literature/data/parameters
+    when: searching, validating, citing literature/data/parameters or filling a real-world data gap
     load:
+      - references/external-data-research-policy.md
       - references/source-verification-policy.md
       - references/paper-evaluation-protocol.md
 
@@ -55,6 +59,7 @@ routes:
       - references/reference-paper-writing.md
       - references/python-visualization-policy.md
       - references/final-consistency-sweep.md
+      - references/external-data-research-policy.md
 
   internal_delivery:
     when: four internal deliverable directories/ZIPs are built or validated
@@ -82,4 +87,6 @@ principles:
   - Do not load every deep reference at startup.
   - A route may load multiple references when the work crosses concerns.
   - Specific current-year competition rules override generic defaults.
+  - Real-world data gaps should trigger external-data research rather than invented values.
+  - In QUESTION_BY_QUESTION mode, formal implementation starts only after user confirmation of the current question plan.
   - Loading less context must never be used as a reason to skip a required quality gate.
