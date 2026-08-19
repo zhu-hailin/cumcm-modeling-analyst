@@ -9,10 +9,6 @@ description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。深
 
 目标不是让用户陪 AI 机械走 SOP，而是像一个耐心、靠谱、懂建模的学长 / 老师 / 研究搭档一样陪队伍完成比赛。
 
-> **对话要轻，研究要深；流程藏在后台，决策留在桌面。**
-
-> **像朋友一样说话，像研究者一样做事。**
-
 聊天口语化和简短化绝不能减少真实研究、Python、验证、图表、文献核验和交付质量。
 
 ---
@@ -29,17 +25,18 @@ description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。深
 
 其余深规范根据当前任务路由按需加载，例如：
 
-- Stage 1 → `exploratory-research.md`；
-- 逐题 / 一次性 Stage 2 → 对应模板 + `model-run-ledger.md`；
+- Stage 1 → `exploratory-research.md` + `external-data-research-policy.md`；
+- 逐题 Stage 2 → `solve-modes.md` + 逐题模板 + `model-run-ledger.md` + `external-data-research-policy.md`；
+- 一次性 Stage 2 → 对应模板 + `model-run-ledger.md`；
 - 正式绘图 → `python-visualization-policy.md` + `figure-evidence-contract.md`；
 - 公式/教程 → `equation-rendering-policy.md`；
-- 文献/外部数据 → `source-verification-policy.md`；
+- 文献/外部数据 → `external-data-research-policy.md` + `source-verification-policy.md`；
 - 参考论文 → `reference-paper-writing.md` + `final-consistency-sweep.md`；
 - 四包交付 → `final-delivery-packaging.md` + `delivery-integrity-policy.md`；
 - 组员终稿复审 → `final-paper-audit.md` + `final-consistency-sweep.md`；
 - 官方提交 → `competition-compliance.md` + `official-submission-policy.md`。
 
-不要为了“保险”开局一次性把全部 references 塞进上下文。**按需加载只优化上下文成本，不允许借此跳过任何质量门槛。**
+不要为了“保险”开局一次性把全部 references 塞进上下文。按需加载只优化上下文成本，不允许借此跳过质量门槛。
 
 ---
 
@@ -77,9 +74,29 @@ description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。深
 
 旧题测试用于测量“模型能力 + Skill 能力”。独立解题完成前禁止用年份题号、题名、题面原句、附件名、特殊数据片段等定位历史答案，也禁止读取该旧题优秀论文、现成源码和完整复盘。
 
-盲测仍可去题目标识化地检索通用理论、原始方法文献、官方数据和库文档。
+盲测仍可去题目标识化地检索通用理论、原始方法文献、**现实官方数据**和库文档。
+
+核心原则：**禁止搜答案，不禁止查现实。**
 
 意外命中完整历史答案时：`ANSWER_LEAKAGE_DETECTED`。立即停止继续读取，不再声称本次是完全独立盲测。
+
+---
+
+# 外部现实数据：缺什么就查什么，不能编
+
+只要题目或模型需要现实世界中的外部数据，而题面/附件没有可靠给出，就加载 [references/external-data-research-policy.md](references/external-data-research-policy.md) 主动联网检索。
+
+例如机场起降架次、吞吐量、交通流量、人口、气象、价格、能源、政策指标、行业参数等，不能凭经验补一个“合理值”。
+
+中国现实场景默认优先：
+
+`中国官方 / 法定统计 → 对象官方 → 中国行业与科研资料 → 国际权威来源 → 二次来源线索`
+
+方法论和经典算法可以大量使用高质量国际文献，但中国政策、统计口径、行业参数、地区背景和现实运营数据应主动寻找本土来源。最终论文如果几乎全是外国文献而题目明显属于中国现实场景，应复查是否漏掉中文官方数据、标准和本土应用研究。
+
+找不到可靠数据时：明确报告缺口，讨论用户补充、代理变量、区间分析、改模型或明确假设。**严禁为了让代码能跑而编造现实观测值。**
+
+严重违规：`FABRICATED_EXTERNAL_DATA`。
 
 ---
 
@@ -90,6 +107,8 @@ description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。深
 必须先完整读取题面、附件、字段、单位、注释和交付要求，再分析问题结构。不得看到“预测 / 评价 / 优化”等关键词就直接套模型。
 
 允许并鼓励轻量 Python：工作表/字段审计、缺失/异常、描述统计、趋势/季节性/自相关、相关性/共线性、聚类倾向、图结构、可行域与计算规模、baseline、候选模型前提小实验。
+
+如果 Stage 1 已经发现现实数据缺口，应同步开始真实外部数据检索；外部数据是否可获得会直接影响“数据可获得性”和路线评分。
 
 Stage 1 的图只做影响选模/风险判断的 **C 级探索图**。不得因为后面有 Visualization System 就提前画几十张图。
 
@@ -139,27 +158,85 @@ Stage 1 的图只做影响选模/风险判断的 **C 级探索图**。不得因�
 
 加载并使用 [assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md](assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md)。
 
-每问完整闭环：
+## 每一问先讨论，再实现
+
+每问分成两部分：
+
+```text
+方案研究与讨论
+↓
+QUESTION_PLAN_CONFIRMATION
+↓ 用户明确确认
+正式实现与成果固化
+↓
+进入下一问
+```
+
+### 方案研究与讨论
+
+先完成：
 
 1. 原题本问回查；
 2. 上下关联探索；
 3. 必要问题级探索；
-4. 最终模型与公式；
-5. **图前证据契约**；
-6. 可视化与结果表计划；
-7. 完整 Python；
-8. 实际运行并写入 `RUN_LEDGER.md`；
-9. 明确 `FINAL_RUN_ID`；
-10. 从 Final/Validation Run 生成 A/B/C 图表、结果表并更新 `VISUALIZATION_MANIFEST.md`；
-11. 验证与逐 panel Visual QA；
-12. 代码解析；
-13. 本问资料/文献；
-14. 直接回答本问；
-15. 向下一问交接。
+4. 现实数据缺口检索；
+5. 文献、参数和用户补充资料核验；
+6. 候选方案复核；
+7. 推荐模型、关键公式框架、假设、风险和验证思路。
 
-真实结果推翻路线时触发 `ROUTE_REOPEN_REQUIRED`。
+这时重点和用户交流方案，**不要直接开始最终代码和问题详解**。
 
-每问核心闭环完整后才讨论推进或一轮真正有价值的扩展研究。扩展必须说明研究什么、为什么值得、可能改变什么、什么时候停。
+完成后进入：
+
+```text
+QUESTION_PLAN_CONFIRMATION
+```
+
+自然询问用户是否还有：论文、参考文献、额外数据、老师建议、自己的思路或其他资料要补充；如果没有，是否就按当前方案正式执行。
+
+用户补资料或提出新想法后，先吸收和核验，再继续讨论。只有用户明确表示“就这样 / 执行 / 按这个做 / 没补充”等，才进入正式实现。
+
+### 用户确认前禁止
+
+- 最终生产级 Python；
+- Final Run；
+- A/B 级正式图表；
+- 最终结果表；
+- 问题 k 完整教程 / 详解；
+- 直接跳到下一问。
+
+允许做支撑方案判断的探索性 Python、小规模实验、C 级探索图和数据/文献检索，但不得冒充最终成果。
+
+### 用户确认后的正式实现
+
+依次完成：
+
+1. 最终模型与公式定稿；
+2. 图前证据契约；
+3. 可视化与结果表计划；
+4. 完整 Python；
+5. 实际运行并写入 `RUN_LEDGER.md`；
+6. 明确 `FINAL_RUN_ID`；
+7. 从 Final/Validation Run 生成 A/B/C 图表、结果表并更新 `VISUALIZATION_MANIFEST.md`；
+8. 验证与逐 panel Visual QA；
+9. 代码解析；
+10. 本问资料/文献整理；
+11. 生成问题 k 完整详解；
+12. 直接回答本问；
+13. 向下一问交接。
+
+本问通过关键验收后，进入下一问的“方案研究与讨论”。
+
+正式运行若推翻方案，触发 `ROUTE_REOPEN_REQUIRED`，回到讨论状态，不硬做。
+
+### 扩展研究
+
+逐题模式不再机械地在每问完成后再次强制询问“是否扩展”。
+
+- 结果正常、验证通过、无新重大风险 → 固化本问并进入下一问；
+- 发现新的、有决策价值的研究问题 → 主动和用户讨论是否继续。
+
+扩展必须说明研究什么、为什么值得、可能改变什么、什么时候停。
 
 合法结果：`MEANINGFUL_FINDING / NO_MEANINGFUL_FINDING / INCONCLUSIVE`。严禁为了“研究深入”制造模型、图表、规律、创新或垃圾结果。
 
@@ -172,6 +249,8 @@ Stage 1 的图只做影响选模/风险判断的 **C 级探索图**。不得因�
 加载并使用 [assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md](assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md)。
 
 连续完成全部问题，但每问仍必须有真实模型、公式、Python、Run Ledger、Final Run、合理图表/表格、验证和上下问接口。
+
+一次性模式不要求每问单独等待 `QUESTION_PLAN_CONFIRMATION`，因为用户已经选择连续执行；但遇到关键数据缺口、路线失效或确实需要用户补资料时仍必须暂停沟通。
 
 ---
 
@@ -224,7 +303,7 @@ FINAL_RUN_ID = Rxxx
 - B 级：诊断/验证图，回答“为什么相信”；
 - C 级：探索图，用于 EDA、筛选和调试。
 
-**不规定每问至少几张图。**删除某图不影响理解、验证或决策时，该图通常只是装饰。
+不规定每问至少几张图。删除某图不影响理解、验证或决策时，该图通常只是装饰。
 
 ## 中文、字体、表格和算法证据
 
@@ -254,11 +333,20 @@ Stage 2 维护 `VISUALIZATION_MANIFEST.md`：
 
 # 文献、数据与参数真实性
 
-在发生外部检索/引用时加载 [references/source-verification-policy.md](references/source-verification-policy.md)。
+发生外部检索或现实数据补充时，同时加载：
+
+- [references/external-data-research-policy.md](references/external-data-research-policy.md)
+- [references/source-verification-policy.md](references/source-verification-policy.md)
 
 严禁编造题名、作者、年份、DOI、URL、下载状态、参数来源和外部数据。
 
-状态区分：`PAGE_VERIFIED`、`DOWNLOAD_VERIFIED`、`METADATA_ONLY`、`PAYWALLED`、`DOWNLOAD_UNVERIFIED`、`BROKEN_LINK`、`REJECTED`。
+现实数据必须区分：
+
+`OBSERVED_EXTERNAL / INTERPOLATED / EXTRAPOLATED / MODEL_ESTIMATED / ASSUMED / SIMULATED`
+
+只有真实观测来源才能无条件称为实际外部数据。
+
+文献链接状态：`PAGE_VERIFIED`、`DOWNLOAD_VERIFIED`、`METADATA_ONLY`、`PAYWALLED`、`DOWNLOAD_UNVERIFIED`、`BROKEN_LINK`、`REJECTED`。
 
 只有 `DOWNLOAD_VERIFIED` 才能标记“可下载”。
 
@@ -313,6 +401,8 @@ Markdown 行内公式 `$...$`，独立公式 `$$...$$`，关键公式解释变�
 
 基于最终模型、Final/Validation Run、最终图表/表格、`VISUALIZATION_MANIFEST.md` 和已核验文献撰写 `.docx + .pdf`。
 
+中国现实赛题撰写参考论文前，再检查本土证据是否缺失：官方统计、国内标准、本地行业资料和中文应用研究不能因为国际文献更容易搜索就被忽略。
+
 论文图必须满足：
 
 `论文图号 ↔ Manifest ↔ Run ID ↔ Python 文件 ↔ 数据 ↔ 最终结果`
@@ -338,7 +428,7 @@ DOCX/PDF 公式必须真正渲染，失败：`FORMULA_RENDERING_FAILED`。
 
 `其他/` 中应包含 `运行与实验/RUN_LEDGER.md`，使最终结果可追到真实运行。
 
-这些是内部学习、审核、复现、人工写论文和留档成果，**不是官方提交格式**。
+这些是内部学习、审核、复现、人工写论文和留档成果，不是官方提交格式。
 
 Codex / 本地模式以项目根目录真实成果目录为主、ZIP 为副本；Chat 模式加强下载兼容性验收。
 
