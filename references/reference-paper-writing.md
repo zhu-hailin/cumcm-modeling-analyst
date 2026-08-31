@@ -2,41 +2,54 @@
 
 ## 1. 先区分三个概念
 
-### 参考论文
+### AI 参考论文
 
-指 **AI 基于最终锁定建模路线、Final/Validation Run、最终图表/表格和已核验参考文献，认真撰写的完整数学建模参考论文**。
+AI 根据最终锁定路线、Final/Validation Run、真实图表与表格、已核验文献认真撰写的完整数学建模参考稿。
 
-它进入内部 `参考论文.zip`，供队员理解、核查和人工重写，不是官方提交成品。
+它供队员理解、核查和人工重写，不能直接当作正式参赛论文提交。
 
 ### 参考文献
 
-指论文中用于支撑背景、方法、参数、数据、模型定义和验证方式的真实外部资料。
+论文中支撑背景、方法、参数、数据、模型定义和验证方式的真实外部资料。
 
 ### 官方提交论文
 
-队员人工理解、核查并重写后的正式论文，经终稿复审后，再按当年官方规则进入 `OFFICIAL_SUBMISSION_EXPORT`。AI 参考论文不得直接提交。
+队员人工理解、核查并重写后的正式论文。它需要通过终稿复审，再按当年官方规则进入 `OFFICIAL_SUBMISSION_EXPORT`。
 
 ---
 
-## 2. 参考论文.zip 的目标
+## 2. Codex 中的论文目录
+
+Codex 单赛题工作区遵循 `local-workspace-policy.md`。
 
 默认：
 
 ```text
-参考论文/
-├── 数学建模参考论文.docx
-└── 数学建模参考论文.pdf
+05_paper/
+├─ outline.md
+├─ draft.docx
+├─ final.docx
+└─ final.pdf
 ```
 
-用户提供官方论文模板、格式文件或排版要求时，应优先基于模板生成 Word 与 PDF。
+`outline.md` 保存论文结构、图表位置、公式清单和待补内容。
 
-环境可以创建 DOCX/PDF 时必须实际生成，不得只输出结构或空占位文件。
+AI 第一次生成的论文属于内部参考稿，应保存为 `draft.docx` 或使用清楚的“参考论文”命名。未经队员人工重写、核查和确认，不得直接命名为 `final.docx` 或 `final.pdf`。
+
+如果需要同时保存 AI 参考稿的 PDF，可使用：
+
+```text
+05_paper/reference_paper.docx
+05_paper/reference_paper.pdf
+```
+
+用户已有自己的命名、版本管理或协作方式时，以用户要求为准，不能覆盖队员正在编辑的文件。
 
 ---
 
-## 3. 写作前必须冻结结果来源
+## 3. 写作前冻结结果来源
 
-开始正式写参考论文前，先确认每个实际问题都有：
+开始正式写参考论文前，确认每个实际问题都有：
 
 ```text
 FINAL_RUN_ID = Rxxx
@@ -44,161 +57,189 @@ FINAL_RUN_ID = Rxxx
 
 并完成必要的 Validation Run。
 
-论文的关键数字、排名、预测、路径、参数、图表、结果表和验证结论必须从 Final/Validation Run 及其真实输出读取。
+Codex 默认从以下位置读取：
 
-禁止从：
+```text
+01_data/processed/                    # 最终建模数据
+01_data/external/                     # 已核验外部数据
+02_analysis/                          # 题意、假设、符号、模型方案与逐问教程
+03_code/qN/                           # 最终代码
+04_results/data/qN/                   # 最终数值与跨问结果
+04_results/tables/qN/                 # 最终表格
+04_results/figures/qN/                # 最终图表
+04_results/logs/RUN_LEDGER.md         # 运行账本
+04_results/VISUALIZATION_MANIFEST.md  # 图表来源清单
+07_references/                        # 文献、网页与来源笔记
+```
 
-- 聊天记录；
-- 旧截图；
-- 早期 CSV；
-- 已标记 `SUPERSEDED` 的运行；
-- Stage 1 探索结果；
+论文中的关键数字、排名、预测、路径、参数、表格、图表和验证结论必须从 Final/Validation Run 的真实输出读取。
 
-手工拼出“最终结果”。
+禁止从聊天记录、旧截图、早期 CSV、Stage 1 探索结果或 `SUPERSEDED` Run 拼出“最终结果”。
 
-如果写作过程中发现结果版本仍未冻结，应先回到模型运行和 Run Ledger，不能一边换结果一边继续排版论文。
+写作过程中若结果仍未冻结，应先回到模型和 Run Ledger，不要一边换结果一边继续排版。
 
 ---
 
-## 4. 参考论文必须认真编写
+## 4. 参考论文要重新组织
 
-论文必须按正式数学建模论文重新组织，而不是复制教程或第二阶段报告。
+参考论文不能只是把教程和阶段报告拼接起来。至少根据实际题面包含：
 
-至少根据实际题面包含：标题、摘要、关键词、问题重述、问题分析、模型假设、符号说明、数据说明与预处理、总体建模路线、各实际子问题模型与求解、关键结果与图表解释、模型检验、误差/敏感性/鲁棒性分析、模型优缺点、最终结论、参考文献和必要附录。
+- 标题；
+- 摘要与关键词；
+- 问题重述；
+- 问题分析；
+- 模型假设；
+- 符号说明；
+- 数据说明与预处理；
+- 总体建模路线；
+- 各问题模型与求解；
+- 关键结果及图表解释；
+- 模型检验；
+- 误差、敏感性或鲁棒性分析；
+- 模型优缺点；
+- 最终结论；
+- 参考文献；
+- 必要附录。
 
 必须做到：
 
 - 模型链统一；
-- 公式、变量、数据和结果互相对应；
-- 每个关键结论有真实计算或验证依据；
-- 图表来自 Final/Validation Run 对应的最终 Python 运行；
-- 普通数值表来自最终结果数据并优先使用原生表格；
-- 参考文献真实；
-- 不虚构数值、实验、图表、参数来源或引用。
+- 公式、变量、数据、代码和结果互相对应；
+- 关键结论有真实计算或验证依据；
+- 图表来自 Final/Validation Run；
+- 普通数值表来自最终结果数据，并优先使用 Word 原生表格；
+- 文献与外部数据真实；
+- 不虚构结果、实验、参数来源或引用。
 
 ---
 
-## 5. 论文必须与源码、Run Ledger 和结果一致
+## 5. 与工作区保持一致
 
-论文中的模型、参数、数值、表格、敏感性/鲁棒性结论必须能追溯到：
+论文必须形成：
 
 ```text
-问题
-↔ FINAL_RUN_ID / Validation Run
-↔ 代码入口 + 输入数据 + 参数
-↔ 输出结果
-↔ 论文表述
+原题要求
+↔ 02_analysis 中的最终模型与符号
+↔ 03_code 中的正式实现
+↔ FINAL_RUN_ID
+↔ 04_results 中的数值、表格和图表
+↔ 05_paper 中的论文表述
 ```
 
 不得出现：
 
-- 论文写模型 A，Final Run 跑模型 B；
-- 论文写旧参数，Final Run 使用新参数；
-- 正文数字来自旧运行；
+- 论文写模型 A，Final Run 实际跑模型 B；
+- 论文使用旧参数，代码使用新参数；
 - 摘要、正文和结论混用不同 Run；
-- 为了论文完整补造没有运行过的实验。
+- 图表属于旧模型或旧数据；
+- 为了论文结构完整而补造没有运行过的实验。
 
-新运行若替代旧结果，应先在 Run Ledger 中将旧运行标记 `SUPERSEDED`，再同步更新图表、表格、教程和论文。
+新 Run 替代旧结果时，先把旧 Run 标记为 `SUPERSEDED`，再同步更新 `04_results/`、逐问教程和论文。
 
 ---
 
-## 6. 论文图表必须经过 Figure Contract + Visualization Manifest
+## 6. 图表必须来自最终证据链
 
 完整执行：
 
-- [python-visualization-policy.md](python-visualization-policy.md)
-- [figure-evidence-contract.md](figure-evidence-contract.md)
+- `python-visualization-policy.md`
+- `figure-evidence-contract.md`
 
-论文中的每一张 A/B 级结果图、验证图都必须形成可追溯链：
+论文中的每张 A/B 级图都要能追到：
 
 ```text
 论文图号
-↔ VISUALIZATION_MANIFEST.md
+↔ 04_results/VISUALIZATION_MANIFEST.md
 ↔ Run ID
-↔ Python 输出文件
-↔ 生成代码
-↔ 输入/中间数据
-↔ 最终模型与结果
+↔ 04_results/figures 中的文件
+↔ 03_code 中的生成代码
+↔ 01_data / 04_results/data 中的数据
+↔ 最终模型与结论
 ```
 
-正式复合图还应能说明：核心结论、Hero evidence、Supporting evidence、每个 panel 的唯一任务和不确定性定义。
+复合图还应说明：
+
+- 核心结论；
+- Hero evidence；
+- Supporting evidence；
+- 每个 panel 的唯一任务；
+- 不确定性定义。
 
 禁止：
 
-- 手动画一张“看起来像结果”的图；
-- 使用 Stage 1 的旧探索图替代最终结果图；
-- 使用 `SUPERSEDED` Run 的旧图；
-- 路线已从模型 A 换成 B，却继续使用 A 的旧图；
-- 图中数字、排名、路径、预测值与 Final Run 不一致；
-- 图号与文件映射错误；
-- 为图更好看而静默删数据、删失败种子或选择性展示；
-- 图表只为装饰，不能说明它支撑什么结论。
+- 手画一张“类似结果”的图；
+- 用 Stage 1 旧探索图代替最终结果图；
+- 使用 `SUPERSEDED` Run 的图；
+- 模型已更换但图没更换；
+- 图中数字、排名、路径或预测值与 Final Run 不一致；
+- 为了更好看静默删除数据、失败种子或不利场景；
+- 把没有证据作用的装饰图塞进正文。
 
-中文论文候选图默认使用中文标题、坐标轴、图例和必要注释，单位完整，并通过中文字体、论文尺寸可读性与逐 panel Visual QA。
+中文论文候选图默认使用中文标题、坐标轴、图例、必要注释和完整单位，并通过中文字体、最终尺寸和逐 panel QA。
 
-若某图存在 `VISUALIZATION_QA_FAILED`、`PAPER_FIGURE_READABILITY_FAILED` 或 `CHINESE_FONT_RENDERING_FAILED`，不得进入论文。
+### 整题模型框架图
 
-### 模型总览图
+论文原则上应有一张真实的整题建模框架图，展示各问之间的串行、并行和汇合关系。
 
-论文原则上应有一张真实的整题建模框架图，展示问题之间的串行、并行和汇合关系。
-
-优先使用 Graphviz、Mermaid、Matplotlib patches、NetworkX 等确定性方式生成，禁止生成式 AI 图片代替。
+优先使用 Graphviz、Mermaid、Matplotlib patches 或 NetworkX 等确定性方式。禁止用生成式图片代替模型流程图。
 
 ---
 
-## 7. 论文结果表格
+## 7. 论文表格
 
-普通结果表不应由 DataFrame 截图替代。
-
-优先：
+普通结果表优先：
 
 ```text
-Python DataFrame
-→ CSV/XLSX
+04_results/tables/qN/*.csv|xlsx
 → Word 原生表格
 ```
 
-正文只保留核心结果表、关键参数表、验证表；完整长表留在 `outputs/tables/full/`。
+正文只保留真正需要的：
+
+- 核心结果表；
+- 关键参数表；
+- 验证表。
+
+完整明细继续保存在 `04_results/tables/`，不要把几百行结果塞入正文，也不要默认把 DataFrame 截图成 PNG。
 
 真正具有二维结构意义的矩阵才适合作为 heatmap。
 
-论文表格中的数值必须能追溯到 Final/Validation Run 输出表。
+论文表格中的数字必须能追到 Final/Validation Run 输出。
 
 ---
 
-## 8. 写作前后都执行最终一致性扫描
+## 8. 写作前后执行一致性扫描
 
-正式写作前先执行 [final-consistency-sweep.md](final-consistency-sweep.md)，至少保证：
+正式写作前执行 `final-consistency-sweep.md`，至少保证：
 
 ```text
-原题
+00_problem
 ↔ Requirement Traceability
-↔ Final Run
-↔ 结果表
-↔ Visualization Manifest
-↔ 题目详解
+↔ 各问 Final Run
+↔ 04_results
+↔ 02_analysis/qN_solution.md
 ```
 
-论文 DOCX/PDF 完成后再次执行：
+论文 DOCX/PDF 完成后再次检查：
 
 ```text
 Final Run
 ↔ 摘要
 ↔ 正文
-↔ 图表/表格
+↔ 图表与表格
 ↔ 结论
 ```
 
 重点检查：
 
-- 同一指标不同数值/精度；
+- 同一指标出现不同数值或精度；
 - 单位漂移；
-- 模型名、变量名、问题编号漂移；
+- 模型名、变量名和问题编号漂移；
 - Claim 与真实数据冲突；
-- 图已更新但正文仍解释旧版本；
+- 图已更新但正文还在解释旧图；
 - “始终最好”“稳定”“显著”“全局最优”等强结论是否真的有证据。
 
-存在未解决重大冲突：
+存在未解决重大冲突时：
 
 ```text
 CROSS_ARTIFACT_CONSISTENCY_FAILED
@@ -208,67 +249,68 @@ CROSS_ARTIFACT_CONSISTENCY_FAILED
 
 ---
 
-## 9. Word / PDF 公式必须真正渲染
+## 9. Word 与 PDF 公式
 
-完整遵循 [equation-rendering-policy.md](equation-rendering-policy.md)。
+完整遵循 `equation-rendering-policy.md`。
 
-Markdown 可以使用 LaTeX 数学源，但 DOCX/PDF 中禁止保留未经渲染的 LaTeX 字符串。
+Markdown 可以使用 LaTeX 数学源，但 DOCX/PDF 中不能残留未经渲染的 LaTeX 字符串。
 
-Word 优先使用 OMML / Office 原生公式；符号说明表中的数学变量同样需要正确渲染。
+Word 优先使用 OMML / Office 原生公式；符号说明表中的数学变量也需要正确渲染。
 
-发现未渲染公式：
+失败状态：
 
 ```text
 FORMULA_RENDERING_FAILED
 ```
 
-修复前不得进入内部最终交付。
+修复前不得进入内部交付。
 
 ---
 
-## 10. 最终论文参考文献链接
+## 10. 参考文献与现实数据
 
-最终 AI 参考论文中若给出参考文献链接，必须达到 `DOWNLOAD_VERIFIED`。
+发生外部检索时同时执行：
 
-要求页面/文件可实际打开，元数据匹配，来源可靠，全文下载入口真实稳定，下载内容与目标文献一致。
+- `source-verification-policy.md`
+- `external-data-research-policy.md`
 
-仅 `PAGE_VERIFIED`、`METADATA_ONLY`、`PAYWALLED`、`DOWNLOAD_UNVERIFIED` 的链接不得冒充可下载链接。
+中国现实场景不能只因为国际论文更容易找到，就让外国文献替代国内统计、政策、标准、行业参数和实体运营数据。
 
-如果重要文献无法取得可靠全文：优先寻找官方/作者/机构仓储或合法开放版本；仍失败则反馈用户并记录证据缺口，绝不伪造。
+方法论可以使用高质量国际原始文献；中国现实背景与数据应优先寻找官方和本土资料。
+
+论文中的参考文献链接必须真实核验。需要声称“可下载”时必须达到：
+
+```text
+DOWNLOAD_VERIFIED
+```
+
+仅 `PAGE_VERIFIED`、`METADATA_ONLY`、`PAYWALLED` 或 `DOWNLOAD_UNVERIFIED` 的链接，不得冒充可下载链接。
+
+重要文献无法取得可靠全文时，继续寻找出版社、作者仓储、机构仓储或合法开放版本；仍失败则明确反馈并记录证据缺口，绝不拼接假链接。
+
+实际下载和查阅的论文、标准与报告可保存到 `07_references/papers/`；网页来源和用途分别记录到 `07_references/websites.md` 与 `07_references/notes.md`。
 
 ---
 
-## 11. 严禁伪造链接与元数据
+## 11. 进入内部交付前检查
 
-禁止猜 URL、编 DOI、把搜索结果页当正式来源、把无法打开的链接写入论文、声称未验证的链接“可下载”。
+至少确认：
 
-参考文献状态统一遵循 [source-verification-policy.md](source-verification-policy.md)。
-
----
-
-## 12. 最终论文质量检查
-
-生成内部参考论文前至少确认：
-
-- 覆盖所有实际子问题；
-- 使用最终锁定路线；
-- 每问存在 `FINAL_RUN_ID`；
-- 数值来自 Final/Validation Run；
-- `RUN_LEDGER.md` 与论文结果没有版本冲突；
-- 每张论文图都在 `VISUALIZATION_MANIFEST.md` 中且绑定正确 Run ID；
-- 没有旧模型/旧结果/`SUPERSEDED` 图；
-- 图表通过 Figure Contract、数据完整性门和逐 panel QA；
-- 图表中文、单位、字体和论文尺寸可读性正常；
-- 图表确实支撑正文对应主张；
-- 普通结果表使用真实原生数据表而非无必要截图；
-- 公式和符号一致且 DOCX/PDF 正确渲染；
-- 没有编造模型效果、实验或结果；
-- 没有编造题名、作者、DOI、URL；
-- 带链接参考文献达到 `DOWNLOAD_VERIFIED`；
-- Word 与 PDF 内容、公式、图表、编号一致；
-- 不存在 `CROSS_ARTIFACT_CONSISTENCY_FAILED`；
-- 用户提供模板时按模板排版。
+- [ ] 覆盖所有实际问题；
+- [ ] 使用最终锁定路线；
+- [ ] 每问存在 `FINAL_RUN_ID`；
+- [ ] 数值来自 Final/Validation Run；
+- [ ] Run Ledger 与论文没有版本冲突；
+- [ ] 每张论文图都在 Manifest 中，并绑定正确 Run ID；
+- [ ] 没有旧模型、旧结果或 `SUPERSEDED` 图；
+- [ ] 图表通过 Figure Contract、数据完整性门和逐 panel QA；
+- [ ] 图表中文、单位、字体和最终尺寸正常；
+- [ ] 普通结果表来自真实数据，而非无必要截图；
+- [ ] 公式和符号一致，并在 DOCX/PDF 中正确渲染；
+- [ ] 没有编造模型效果、实验、现实数据、文献或链接；
+- [ ] Word 与 PDF 的内容、公式、图表和编号一致；
+- [ ] 不存在 `CROSS_ARTIFACT_CONSISTENCY_FAILED`；
+- [ ] 用户提供模板时已按模板排版；
+- [ ] AI 参考稿没有冒充队员最终论文。
 
 通过后才能进入 `INTERNAL_DELIVERY`。
-
-AI 参考论文只属于内部成果；正式比赛提交仍需队员人工重写、终稿复审并执行 [official-submission-policy.md](official-submission-policy.md)。
