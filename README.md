@@ -20,7 +20,7 @@
 
 ## 这个 Skill 做什么
 
-数学建模比赛最麻烦的地方通常不是“不会写一个模型名字”，而是题目没读透、附件没看清、不同小问之间接不上，或者代码已经改了，论文和图表还停在旧版本。
+数学建模比赛最麻烦的地方通常不是“不会写一个模型名字”，而是题目没读透、附件没看清、不同小问接不上，或者代码已经改了，论文和图表还停在旧版本。
 
 这个 Skill 主要处理这些问题。
 
@@ -37,7 +37,7 @@
     ↓
 逐问候选方法 + 证据评分
     ↓
-整题路线确认
+当前问题方案讨论与确认
     ↓
 Python 正式求解 + Final Run
     ↓
@@ -61,13 +61,14 @@ Python 正式求解 + Final Run
 | 深度读题 | 拆动作词、边界、单位、附件和各问依赖，不靠关键词套模型 |
 | 探索性研究 | 用 Python 做 EDA、baseline、趋势、异常、可行性和模型前提检查 |
 | 证据选模 | 比较真正有差异的方法，并根据探索结果更新推荐 |
+| 逐题方案确认 | 每问先讨论，允许队员补论文、数据和想法，确认后再写最终代码 |
 | 跨问建模 | 明确上一问的哪些结果会进入下一问，避免各问各做各的 |
 | Python 实跑 | 最终数字来自真实运行，不从聊天记忆或旧截图里抄 |
 | Run Ledger | 记录关键运行，明确每一问最终采用哪一次 Run |
 | Evidence-first Figure | 先确定图要说明什么，再决定画什么 |
 | 图表 QA | 检查数据完整性、中文、单位、标签、尺寸和 Run 版本 |
-| 文献与数据核验 | 核验 DOI、链接、全文、参数和数据来源 |
-| 原题回查 | 做完后重新逐条核对题目有没有真的回答完整 |
+| 文献与数据核验 | 核验 DOI、链接、全文、现实数据、参数和统计口径 |
+| 原题回查 | 做完后重新逐条核对题目有没有真正回答完整 |
 | Consistency Sweep | 查数字、单位、模型名、图表、摘要、正文和结论有没有串版本 |
 | 终稿复审 | 检查错别字、公式、思路、解释、串题、结果和图表错误 |
 
@@ -77,7 +78,9 @@ Python 正式求解 + Final Run
 
 AI 可以做很多后台工作，但不需要每次都把几十段分析贴出来。
 
-一问做完后，聊天里通常只需要说明：刚完成了什么、最重要的发现是什么、这个发现有什么用、下一步建议怎么走。想看细节时，再去对应的 Markdown、源码和结果文件里看。
+每一问先研究方案，再问队员有没有论文、参考文献、额外数据、老师建议或自己的想法。队员确认后，AI 才生成正式代码、Final Run、图表、结果表和问题详解。
+
+一问正式完成后，聊天里通常只需要说明：刚完成了什么、最重要的发现是什么、这个发现有什么用、下一步怎么走。想看细节时，再去对应的 Markdown、源码和结果文件里看。
 
 如果这一问已经够了，就推进。还有值得验证的地方，再继续一轮。继续研究必须有明确目的，不能为了“显得研究很多”去堆模型和图。
 
@@ -85,56 +88,89 @@ AI 可以做很多后台工作，但不需要每次都把几十段分析贴出�
 
 ---
 
-## Codex / Claude Code 会管理本地项目文件
+## Codex 使用一个单赛题工作空间
 
-如果使用的是 Codex、Claude Code 或其他本地 Agent，Skill 要主动把项目目录管理好，不能把脚本、临时 CSV、图片、下载文件和论文素材全部扔在根目录。
-
-但它不会机械照抄固定目录。它会先看你原来的项目结构、题目数量、附件情况和你的命名习惯；你已经指定目录或组织方式时，以你的要求为准。
-
-一个常见的结构大致是：
+Codex 在本地执行时，一个根目录只对应一道已经选定的赛题，例如：
 
 ```text
-<project-root>/
-├── modeling_workspace/
-│   ├── 00_原始输入/
-│   │   ├── 赛题原文/
-│   │   └── 原始附件/
-│   ├── 01_共享资料/
-│   │   ├── 清洗后数据/
-│   │   ├── 中间数据/
-│   │   ├── 文献与来源/
-│   │   └── 建模决策/
-│   ├── 问题1/
-│   │   ├── 研究记录/
-│   │   ├── src/
-│   │   └── outputs/
-│   ├── 问题2/
-│   │   └── ...
-│   ├── 问题N/
-│   │   └── ...
-│   └── 最终整合/
-│       ├── 最终数据/
-│       ├── 图表与表格/
-│       ├── 论文素材/
-│       └── 最终结果索引.md
-└── deliverables/
-    ├── 题目详解/
-    ├── 参考论文/
-    ├── 源码/
-    └── 其他/
+2022-C/
 ```
 
-这里有几个底线：
+不会再额外套一层 `modeling_workspace/`，也不会默认在根目录旁边再建 `deliverables/`。代码、数据、结果、论文和提交材料都在这个单赛题工作空间中按职责归档。
 
-- 原题和官方原始附件单独保留，尽量不改原文件；
-- 清洗后的数据另存，不能直接覆盖原始 Excel / CSV；
-- 清洗数据要能追到原文件、Sheet、字段和处理步骤；
-- 每一问自己的代码和输出尽量放在自己的目录里；
-- 最终整合区只收确认过的最终版本；
-- `modeling_workspace/` 是工作区，`deliverables/` 是最终内部交付区，两者不要混为一谈；
-- 不为了整理目录擅自删除、移动或覆盖用户已有文件。
+默认结构：
 
-目录本身不是目的。真正重要的是比赛做到第三天时，队员还能很快找到原题、清洗数据、问题二最终代码，以及哪一组结果才是最终版本。
+```text
+2022-C/
+├─ README.md
+│
+├─ 00_problem/                 # 题目与官方附件
+│  ├─ problem.pdf
+│  ├─ attachments/
+│  └─ official_template/
+│
+├─ 01_data/                    # 数据
+│  ├─ raw/                     # 原始数据，不修改
+│  ├─ processed/               # 清洗后的建模数据
+│  └─ external/                # 外部补充数据
+│
+├─ 02_analysis/                # 建模分析与思路
+│  ├─ problem_analysis.md
+│  ├─ assumptions.md
+│  ├─ symbols.md
+│  └─ model_plan.md
+│
+├─ 03_code/                    # 正式代码
+│  ├─ common/                  # 公共函数
+│  ├─ q1/                      # 问题一
+│  ├─ q2/                      # 问题二
+│  ├─ q3/                      # 问题三
+│  ├─ q4/                      # 问题四，没有就删除
+│  └─ run_all.py               # 总运行入口
+│
+├─ 04_results/                 # 程序生成的结果
+│  ├─ figures/                 # 论文图片
+│  ├─ tables/                  # 论文表格
+│  ├─ data/                    # 数值结果
+│  └─ logs/                    # 运行日志
+│
+├─ 05_paper/                   # 论文
+│  ├─ outline.md
+│  ├─ draft.docx
+│  ├─ final.docx
+│  └─ final.pdf
+│
+├─ 06_submission/              # 最终提交文件
+│  ├─ paper.pdf
+│  ├─ source_code.zip
+│  └─ checklist.md
+│
+├─ 07_references/              # 查阅的资料和论文
+│  ├─ papers/
+│  ├─ websites.md
+│  └─ notes.md
+│
+└─ 99_temp/                    # 临时文件，完成后可清空
+```
+
+这是一套默认骨架，不要求提前创建所有空文件。实际有几问，就创建几个 `qN/`；没有问题四就删除 `q4/`，超过四问则继续增加。
+
+几个不能混的边界：
+
+- `00_problem/` 保存题目、官方附件和官方模板，不写入程序输出；
+- `01_data/raw/` 保存不修改的原始数据；
+- 清洗、合并、单位统一和特征构造后的数据进入 `01_data/processed/`；
+- 网络补充的真实数据进入 `01_data/external/`，并记录发布机构、链接、日期、口径和用途；
+- 每问正式代码进入 `03_code/qN/`，公共函数进入 `03_code/common/`；
+- 图、表、数值结果和运行日志统一进入 `04_results/`，不散落在根目录或代码目录；
+- AI 第一次生成的论文是内部参考稿，不能直接冒充 `final.docx` / `final.pdf`；
+- `06_submission/` 只放经过审核的提交候选和内部打包结果；
+- 下载并实际查阅的论文进入 `07_references/papers/`；
+- 临时脚本、缓存、转换文件和预览图进入 `99_temp/`，最终成果不能只留在这里。
+
+Codex 会先查看用户已有目录、命名和文件。用户明确指定的结构优先，已有合理工程直接复用，不会为了套模板擅自移动、删除、覆盖或改名原文件。
+
+详细规则见：`references/local-workspace-policy.md`。
 
 ---
 
@@ -145,6 +181,30 @@ AI 可以做很多后台工作，但不需要每次都把几十段分析贴出�
 每一问会比较真正有差异的候选方法。通常是 2–3 个，但没有必要为了数量硬凑第三个。
 
 评分依然使用统一的 100 分框架，但分数必须有证据、理由和置信度。数据还没看清时只能给暂定判断，不能装得很精确。
+
+---
+
+## 逐题模式：先讨论，再实现
+
+每一问按下面的节奏推进：
+
+```text
+研究本问题意、数据和候选方案
+↓
+和队员讨论推荐模型、假设、风险和验证方法
+↓
+询问是否补充论文、数据、老师建议或自己的想法
+↓
+队员确认当前方案
+↓
+写正式 Python、执行 Final Run、生成图表和表格
+↓
+完成本问详解并固化结果
+↓
+进入下一问
+```
+
+用户确认前，可以做 EDA、小规模实验和数据检索，但不能把这些中间代码或结果冒充最终成果。
 
 ---
 
@@ -168,7 +228,15 @@ INCONCLUSIVE
 
 ## Run Ledger：别让旧结果混进论文
 
-关键运行会记录 Run ID。每一问结束前需要明确：
+关键运行会记录 Run ID。Codex 默认维护：
+
+```text
+04_results/logs/
+├─ RUN_LEDGER.md
+└─ runs/
+```
+
+每一问结束前需要明确：
 
 ```text
 FINAL_RUN_ID = Rxxx
@@ -194,7 +262,35 @@ A/B 级图在动手之前先明确：核心结论是什么，主证据是什么�
 
 图的数量不设最低要求。少一张图不影响理解、验证和决策，那张图通常就没必要画。
 
+Codex 把正式图、表和数值集中保存到：
+
+```text
+04_results/figures/
+04_results/tables/
+04_results/data/
+```
+
 正式图还要检查中文字体、坐标轴、单位、标签碰撞、论文缩放后的可读性，以及它是否真的使用了最终 Run 的数据。
+
+---
+
+## 缺现实数据时，先上网查，不能编
+
+题目需要机场起降架次、人口、气象、交通流、价格、行业参数等现实数据，而附件没有给出时，AI 会主动检索真实来源。
+
+中国现实场景默认优先：
+
+```text
+中国官方 / 法定统计
+→ 对象官方
+→ 国内行业与科研资料
+→ 国际权威来源
+→ 二次来源只作线索
+```
+
+找不到可靠数据时，会明确报告缺口并讨论代理变量、区间分析、模型调整或显式假设，不会为了让代码跑起来补一个“合理值”。
+
+外部原始数据保存在 `01_data/external/`，网页和来源记录保存在 `07_references/websites.md`。
 
 ---
 
@@ -205,7 +301,7 @@ A/B 级图在动手之前先明确：核心结论是什么，主证据是什么�
 | `LIVE_RESEARCH_MODE` | 正式比赛 | 正常查论文、数据、参数、标准、算法和领域案例 |
 | `BLIND_BENCHMARK_MODE` | 历年旧题测试 | 不用题号、题名、原文、附件特征去定位历史答案 |
 
-旧题盲测仍然可以查通用理论、原始方法论文、官方数据和库文档。
+旧题盲测仍然可以查通用理论、原始方法论文、官方现实数据和库文档。
 
 如果意外打开了这道旧题的完整历史解答，会标记：
 
@@ -221,10 +317,10 @@ ANSWER_LEAKAGE_DETECTED
 
 | 模式 | 更适合 | 特点 |
 |---|---|---|
-| 逐题深度求解 | Codex / Claude Code / 正式比赛 | 一问一问完成，每问留下 Final Run 和完整证据链 |
+| 逐题深度求解 | Codex / 正式比赛 | 每问先讨论确认，再实现并留下 Final Run 和完整证据链 |
 | 一次性完整求解 | Chat / 前期快速参考 | 连续做完整题，但各问仍保留模型、代码和验证 |
 
-实际运行如果推翻了前面选的路线，可以重新开路线比较，不会因为“前面已经定了”就硬做下去。
+实际运行如果推翻前面选的路线，可以重新开路线比较，不会因为“前面已经定了”就硬做下去。
 
 ---
 
@@ -235,17 +331,17 @@ ANSWER_LEAKAGE_DETECTED
 ```text
 原题要求
 ↕
-最终模型 / 参数
+01_data 中的真实数据
+↕
+03_code 中的最终模型 / 参数
 ↕
 FINAL_RUN_ID
 ↕
-Python / 输入数据 / 输出表
+04_results 中的图 / 表 / 数值
 ↕
 VISUALIZATION_MANIFEST.md
 ↕
-论文图表
-↕
-正文结论
+05_paper 中的论文表述
 ```
 
 如果 Final Run 换了，旧图、旧表和旧结论都会重新检查。
@@ -271,9 +367,15 @@ Word / PDF 中不能直接把 `x_{icst}`、`\sum`、`\frac` 当普通字符串�
 其他.zip
 ```
 
+Codex 未收到其他路径要求时，保存在：
+
+```text
+06_submission/internal_delivery/
+```
+
 其中 `参考论文.zip` 是 AI 根据本次赛题写的内部参考论文，默认包含 Word 和 PDF。它是给队员理解、核查和手工重写用的，不能直接提交比赛。
 
-Codex / Claude Code 本地运行时，未压缩的真实成果目录是主文件，ZIP 只是整理出来的副本。Chat / 云端交付则会额外检查压缩包兼容性。
+真正准备上传的文件放在 `06_submission/`，并按当年官方、赛区和提交系统要求重新核验，不把某一年的格式永久写死。
 
 ---
 
@@ -301,7 +403,9 @@ Codex / Claude Code 本地运行时，未压缩的真实成果目录是主文件
 例如：
 
 ```text
+Codex 工作区 → local-workspace-policy
 EDA → exploratory-research
+现实数据 → external-data-research
 绘图 → python-visualization + figure-evidence-contract
 运行 → model-run-ledger
 公式 → equation-rendering
@@ -342,7 +446,8 @@ git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
 比赛过程中正常交流就行，例如：
 
 ```text
-这一问还值得继续研究吗？
+这一问还有什么资料需要补？
+先和我讨论方案，不要立刻写最终代码。
 问题二最后用的是哪一次 Run？
 这个结果为什么能信？
 这问够了就继续下一问。
@@ -367,8 +472,10 @@ git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
 │   └── FINAL_PAPER_AUDIT_TEMPLATE.md
 └── references/
     ├── competition-collaboration.md
+    ├── local-workspace-policy.md
     ├── search-mode-policy.md
     ├── exploratory-research.md
+    ├── external-data-research-policy.md
     ├── model-run-ledger.md
     ├── figure-evidence-contract.md
     ├── python-visualization-policy.md
@@ -384,7 +491,7 @@ git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
 
 ## Search Keywords
 
-CUMCM · 数学建模 · Mathematical Modeling · AI Skill · Agent Skill · Codex · Claude Code · Python Modeling · EDA · Model Selection · Evidence-first Figure · Run Ledger · Experiment Tracking · Visualization QA · Optimization · Prediction · Simulation · Literature Verification · Sensitivity Analysis · Robustness Analysis · Blind Benchmark · Paper Review
+CUMCM · 数学建模 · Mathematical Modeling · AI Skill · Agent Skill · Codex · Claude Code · Python Modeling · Modeling Workspace · EDA · Model Selection · Evidence-first Figure · Run Ledger · Experiment Tracking · Visualization QA · Optimization · Prediction · Simulation · Literature Verification · Sensitivity Analysis · Robustness Analysis · Blind Benchmark · Paper Review
 
 ---
 
@@ -392,6 +499,6 @@ CUMCM · 数学建模 · Mathematical Modeling · AI Skill · Agent Skill · Cod
 
 如果这个项目对你有帮助，欢迎 Star。
 
-发现 AI 会误解题意、混用旧 Run、画错图、编造来源、漏答原题或审错论文，也欢迎提 Issue / PR。
+发现 AI 会误解题意、混用旧 Run、画错图、编造数据或来源、漏答原题、弄乱项目目录或审错论文，也欢迎提 Issue / PR。
 
 </div>
