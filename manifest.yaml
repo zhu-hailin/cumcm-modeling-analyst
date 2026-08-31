@@ -17,6 +17,7 @@ routes:
     load:
       - references/problem-ingestion-security.md
       - assets/FILE_SECURITY_AUDIT_TEMPLATE.md
+      - assets/FILE_AUDIT_MANIFEST_TEMPLATE.md
 
   local_codex_workspace:
     when: Codex is working in a writable local project directory, or another local agent is explicitly asked to use the Codex workspace layout
