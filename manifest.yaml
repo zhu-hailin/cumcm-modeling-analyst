@@ -1,9 +1,9 @@
 name: cumcm-modeling-analyst
-version: 10.1
+version: 10.2
 description: >
   Lightweight routing manifest for CUMCM modeling work. Keep the router small,
-  always load only the collaboration/search/workflow core, and load deep
-  references only when the current stage actually needs them.
+  load the collaboration/search/workflow core first, and load deeper references
+  only when the current stage or execution environment needs them.
 
 always_load:
   - references/competition-collaboration.md
@@ -11,6 +11,11 @@ always_load:
   - references/two-stage-workflow.md
 
 routes:
+  local_codex_workspace:
+    when: Codex is working in a writable local project directory, or another local agent is explicitly asked to use the Codex workspace layout
+    load:
+      - references/local-workspace-policy.md
+
   stage1_exploration:
     when: Stage 1, attachment audit, EDA, baseline, route selection
     load:
@@ -42,12 +47,12 @@ routes:
       - references/output-artifact-policy.md
 
   formulas_and_tutorials:
-    when: Markdown tutorial formulas, DOCX/PDF equations or symbol tables are produced/audited
+    when: Markdown tutorial formulas, DOCX/PDF equations or symbol tables are produced or audited
     load:
       - references/equation-rendering-policy.md
 
   literature_and_external_data:
-    when: searching, validating, citing literature/data/parameters or filling a real-world data gap
+    when: searching, validating or citing literature, data or parameters, or filling a real-world data gap
     load:
       - references/external-data-research-policy.md
       - references/source-verification-policy.md
@@ -62,7 +67,7 @@ routes:
       - references/external-data-research-policy.md
 
   internal_delivery:
-    when: four internal deliverable directories/ZIPs are built or validated
+    when: four internal deliverable directories or ZIPs are built or validated
     load:
       - references/final-delivery-packaging.md
       - references/delivery-integrity-policy.md
@@ -89,4 +94,6 @@ principles:
   - Specific current-year competition rules override generic defaults.
   - Real-world data gaps should trigger external-data research rather than invented values.
   - In QUESTION_BY_QUESTION mode, formal implementation starts only after user confirmation of the current question plan.
+  - In Codex local mode, one workspace represents one selected problem and follows local-workspace-policy.md unless the user specifies another structure.
+  - Existing user files and explicit user directory preferences take priority; never reorganize destructively without permission.
   - Loading less context must never be used as a reason to skip a required quality gate.
