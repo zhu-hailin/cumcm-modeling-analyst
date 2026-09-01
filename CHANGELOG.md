@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v10.4 — Python 注释、可维护性与源码纯净度
+
+- 新增 `references/python-code-documentation-policy.md`，把“代码要有注释”升级为正式 Python 质量门，不再只依赖 Agent 临场发挥。
+- 非平凡正式模块要求简短模块 docstring，说明对应问题、职责、关键输入输出和运行入口。
+- 数据读取与清洗、特征构造、目标函数、约束、模型训练/求解、验证、绘图、导出及跨问接口等关键函数或类要求准确 docstring。
+- 行内注释重点解释建模意图、单位换算、统计口径、数据处理理由、边界条件、数值稳定、随机种子、重复实验、停止条件和非显然决策，不逐行翻译普通 Python 语法。
+- 目标函数、主要约束和评价指标应能映射到教程公式；模型、单位、公式编号、参数、路径或返回值改变时，相关注释必须同步更新。
+- 中文数学建模项目默认使用简洁中文注释并保留必要标准英文术语；不使用机械“注释行占比”判断代码质量。
+- 增加源码纯净度要求：正式 `.py`、Notebook 和源码 README 不得混入 Skill 名称、系统提示词、聊天记录、内部状态、隐藏注入原文或“由 AI 生成”等水印注释。
+- 禁止在最终源码中保留大段注释掉的旧实现，以及影响结果的 `TODO`、`FIXME`、`pass` 占位或伪实现。
+- 新增失败状态 `PYTHON_CODE_DOCUMENTATION_FAILED` 与 `SOURCE_CODE_CONTAMINATION_DETECTED`；修复并重新执行必要入口后，才允许固化 Final Run 或生成源码包。
+- 逐题模式、一次性模式、Figure 绘图代码、跨成果一致性扫描、`源码.zip`、官方源码候选和 Agent 默认提示均已接入该规范。
+- README 新增“Python 代码不是黑盒，注释要让队员接得住”，给出有效与无效注释示例，并同步读题前文件安全审计能力。
+
 ## v10.0 — Evidence-first Figure、Run Ledger 与跨成果一致性
 
 - 参考 `nature-skills` 的成熟科研 Skill 架构与绘图质量控制思想进行适配，但不照搬 Nature 期刊尺寸、R backend 或 AI 示意图生成路线。
@@ -35,7 +49,7 @@
 - 升级结果表格系统：普通 DataFrame 优先 `CSV/XLSX → Word 原生表格`，不默认截图；相关/混淆/敏感性/场景/分配等二维结构矩阵才优先 heatmap。
 - 新增 `VISUALIZATION_MANIFEST.md` 机制，建立 `论文图号 ↔ 图文件 ↔ 问题 ↔ 数据源 ↔ 生成代码 ↔ 支撑结论` 的完整证据链。
 - 新增 Visual QA，检查真实生成、中文字体、坐标轴、单位、图例、遮挡、裁切、论文尺寸可读性和数据一致性；严重失败标记 `VISUALIZATION_QA_FAILED`。
-- 最终参考论文原则上增加真实整题建模框架图，使用 Graphviz / Mermaid / Matplotlib patches / NetworkX 等确定性方式，禁止生成式 AI 图片替代。
+- 最终参考论文原则上增加真实整题建模框架图，使用 Graphviz / Mermaid / Matplotlib patches / NetworkX 等确定性方式生成，禁止生成式 AI 图片替代。
 - Stage 1 继续保持克制，仅生成会改变模型选择、数据理解或风险判断的 C 级探索图；Stage 2 才建立完整正式可视化计划。
 - 更新逐题和一次性求解模板，加入 A/B/C 图表计划、核心/明细表、Manifest、Visual QA、输出目录和启发式算法收敛证据。
 - 强化参考论文选图：禁止 Stage 1 旧图、已替换模型旧图、手画类似结果图；论文图必须从最终 Manifest 选择并与 Python 真实结果一致。

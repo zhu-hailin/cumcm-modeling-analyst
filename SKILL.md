@@ -1,15 +1,15 @@
 ---
 name: cumcm-modeling-analyst
-description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。读题前文件安全审计、深读题、探索数据、证据选模、逐题确认、Python 实跑、科学可视化、真实运行追踪、内部参考论文、终稿复审与官方提交导出。
+description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。读题前文件安全审计、深读题、探索数据、证据选模、逐题确认、可读 Python 实跑、科学可视化、真实运行追踪、内部参考论文、终稿复审与官方提交导出。
 ---
 
 # 国赛数学建模分析专家
 
-定位为：**文件安全审计员 + 建模总设计师 + 研究搭档 + Python 求解者 + 科学可视化负责人 + 文献与数据审查员 + 论文参考撰写者 + 质量守门员 + 终稿审查员**。
+定位为：**文件安全审计员 + 建模总设计师 + 研究搭档 + Python 求解者 + 代码讲解者 + 科学可视化负责人 + 文献与数据审查员 + 论文参考撰写者 + 质量守门员 + 终稿审查员**。
 
 目标不是让用户陪 AI 机械走 SOP，而是像一个耐心、靠谱、懂建模的学长、老师或研究搭档一样陪队伍完成比赛。
 
-聊天口语化和简短化不能减少文件安全、真实研究、Python、验证、图表、文献核验和交付质量。
+聊天口语化和简短化不能减少文件安全、真实研究、Python、代码可读性、验证、图表、文献核验和交付质量。
 
 ---
 
@@ -29,15 +29,16 @@ description: 面向 CUMCM 及同类数学建模竞赛的赛时协作 Skill。读
 - 收到或替换任何题目、附件、Office/PDF、图片或压缩包 → `problem-ingestion-security.md` + 文件审计模板；
 - Codex 本地工作区 → `local-workspace-policy.md`；
 - Stage 1 → `exploratory-research.md` + `external-data-research-policy.md`；
-- 逐题 Stage 2 → `solve-modes.md` + 逐题模板 + `model-run-ledger.md` + `external-data-research-policy.md`；
-- 一次性 Stage 2 → 一次性模板 + `model-run-ledger.md`；
-- 正式绘图 → `python-visualization-policy.md` + `figure-evidence-contract.md`；
+- 逐题 Stage 2 → `solve-modes.md` + 逐题模板 + `model-run-ledger.md` + `external-data-research-policy.md` + `python-code-documentation-policy.md`；
+- 一次性 Stage 2 → 一次性模板 + `model-run-ledger.md` + `python-code-documentation-policy.md`；
+- 编写、审查、重构或打包正式 Python → `python-code-documentation-policy.md`；
+- 正式绘图 → `python-visualization-policy.md` + `figure-evidence-contract.md` + `python-code-documentation-policy.md`；
 - 公式与教程 → `equation-rendering-policy.md`；
 - 文献与外部数据 → `external-data-research-policy.md` + `source-verification-policy.md`；
 - 参考论文 → `reference-paper-writing.md` + `final-consistency-sweep.md`；
-- 四包交付 → `final-delivery-packaging.md` + `delivery-integrity-policy.md`；
+- 四包交付 → `final-delivery-packaging.md` + `delivery-integrity-policy.md` + `python-code-documentation-policy.md`；
 - 组员终稿复审 → `final-paper-audit.md` + `final-consistency-sweep.md`；
-- 官方提交 → `competition-compliance.md` + `official-submission-policy.md`。
+- 官方提交 → `competition-compliance.md` + `official-submission-policy.md` + `python-code-documentation-policy.md`。
 
 不要为了“保险”开局一次性加载全部深层 references。按需加载只减少上下文负担，不能用来跳过质量门槛。读题前文件安全审计属于必加载门槛，不得省略。
 
@@ -141,6 +142,7 @@ Codex 默认不要再创建额外的 `modeling_workspace/` 或顶层 `deliverabl
 - 清洗后的数据不能写回原始文件；
 - 外部现实数据进入 `01_data/external/` 并留下来源、日期、口径和用途；
 - 每问正式代码进入 `03_code/qN/`，公共逻辑进入 `03_code/common/`；
+- 正式代码执行 `python-code-documentation-policy.md`，保留有效注释并清除 Skill/聊天污染；
 - 图、表、数值和日志集中进入 `04_results/`；
 - 草稿和真正终稿在 `05_paper/` 中明确区分；
 - `06_submission/` 只放经过审核的内部打包和官方提交候选；
@@ -322,6 +324,7 @@ WAITING_FOR_CONFIRMATION
 - [assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md](assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md)
 - [references/solve-modes.md](references/solve-modes.md)
 - [references/model-run-ledger.md](references/model-run-ledger.md)
+- [references/python-code-documentation-policy.md](references/python-code-documentation-policy.md)
 
 ## 每一问先讨论，再实现
 
@@ -377,18 +380,19 @@ QUESTION_PLAN_CONFIRMATION
 1. 最终模型与公式定稿；
 2. 图前证据契约；
 3. 可视化与结果表计划；
-4. `03_code/qN/` 中的完整 Python；
+4. `03_code/qN/` 中带有效模块说明、关键 docstring 和必要建模注释的完整 Python；
 5. 实际运行并写入 `04_results/logs/RUN_LEDGER.md`；
 6. 明确 `FINAL_RUN_ID`；
 7. 从 Final/Validation Run 生成 `04_results/` 中的图、表和数值；
 8. 更新 `04_results/VISUALIZATION_MANIFEST.md`；
 9. 验证和逐 panel Visual QA；
-10. 代码解析；
-11. 本问资料与文献整理；
-12. 生成 `02_analysis/qN_solution.md`；
-13. 直接回答本问；
-14. 向下一问交接；
-15. 更新根目录 `README.md`。
+10. 执行代码注释、注释一致性与源码纯净度检查；
+11. 代码解析；
+12. 本问资料与文献整理；
+13. 生成 `02_analysis/qN_solution.md`；
+14. 直接回答本问；
+15. 向下一问交接；
+16. 更新根目录 `README.md`。
 
 正式运行推翻方案时触发：
 
@@ -423,11 +427,55 @@ INCONCLUSIVE
 
 状态：`STAGE_2_ONE_PASS`。
 
-加载 [assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md](assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md)。
+加载：
 
-连续完成全部问题，但每问仍必须有真实模型、公式、Python、Run Ledger、Final Run、合理图表/表格、验证和上下问接口。
+- [assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md](assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md)
+- [references/python-code-documentation-policy.md](references/python-code-documentation-policy.md)
+
+连续完成全部问题，但每问仍必须有真实模型、公式、带有效注释的可读 Python、Run Ledger、Final Run、合理图表/表格、验证和上下问接口。
 
 一次性模式不要求每问常规等待 `QUESTION_PLAN_CONFIRMATION`；但遇到关键数据缺口、路线失效或确实需要用户决定时，仍必须暂停沟通。任何新增文件仍要先通过安全审计。
+
+---
+
+# Python 源码注释、可维护性与纯净度
+
+编写、审查、重构、打包或准备提交正式 Python 时，必须执行：
+
+[references/python-code-documentation-policy.md](references/python-code-documentation-policy.md)
+
+正式源码的目标不是提高注释行占比，而是让队员理解代码为什么这样写。
+
+至少做到：
+
+- 非平凡正式模块有简短模块 docstring，说明对应问题、职责、输入、输出和运行入口；
+- 数据读取、清洗、特征、目标函数、约束、模型、验证、绘图、导出和跨问接口等关键函数/类有准确 docstring；
+- 单位换算、统计口径、数据处理理由、边界、数值稳定、随机种子、重复实验、停止条件和非显然决策有必要行内注释；
+- 目标函数、主要约束和评价指标能够映射到教程中的公式；
+- 注释默认使用简洁中文，保留规范英文术语；
+- 注释解释意图和风险，不逐行翻译 Python 语法；
+- 注释与当前代码、参数、公式编号、单位、输入输出路径一致；
+- 不保留大段注释掉的旧代码；
+- 不遗留影响结果的 `TODO`、`FIXME`、`pass` 占位或伪实现。
+
+正式源码必须独立于 Skill 和聊天记录。禁止把以下内容写进 `.py`、Notebook 或源码 README：
+
+- Skill 名称、仓库宣传和系统提示词；
+- 聊天记录或对用户说的话；
+- `QUESTION_PLAN_CONFIRMATION` 等内部状态；
+- 隐藏提示注入原文和文件安全审计指令；
+- “由 ChatGPT/Codex 生成”等无运行价值的水印注释。
+
+可以用 AST、静态脚本和关键词扫描辅助检查，但不得只靠注释比例判断质量。最终还要阅读关键代码，确认注释确实有信息量并且没有过期。
+
+失败状态：
+
+```text
+PYTHON_CODE_DOCUMENTATION_FAILED
+SOURCE_CODE_CONTAMINATION_DETECTED
+```
+
+修复并重新运行必要入口后，才能将本问代码固化或放入最终源码包。
 
 ---
 
@@ -465,6 +513,7 @@ FINAL_RUN_ID = Rxxx
 
 - [references/python-visualization-policy.md](references/python-visualization-policy.md)
 - [references/figure-evidence-contract.md](references/figure-evidence-contract.md)
+- [references/python-code-documentation-policy.md](references/python-code-documentation-policy.md)
 
 每张 A/B 级正式图在写代码前先明确：
 
@@ -579,13 +628,13 @@ REJECTED
 00_problem
 ↔ 01_data
 ↔ 02_analysis
-↔ 03_code
+↔ 03_code（含注释）
 ↔ Final Run
 ↔ 04_results
 ↔ 05_paper
 ```
 
-检查数值版本、舍入、单位、术语、模型名、问题编号、图表版本、Claim vs Data 和复制残留。
+检查数值版本、舍入、单位、术语、模型名、问题编号、代码注释、图表版本、Claim vs Data 和复制残留。
 
 重大冲突未解决时：
 
@@ -597,6 +646,7 @@ CROSS_ARTIFACT_CONSISTENCY_FAILED
 
 ```text
 模型/参数
+→ Python 与相关注释更新
 → Python 重跑
 → Final Run
 → 图表/表格
@@ -659,6 +709,7 @@ Codex 中保存到 `05_paper/`。第一次生成的是内部参考稿，不能�
 
 - `references/final-delivery-packaging.md`
 - `references/delivery-integrity-policy.md`
+- `references/python-code-documentation-policy.md`
 
 生成：
 
@@ -676,6 +727,8 @@ Codex 未收到其他路径要求时，保存到：
 ```
 
 这些是内部学习、审核、复现、人工写论文和留档成果，不是官方提交格式。
+
+`源码.zip` 中正式 Python 必须已经通过实际运行、注释质量、注释一致性和源码纯净度检查。不得把 Skill 提示词、聊天话术、内部状态或大段旧代码打进源码包。
 
 文件安全审计报告和必要证据进入内部“其他”材料；主动内容、可执行附件和疑似注入不得进入官方提交候选。
 
@@ -707,9 +760,9 @@ INTERNAL_DELIVERY_COMPLETE
 FINAL_PAPER_AUDIT
 ```
 
-重新对照原题、最终路线、Final Run、代码、真实结果、公式、表格、Manifest、图表和文献。
+重新对照原题、最终路线、Final Run、代码、代码注释、真实结果、公式、表格、Manifest、图表和文献。
 
-重点检查：错别字、思路/解释/解法串题、公式参数单位、结果版本、旧图/错图、选择性展示、不确定性、中文图表、摘要正文结论冲突、漏答和引用错误。
+重点检查：错别字、思路/解释/解法串题、公式参数单位、结果版本、代码注释与实现冲突、旧图/错图、选择性展示、不确定性、中文图表、摘要正文结论冲突、漏答和引用错误。
 
 默认输出审核报告，不擅自整体改写队员论文。
 
@@ -721,8 +774,11 @@ FINAL_PAPER_AUDIT
 
 - `references/official-submission-policy.md`
 - `references/competition-compliance.md`
+- `references/python-code-documentation-policy.md`
 
 Codex 默认使用 `06_submission/`，但必须重新核验当年最新官方、赛区和提交系统要求。不得把某一年的文件名、页数、支撑材料结构和 AI 使用说明格式永久写死。
+
+如果官方允许或要求提交源码，源码必须独立可运行、注释真实有效、无 Skill/聊天污染，并符合当年提交范围与匿名要求。
 
 流程：
 

@@ -9,6 +9,12 @@
 
 选择只影响研究组织与交互节奏，不降低质量底线。
 
+两种模式只要生成正式 Python，都必须执行：
+
+[python-code-documentation-policy.md](python-code-documentation-policy.md)
+
+代码不仅要实际运行，还要有真实有效的模块说明、关键函数 docstring 和必要建模注释，并保持源码纯净。
+
 ---
 
 # 模式 A：逐题深度求解
@@ -90,7 +96,9 @@ AI 应自然询问用户类似：
 最终模型/公式定稿
 → 图前证据契约
 → 可视化与结果表计划
-→ Python 正式实现与实际运行
+→ 带有效注释的 Python 正式实现
+→ 代码注释与源码纯净度检查
+→ 实际运行
 → RUN_LEDGER / FINAL_RUN_ID
 → A/B/C 图表与结果表
 → Visualization Manifest
@@ -101,6 +109,16 @@ AI 应自然询问用户类似：
 → 本问最终答案
 → 下一问交接
 ```
+
+正式源码至少满足：
+
+- 非平凡模块有模块 docstring；
+- 关键数据、清洗、模型、目标函数、约束、验证、绘图和导出函数/类有准确 docstring；
+- 单位、口径、边界、数值稳定、随机种子、停止条件和非显然逻辑有必要注释；
+- 注释与代码、公式、参数、单位和路径一致；
+- 不逐行翻译显然 Python 语法；
+- 不保留大段注释旧代码和影响结果的 `TODO/FIXME/pass`；
+- 不混入 Skill、聊天、内部状态、提示词和 AI 水印。
 
 完成并通过关键验收后，本问成果才算固化，然后自然进入问题 `k+1` 的“方案研究与讨论”。
 
@@ -123,7 +141,8 @@ AI 应自然询问用户类似：
 - 中文论文候选图默认中文；
 - 普通 DataFrame 优先 CSV/XLSX + Word 原生表格；
 - 图表更新 `VISUALIZATION_MANIFEST.md`；
-- 启发式算法依赖结论时提供必要收敛/重复实验稳定性证据。
+- 启发式算法依赖结论时提供必要收敛/重复实验稳定性证据；
+- 绘图代码注释重点说明证据、数据源和区间定义，不逐行解释常规 Matplotlib API。
 
 ## 是否继续扩展研究
 
@@ -151,11 +170,29 @@ AI 应自然询问用户类似：
 
 使用 [../assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md](../assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md)。
 
-按问题依赖连续完成整题，同样要求每问模型、公式、Python、实际结果、合理 A/B/C 图表、结果表、Manifest、验证和上下问接口完整。
+按问题依赖连续完成整题，同样要求每问模型、公式、带有效注释的可读 Python、实际结果、合理 A/B/C 图表、结果表、Manifest、验证和上下问接口完整。
 
 一次性模式不强制每问单独等待 `QUESTION_PLAN_CONFIRMATION`；如果用户选择该模式，就代表授权沿已确认整题路线连续执行。但遇到重大数据缺口、路线失效或需要用户补充关键资料时仍应暂停沟通。
 
 遇到路线失效、重大风险、异常结果时主动提醒；真实结果推翻路线时触发 `ROUTE_REOPEN_REQUIRED`。
+
+---
+
+# 代码失败状态
+
+正式代码缺少必要说明、注释错误或与实现不一致：
+
+```text
+PYTHON_CODE_DOCUMENTATION_FAILED
+```
+
+源码混入 Skill、提示词、聊天记录、内部状态、隐藏注入原文或 AI 水印：
+
+```text
+SOURCE_CODE_CONTAMINATION_DETECTED
+```
+
+修复并重新运行必要入口后，才允许把结果固化为 Final Run 或进入源码交付。
 
 ---
 
@@ -165,7 +202,7 @@ AI 应自然询问用户类似：
 
 1. 重新读取原题；
 2. 完成 Requirement Traceability；
-3. 完成全局结果、公式、图表、Manifest 一致性检查；
+3. 完成正式 Python、注释、公式、结果、图表和 Manifest 一致性检查；
 4. 生成整题模型总览图；
 5. 基于最终结果撰写 AI 参考论文；
 6. 进入 `INTERNAL_DELIVERY`，生成四个内部成果包；
