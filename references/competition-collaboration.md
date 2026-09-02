@@ -44,7 +44,12 @@ AI 持续判断：
 
 聊天窗口优先说：
 
-`我刚做了什么 → 最重要的发现 → 这个发现有什么用 → 我建议下一步怎么走`
+```text
+我刚做了什么
+→ 最重要的发现
+→ 这个发现有什么用
+→ 我建议下一步怎么走
+```
 
 完整公式、评分表、实验细节、文献账本、图表说明和代码解析写入相应文件，不默认堆到聊天窗口。
 
@@ -112,21 +117,32 @@ AI 持续判断：
 
 如果当前运行环境是 Codex，必须加载并执行：
 
-[local-workspace-policy.md](local-workspace-policy.md)
+- [local-workspace-policy.md](local-workspace-policy.md)
+- [python-artifact-naming-policy.md](python-artifact-naming-policy.md)
 
-Codex 默认使用一个**单赛题根目录**，例如 `2022-C/`，不再额外创建 `modeling_workspace/` 套娃目录。目录按以下职责分层：
+Codex 默认使用一个单赛题根目录，例如 `2022-C/`，不再额外创建 `modeling_workspace/` 套娃目录。
 
 ```text
 00_problem/    原题、官方附件、官方模板
 01_data/       raw / processed / external
-02_analysis/   题意、假设、符号、模型方案
-03_code/       common、q1、q2、...、run_all.py
+02_analysis/   题意、假设、符号、模型方案和教程
+03_code/       common、q1、q2、...、总运行.py
 04_results/    figures、tables、data、logs
 05_paper/      outline、草稿、终稿
 06_submission/ 官方提交候选与内部打包
 07_references/ 下载论文、网页账本和笔记
 99_temp/       临时文件
 ```
+
+每问正式主入口采用中文语义名称：
+
+```text
+03_code/q1/第一题.py
+03_code/q2/第二题.py
+03_code/q3/第三题.py
+```
+
+论文候选图有同语义中文绘图脚本；AI 沟通图使用独立目录、`AI沟通图_` 前缀、图面可见标记和 Manifest 用途标记。
 
 具体目录、问题数量、文件名和已有工程习惯最终以用户要求为准。用户已经有合理结构时直接复用，不为了符合示例重新造一套目录。
 
@@ -136,7 +152,7 @@ Codex 默认使用一个**单赛题根目录**，例如 `2022-C/`，不再额外
 - `01_data/raw/` 与 `01_data/processed/` 严格分开；
 - 外部补充数据进入 `01_data/external/` 并记录来源；
 - 每问正式代码进入 `03_code/qN/`；
-- 程序输出集中进入 `04_results/`，不散落到根目录和代码目录；
+- 程序输出集中进入 `04_results/`；
 - 论文草稿与真正终稿名称不能混淆；
 - `06_submission/` 只放经过审核的提交候选和内部打包结果；
 - 临时文件进入 `99_temp/`，最终成果不能只存在临时区。
@@ -147,7 +163,7 @@ Codex 默认使用一个**单赛题根目录**，例如 `2022-C/`，不再额外
 
 比赛持续数天，不要依赖聊天记录保存研究成果。
 
-在 Codex 工作区中，建议映射为：
+Codex 工作区建议维护：
 
 ```text
 02_analysis/problem_analysis.md   # 题意和各问关系
@@ -155,21 +171,18 @@ Codex 默认使用一个**单赛题根目录**，例如 `2022-C/`，不再额外
 02_analysis/symbols.md            # 统一符号表
 02_analysis/model_plan.md         # 候选路线、评分、用户确认
 04_results/logs/RUN_LEDGER.md     # 关键运行与 FINAL_RUN_ID
+04_results/VISUALIZATION_MANIFEST.md
 07_references/websites.md         # 网页、数据和链接核验
 07_references/notes.md            # 文献具体用途
 ```
 
-问题级教程、代码解释和验证记录可以放在对应 `03_code/qN/`、`04_results/` 或用户指定目录，但必须在根目录 `README.md` 中给出索引。
-
-不能实际创建文件时，要明确说明，不能声称文件已经生成。
+问题级教程、中文代码说明和验证记录必须有真实路径索引。不能实际创建文件时，要明确说明，不能声称已经生成。
 
 ---
 
 # 6. 阶段闸门
 
 AI 不应在当前阶段尚未完成时问“要不要继续研究”。
-
-逐题模式有两个不同闸门：
 
 ## 方案确认闸门
 
@@ -180,7 +193,7 @@ AI 不应在当前阶段尚未完成时问“要不要继续研究”。
 → 正式实现
 ```
 
-确认前可以做必要 EDA、小规模实验、数据检索和文献核验，但不能把探索性代码和中间结果冒充最终成果。
+确认前可以做必要 EDA、小规模实验、数据检索和文献核验，但不能把探索代码和中间结果冒充最终成果。
 
 ## 扩展研究闸门
 
@@ -271,4 +284,5 @@ AI 可以根据题目和队伍节奏调整表达、合并不需要单独沟通�
 - 不为了情绪反馈夸大可靠性；
 - 不为了扩展研究制造垃圾结果；
 - 不因为聊天短而丢失重要信息；
+- 中文源码、图像用途、Final Run、教程和论文保持一致；
 - Codex 项目目录始终可追溯、可复现、不会越做越乱。

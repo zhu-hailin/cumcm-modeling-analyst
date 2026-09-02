@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v10.5 — 中文源码命名与图像用途标记
+
+- 新增 `references/python-artifact-naming-policy.md`，把正式 Python 文件名、论文图脚本、输出图片和内部沟通图的命名与用途边界升级为硬性质量门。
+- 每问正式主入口默认使用 `第一题.py`、`第二题.py`、`第三题.py` 等中文语义名称；整题入口默认使用 `总运行.py`。
+- 一问拆成多个模块时，使用 `第一题_数据处理.py`、`第一题_模型求解.py`、`第一题_结果验证.py` 等“问题编号 + 中文职责”名称，不再把 `main.py`、`final.py`、`new.py`、`test.py` 作为正式成果文件名。
+- `__init__.py`、`conftest.py`、`pyproject.toml`、`requirements.txt` 等受 Python 或工具链约束的名称保留为技术例外。
+- 每张论文候选图必须有可追溯的中文绘图脚本，且脚本与 PNG/SVG 输出使用相同语义主干，例如 `第一题_预测结果图.py` 对应 `第一题_预测结果图.png/.svg`。
+- 论文绘图脚本必须读取 Final/Validation Run 的真实结果文件，不得在脚本中手抄最终数值。
+- 图像用途统一区分 `PAPER_FIGURE`、`VALIDATION_FIGURE`、`EXPLORATION_FIGURE`、`AI_COMMUNICATION_ONLY` 和 `SECURITY_AUDIT_ONLY`。
+- AI/Agent 沟通图必须同时使用 `AI沟通图_` 文件名前缀、图面可见标记“AI内部沟通图｜非论文材料”，并在 Visualization Manifest 中标记不进入论文和官方提交。
+- AI 沟通图不能通过删除角标和改名直接升级为论文图；需要重新建立 Figure Contract、绑定 Final/Validation Run、新建正式中文绘图脚本并重新生成与审核。
+- 新增失败状态 `PYTHON_FILENAME_POLICY_FAILED`、`FIGURE_PURPOSE_MARKING_FAILED` 和 `AI_COMMUNICATION_FIGURE_LEAKED`。
+- `源码.zip` 默认保留中文主入口、`总运行.py`、中文公共模块和正式论文图脚本；AI 沟通图默认不进入官方源码候选。
+- 若当年官方提交系统不支持中文文件名，只在 `06_submission/` 生成经过验证的兼容副本，并记录中文名到兼容名的映射，不偷偷替换工作区中的中文正式源码。
+- 同步更新 README、主 Skill、Manifest、Agent 默认提示、Codex 工作区、逐题/一次性模板、解题模式、源码注释规范、最终一致性扫描和内部打包规则。
+
 ## v10.4 — Python 注释、可维护性与源码纯净度
 
 - 新增 `references/python-code-documentation-policy.md`，把“代码要有注释”升级为正式 Python 质量门，不再只依赖 Agent 临场发挥。
