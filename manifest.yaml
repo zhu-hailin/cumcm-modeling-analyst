@@ -63,6 +63,8 @@ routes:
       - references/reference-paper-writing.md
       - references/modeling-quality-gates.md
       - references/python-visualization-policy.md
+      - references/equation-rendering-policy.md
+      - references/source-verification-policy.md
       - references/final-consistency-sweep.md
 
   internal_delivery:
@@ -79,6 +81,8 @@ routes:
       - references/final-consistency-sweep.md
       - references/modeling-quality-gates.md
       - references/python-visualization-policy.md
+      - references/equation-rendering-policy.md
+      - references/source-verification-policy.md
       - assets/FINAL_PAPER_AUDIT_TEMPLATE.md
 
   official_submission:
