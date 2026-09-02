@@ -9,11 +9,10 @@
 
 选择只影响研究组织与交互节奏，不降低质量底线。
 
-两种模式只要生成正式 Python，都必须执行：
+正式 Python 同时遵循：
 
-[python-code-documentation-policy.md](python-code-documentation-policy.md)
-
-代码不仅要实际运行，还要有真实有效的模块说明、关键函数 docstring 和必要建模注释，并保持源码纯净。
+- `python-code-documentation-policy.md`
+- `python-artifact-naming-policy.md`
 
 ---
 
@@ -21,9 +20,9 @@
 
 状态：`STAGE_2_QUESTION_BY_QUESTION`。
 
-使用 [../assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md](../assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md)。
+使用 `assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md`。
 
-逐题模式每一问分成两个连续阶段：
+每一问分成两个连续阶段：
 
 ```text
 A. 方案研究与讨论
@@ -45,19 +44,19 @@ B. 正式实现与成果固化
 → 必要问题级探索
 → 外部数据 / 文献检索与核验
 → 候选方案复核
-→ 推荐模型、关键公式框架与假设
+→ 推荐模型、公式框架与假设
 → 风险 / 数据缺口 / 可验证性判断
 ```
 
-这一步的目标是把方案谈清楚，**不是立即开始写最终代码**。
+这一步的目标是把方案谈清楚，不是立即开始写最终代码。
 
-聊天窗口只需要自然说明：
+聊天只需要自然说明：
 
-- 我目前更推荐什么；
+- 当前更推荐什么；
 - 为什么；
 - 还有什么风险或数据缺口；
-- 哪些地方值得和队员再讨论；
-- 是否还需要补论文、文献、数据、老师意见或其他资料。
+- 哪些地方值得继续讨论；
+- 是否需要补论文、文献、数据、老师意见或其他资料。
 
 然后进入：
 
@@ -65,100 +64,145 @@ B. 正式实现与成果固化
 QUESTION_PLAN_CONFIRMATION
 ```
 
-AI 应自然询问用户类似：
-
-> 这一问的方案我基本梳理清楚了。你们还有没有论文、参考文献、额外数据、老师建议或者想调整的思路要补充？如果没有，我就按现在这个方案正式写代码、跑结果并整理问题 {k} 详解。
-
-不要机械复刻固定句式，但必须表达同样的确认含义。
+用户补充文件后，先做增量文件安全审计，再读取和核验。只有用户明确表示“就这样、按这个做、执行、没补充了”等，才进入正式实现。
 
 ### 确认前禁止提前固化成果
 
-用户明确确认前，不应直接生成：
+用户确认前，不应直接生成：
 
 - 最终生产级 Python；
-- 最终 Run；
-- A/B 级正式图表；
+- Final Run；
+- A/B 级正式图；
 - 最终结果表；
-- 问题 {k} 完整教程/详解；
-- 向下一问的最终交接文件。
+- 当前问题完整教程；
+- 下一问最终交接文件。
 
-允许继续做支撑方案判断的轻量探索、数据核验、小规模实验和文献检索，但这些不能冒充最终成果。
+允许继续做支撑方案判断的轻量探索、数据核验、小规模实验和文献检索，但不能冒充最终成果。
 
-用户补充资料后，先吸收、核验并重新讨论方案；如果补充内容改变路线，应更新推荐和理由，再等待确认。
-
-用户说“就这样”“按这个做”“执行”“没补充了”等明确确认后，才进入正式实现。
+---
 
 ## B. 正式实现与成果固化
 
 确认后执行：
 
 ```text
-最终模型/公式定稿
+最终模型 / 公式定稿
+→ 中文文件名与模块职责设计
 → 图前证据契约
 → 可视化与结果表计划
-→ 带有效注释的 Python 正式实现
-→ 代码注释与源码纯净度检查
+→ 带有效注释的中文命名 Python
+→ 注释 / 纯净度 / 文件名检查
 → 实际运行
 → RUN_LEDGER / FINAL_RUN_ID
-→ A/B/C 图表与结果表
+→ 论文图、验证图、探索图和结果表
+→ AI 沟通图用途标记
 → Visualization Manifest
 → 验证 / Visual QA
-→ 代码解析
-→ 本问资料/文献整理
-→ 问题 {k} 完整详解
-→ 本问最终答案
-→ 下一问交接
+→ 本问完整教程
+→ 本问答案与下一问交接
 ```
 
-正式源码至少满足：
+### 中文源码
 
-- 非平凡模块有模块 docstring；
-- 关键数据、清洗、模型、目标函数、约束、验证、绘图和导出函数/类有准确 docstring；
-- 单位、口径、边界、数值稳定、随机种子、停止条件和非显然逻辑有必要注释；
-- 注释与代码、公式、参数、单位和路径一致；
-- 不逐行翻译显然 Python 语法；
-- 不保留大段注释旧代码和影响结果的 `TODO/FIXME/pass`；
-- 不混入 Skill、聊天、内部状态、提示词和 AI 水印。
+每问主入口默认：
 
-完成并通过关键验收后，本问成果才算固化，然后自然进入问题 `k+1` 的“方案研究与讨论”。
+```text
+03_code/q1/第一题.py
+03_code/q2/第二题.py
+03_code/q3/第三题.py
+```
 
-如果正式运行暴露重大问题，例如 baseline 明显更优、关键假设失效、数据口径错误、约束不可行或数值不稳定，触发 `ROUTE_REOPEN_REQUIRED`，回到讨论状态，而不是硬把错误方案做完。
+整题入口默认：
+
+```text
+03_code/总运行.py
+```
+
+复杂问题使用 `第一题_数据处理.py`、`第一题_模型求解.py`、`第一题_结果验证.py` 等中文职责名。技术性文件名例外见 `python-artifact-naming-policy.md`。
+
+### 论文图
+
+每张论文候选图必须有同语义中文绘图脚本：
+
+```text
+03_code/q1/论文图/第一题_预测结果图.py
+04_results/figures/q1/paper/第一题_预测结果图.png
+04_results/figures/q1/paper/第一题_预测结果图.svg
+```
+
+### AI 沟通图
+
+AI/Agent 中间沟通图必须：
+
+```text
+文件名前缀：AI沟通图_
+图面标记：AI内部沟通图｜非论文材料
+用途类型：AI_COMMUNICATION_ONLY
+进入论文：否
+进入官方提交：否
+```
+
+不得仅靠删标记、改名把内部图升级为论文图。
+
+完成并通过关键验收后，本问成果才算固化，然后进入问题 `k+1` 的方案研究与讨论。
+
+如果正式运行暴露重大问题，例如 baseline 更优、关键假设失效、数据口径错误、约束不可行或数值不稳定，触发：
+
+```text
+ROUTE_REOPEN_REQUIRED
+```
+
+回到讨论状态，不硬把错误方案做完。
+
+---
 
 ## 外部数据
 
-逐题研究中只要发现现实数据缺口，按 [external-data-research-policy.md](external-data-research-policy.md) 主动检索真实来源。
+逐题研究中发现现实数据缺口时，按 `external-data-research-policy.md` 主动检索真实来源。
 
 找不到可靠数据时必须在方案确认前告诉用户，不得为了让代码能跑而编一个值。
 
+---
+
 ## 可视化要求
 
-正式实现后完整遵循 [python-visualization-policy.md](python-visualization-policy.md)。
+正式实现后执行：
 
-- A 级核心结果图回答“最终得到什么”；
-- B 级诊断图回答“为什么相信”；
-- C 级探索图仅保留真正有价值的中间证据；
-- 不规定固定数量；
-- 中文论文候选图默认中文；
-- 普通 DataFrame 优先 CSV/XLSX + Word 原生表格；
-- 图表更新 `VISUALIZATION_MANIFEST.md`；
-- 启发式算法依赖结论时提供必要收敛/重复实验稳定性证据；
-- 绘图代码注释重点说明证据、数据源和区间定义，不逐行解释常规 Matplotlib API。
+- `python-visualization-policy.md`
+- `figure-evidence-contract.md`
+- `python-artifact-naming-policy.md`
+
+图像用途至少区分：
+
+```text
+PAPER_FIGURE
+VALIDATION_FIGURE
+EXPLORATION_FIGURE
+AI_COMMUNICATION_ONLY
+SECURITY_AUDIT_ONLY
+```
+
+论文图和输出图使用相同中文语义主干；AI 沟通图进入独立目录并完整标记；普通 DataFrame 优先 CSV/XLSX + Word 原生表格。
+
+---
 
 ## 是否继续扩展研究
 
-逐题模式不再机械地在每问完成后再次强制询问“是否扩展研究”。
+逐题模式不在每问完成后机械追问“是否扩展研究”。
 
-默认规则：
+默认：
 
-- 正式结果正常、验证通过、没有新的重要风险 → 固化本问并进入下一问；
-- 如果实际结果出现新的、有决策价值的问题 → 主动和用户讨论是否继续研究；
+- 正式结果正常、验证通过、没有新重要风险 → 固化本问并进入下一问；
+- 实际结果出现新的、有决策价值的问题 → 主动和用户讨论是否继续；
 - 扩展必须说明研究什么、为什么值得、可能改变什么、什么时候停止。
 
 合法结局：
 
-- `MEANINGFUL_FINDING`
-- `NO_MEANINGFUL_FINDING`
-- `INCONCLUSIVE`
+```text
+MEANINGFUL_FINDING
+NO_MEANINGFUL_FINDING
+INCONCLUSIVE
+```
 
 禁止为了扩展研究堆模型、堆图或制造结果。
 
@@ -168,31 +212,27 @@ AI 应自然询问用户类似：
 
 状态：`STAGE_2_ONE_PASS`。
 
-使用 [../assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md](../assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md)。
+使用 `assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md`。
 
-按问题依赖连续完成整题，同样要求每问模型、公式、带有效注释的可读 Python、实际结果、合理 A/B/C 图表、结果表、Manifest、验证和上下问接口完整。
+按问题依赖连续完成整题，同样要求每问模型、公式、中文命名 Python、实际结果、合理图表、结果表、Manifest、验证和上下问接口完整。
 
-一次性模式不强制每问单独等待 `QUESTION_PLAN_CONFIRMATION`；如果用户选择该模式，就代表授权沿已确认整题路线连续执行。但遇到重大数据缺口、路线失效或需要用户补充关键资料时仍应暂停沟通。
+一次性模式不强制每问单独等待 `QUESTION_PLAN_CONFIRMATION`；但重大数据缺口、路线失效、文件安全冲突或需要用户补充关键资料时仍应暂停沟通。
 
-遇到路线失效、重大风险、异常结果时主动提醒；真实结果推翻路线时触发 `ROUTE_REOPEN_REQUIRED`。
+一次性模式不能成为降低源码命名、注释、图像用途标记或可追溯性的理由。
 
 ---
 
-# 代码失败状态
-
-正式代码缺少必要说明、注释错误或与实现不一致：
+# 失败状态
 
 ```text
 PYTHON_CODE_DOCUMENTATION_FAILED
-```
-
-源码混入 Skill、提示词、聊天记录、内部状态、隐藏注入原文或 AI 水印：
-
-```text
 SOURCE_CODE_CONTAMINATION_DETECTED
+PYTHON_FILENAME_POLICY_FAILED
+FIGURE_PURPOSE_MARKING_FAILED
+AI_COMMUNICATION_FIGURE_LEAKED
 ```
 
-修复并重新运行必要入口后，才允许把结果固化为 Final Run 或进入源码交付。
+任一关键状态未解决，不得把本问标记完成。
 
 ---
 
@@ -200,10 +240,10 @@ SOURCE_CODE_CONTAMINATION_DETECTED
 
 无论模式 A/B：
 
-1. 重新读取原题；
+1. 重新读取已审计原题；
 2. 完成 Requirement Traceability；
-3. 完成正式 Python、注释、公式、结果、图表和 Manifest 一致性检查；
-4. 生成整题模型总览图；
+3. 检查中文源码、注释、Final Run、图像用途、图表、教程和论文的一致性；
+4. 生成真实整题模型总览图；
 5. 基于最终结果撰写 AI 参考论文；
 6. 进入 `INTERNAL_DELIVERY`，生成四个内部成果包；
 7. 队员人工重写正式论文后进入 `FINAL_PAPER_AUDIT`；
