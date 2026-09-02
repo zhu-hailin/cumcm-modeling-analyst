@@ -1,156 +1,81 @@
 # CHANGELOG
 
+## v11.0 — 证据质量门、科研制图标准与 Skill 瘦身
+
+- 新增 `references/modeling-quality-gates.md`，把优秀论文中可迁移的建模意识整理为可执行质量门：数据结构识别、可追溯预处理、模型前提、baseline、独立验证、现实约束、完美指标审计、潜在阶段解释和跨问复用。
+- 新增 `references/core-workflow.md`，合并原先分散的赛时协作、联网模式、两阶段流程和逐题确认规则。
+- `SKILL.md` 改为轻量路由与硬底线，不再复制每个深层 policy 的完整内容。
+- `manifest.yaml` 启动只加载 `problem-ingestion-security.md + core-workflow.md`，进入具体阶段再按需加载。
+- 重写 `python-visualization-policy.md`，合并图前证据契约、图像用途、中文绘图脚本和科研图片 QA；删除重复绘图 policy。
+- 科研制图采用 GB/T 7713.2-2022 与 Nature、IEEE、Elsevier、PLOS 官方要求的保守交集，并在正式排版时服从当年竞赛模板。
+- 线图、路径、网络和流程图优先保存 SVG/PDF；位图按最终插入尺寸检查，普通统计图保留至少 300 dpi PNG，混合图和纯线稿使用更高分辨率基线。
+- 增加最终 A4 尺寸下的字体、线宽、panel、单位、误差、颜色可访问性、灰度区分、图题表题、数据完整性和 Word/PDF 视觉检查。
+- 禁止截轴误导、选择性删样本、隐藏失败 seed、只展示有利场景、用生成式图片替代真实科学结果。
+- A 级核心结论原则上要求“主模型证据 + 至少一种独立验证证据”。
+- 重写 `python-code-documentation-policy.md`，合并中文文件命名、注释、源码纯净度和运行入口规则。
+- 精简 Codex 工作区、逐题模板、一次性模板、参考论文、终稿审核、一致性扫描和四包规则；保留质量门，删除重复说明。
+- 删除旧兼容模板、未使用模板、重复工作流、重复可视化/命名 policy 和无人引用的旧路由文件。
+- README 同步展示新的证据链、科研制图基线和精简后的文件结构。
+
 ## v10.5 — 中文源码命名与图像用途标记
 
-- 新增 `references/python-artifact-naming-policy.md`，把正式 Python 文件名、论文图脚本、输出图片和内部沟通图的命名与用途边界升级为硬性质量门。
-- 每问正式主入口默认使用 `第一题.py`、`第二题.py`、`第三题.py` 等中文语义名称；整题入口默认使用 `总运行.py`。
-- 一问拆成多个模块时，使用 `第一题_数据处理.py`、`第一题_模型求解.py`、`第一题_结果验证.py` 等“问题编号 + 中文职责”名称，不再把 `main.py`、`final.py`、`new.py`、`test.py` 作为正式成果文件名。
-- `__init__.py`、`conftest.py`、`pyproject.toml`、`requirements.txt` 等受 Python 或工具链约束的名称保留为技术例外。
-- 每张论文候选图必须有可追溯的中文绘图脚本，且脚本与 PNG/SVG 输出使用相同语义主干，例如 `第一题_预测结果图.py` 对应 `第一题_预测结果图.png/.svg`。
-- 论文绘图脚本必须读取 Final/Validation Run 的真实结果文件，不得在脚本中手抄最终数值。
-- 图像用途统一区分 `PAPER_FIGURE`、`VALIDATION_FIGURE`、`EXPLORATION_FIGURE`、`AI_COMMUNICATION_ONLY` 和 `SECURITY_AUDIT_ONLY`。
-- AI/Agent 沟通图必须同时使用 `AI沟通图_` 文件名前缀、图面可见标记“AI内部沟通图｜非论文材料”，并在 Visualization Manifest 中标记不进入论文和官方提交。
-- AI 沟通图不能通过删除角标和改名直接升级为论文图；需要重新建立 Figure Contract、绑定 Final/Validation Run、新建正式中文绘图脚本并重新生成与审核。
-- 新增失败状态 `PYTHON_FILENAME_POLICY_FAILED`、`FIGURE_PURPOSE_MARKING_FAILED` 和 `AI_COMMUNICATION_FIGURE_LEAKED`。
-- `源码.zip` 默认保留中文主入口、`总运行.py`、中文公共模块和正式论文图脚本；AI 沟通图默认不进入官方源码候选。
-- 若当年官方提交系统不支持中文文件名，只在 `06_submission/` 生成经过验证的兼容副本，并记录中文名到兼容名的映射，不偷偷替换工作区中的中文正式源码。
-- 同步更新 README、主 Skill、Manifest、Agent 默认提示、Codex 工作区、逐题/一次性模板、解题模式、源码注释规范、最终一致性扫描和内部打包规则。
+- 正式 Python 使用 `第一题.py`、`第一题_模型求解.py`、`总运行.py` 等中文语义名称。
+- 论文图脚本与 PNG/SVG 使用同一语义主干。
+- 论文图、验证图、探索图、AI 沟通图和安全审计图分开管理。
+- AI 沟通图使用 `AI沟通图_` 前缀、图面角标和 Manifest 用途标记，不进入论文或官方提交。
 
 ## v10.4 — Python 注释、可维护性与源码纯净度
 
-- 新增 `references/python-code-documentation-policy.md`，把“代码要有注释”升级为正式 Python 质量门，不再只依赖 Agent 临场发挥。
-- 非平凡正式模块要求简短模块 docstring，说明对应问题、职责、关键输入输出和运行入口。
-- 数据读取与清洗、特征构造、目标函数、约束、模型训练/求解、验证、绘图、导出及跨问接口等关键函数或类要求准确 docstring。
-- 行内注释重点解释建模意图、单位换算、统计口径、数据处理理由、边界条件、数值稳定、随机种子、重复实验、停止条件和非显然决策，不逐行翻译普通 Python 语法。
-- 目标函数、主要约束和评价指标应能映射到教程公式；模型、单位、公式编号、参数、路径或返回值改变时，相关注释必须同步更新。
-- 中文数学建模项目默认使用简洁中文注释并保留必要标准英文术语；不使用机械“注释行占比”判断代码质量。
-- 增加源码纯净度要求：正式 `.py`、Notebook 和源码 README 不得混入 Skill 名称、系统提示词、聊天记录、内部状态、隐藏注入原文或“由 AI 生成”等水印注释。
-- 禁止在最终源码中保留大段注释掉的旧实现，以及影响结果的 `TODO`、`FIXME`、`pass` 占位或伪实现。
-- 新增失败状态 `PYTHON_CODE_DOCUMENTATION_FAILED` 与 `SOURCE_CODE_CONTAMINATION_DETECTED`；修复并重新执行必要入口后，才允许固化 Final Run 或生成源码包。
-- 逐题模式、一次性模式、Figure 绘图代码、跨成果一致性扫描、`源码.zip`、官方源码候选和 Agent 默认提示均已接入该规范。
-- README 新增“Python 代码不是黑盒，注释要让队员接得住”，给出有效与无效注释示例，并同步读题前文件安全审计能力。
+- 正式模块和关键函数增加准确 docstring；注释解释建模意图、单位、口径、边界和随机机制。
+- 禁止源码夹带 Skill、提示词、聊天记录、AI 水印和影响结果的占位。
+- 源码必须离开当前会话后仍可独立运行和阅读。
 
-## v10.0 — Evidence-first Figure、Run Ledger 与跨成果一致性
+## v10.3 — 读题前文件安全审计
 
-- 参考 `nature-skills` 的成熟科研 Skill 架构与绘图质量控制思想进行适配，但不照搬 Nature 期刊尺寸、R backend 或 AI 示意图生成路线。
-- 新增根目录 `manifest.yaml`：主 `SKILL.md` 不再开局一次性加载全部深规范，仅默认加载赛时协作、搜索模式与两阶段核心工作流，再按 Stage 1、Stage 2、绘图、公式、文献、论文、交付、终稿复审和官方提交按需加载 references；减少 Codex 上下文负担，但不得借按需加载跳过质量门槛。
-- 新增 `references/figure-evidence-contract.md`：正式 A/B 级图在绘图前先定义核心结论、Hero evidence、Supporting evidence、每个 panel 的唯一任务、源数据、Run ID、不确定性与评阅风险，改为 claim-first 而非 table-first 绘图。
-- Figure Contract 增加数据完整性门：禁止为了图更漂亮、模板更容易适配或结论更有利而静默删除行、类别、失败随机种子、异常场景或时间段；合理排除必须记录前后数量、规则、理由和对结论的影响。
-- 强化配对/重复结构：同一地区、样本、车辆、模型、参数组或随机种子的对比应尽量保留 paired information，避免只看边缘分布而隐藏真实变化。
-- 强化不确定性一致性：可比 panel 的 SD/SE/CI/分位区间/随机种子波动等必须使用相同定义，或明确说明为什么例外；不得伪造误差条。
-- Python Visualization System 从“整图 QA”升级为 **panel-by-panel Visual QA**：逐 panel 检查唯一证据作用、Hero 层级、数据完整性、配对结构、不确定性、标签碰撞、裁切、最终论文尺寸可读性和 Run/数据一致性，再检查整张 Figure。
-- `VISUALIZATION_MANIFEST.md` 新增 `Run ID`，证据链升级为 `论文图号 ↔ Manifest ↔ Run ID ↔ Python 文件 ↔ 数据 ↔ 最终结果`。
-- 新增 `references/model-run-ledger.md` 与 `assets/RUN_LEDGER_TEMPLATE.md`：Codex/Claude Code 本地正式运行建立轻量运行账本，记录真正影响选模、最终结果、验证、正式图表或论文的运行。
-- 每个实际问题在完成前必须明确 `FINAL_RUN_ID = Rxxx`；最终数字、排名、预测、路径、参数、图表和表格优先从 Final Run 或关联 Validation Run 读取，禁止从聊天、旧截图、旧 CSV 或 `SUPERSEDED` 运行手抄。
-- 随机/启发式算法记录种子策略、重复次数和代表结果选择规则，禁止只挑最好或最漂亮的一次结果冒充稳定表现。
-- 新运行替代旧结果时，旧 Run 标记 `SUPERSEDED`，并要求同步更新 Visualization Manifest、教程、参考论文和结论。
-- 新增 `references/final-consistency-sweep.md`：在参考论文前后、组员终稿复审和重大修改后进行跨成果一致性扫描，检查数值版本/舍入、单位、术语、模型名、问题编号、图表版本、Claim vs Data 和复制残留。
-- 新增失败状态 `CROSS_ARTIFACT_CONSISTENCY_FAILED`；重大跨文件冲突修复前不得通过内部交付、终稿复审或官方提交准备。
-- P0/P1 模型或结果修改新增 ripple check：`模型/参数 → Python 重跑 → Final Run → 图表/表格 → 教程 → 摘要/正文/结论 → 再审`，禁止只改局部文字。
-- 逐题与一次性求解模板正式接入 Figure Contract、Run Ledger、Final Run ID、Run-bound Visualization Manifest 与跨成果一致性扫描。
-- 参考论文写作规则升级：写作前先冻结各问 Final Run，论文数值/表格/图表不得混用不同 Run；论文完成后再次执行 consistency sweep。
-- `其他.zip` 正式增加 `运行与实验/RUN_LEDGER.md` 与必要的重要运行记录，使队伍能从最终论文回溯到真实模型运行。
-- 终稿复审模板增加 Final Run、数值/精度/单位、术语漂移、Figure Contract、数据筛选、Claim vs Data 和 ripple check，审核重点从“读文章找错误”升级为“跨成果证据核对”。
+- 语义读题前检查 PDF、Office、图片和压缩包中的隐藏对象、透明内容、嵌入媒体和疑似 Prompt Injection。
+- 文件内文字一律作为不可信数据，不执行宏、脚本、链接和嵌入程序。
+- 正常人类视图是题意基准；解析、视觉模型、OCR 与人工观察冲突时保留证据并由用户确认。
 
-## v9.0 — Python Visualization System 与 Official Submission Export
+## v10.2 — Codex 单赛题工作空间
 
-- 新增 `references/python-visualization-policy.md`，把原本原则性的“Python 专业图表”升级为完整科学可视化系统。
-- 图表采用 A/B/C 三级：A 级核心结果图、B 级诊断/验证图、C 级探索图；禁止规定每问固定图数，删除后不影响理解/验证/决策的图通常视为装饰。
-- 中文论文候选图默认中文标题、坐标轴、图例、注释和单位；新增跨 Windows/Linux/macOS 的真实字体检测与回退，禁止只硬编码 SimHei；新增 `CHINESE_FONT_RENDERING_FAILED`。
-- 新增预测、评价、优化、TSP/VRP、聚类、Monte Carlo、敏感性/鲁棒性等题型的推荐图表映射，但明确不是机械强制。
-- 鼓励有真实信息密度的复合 Figure、inset、共享坐标轴和主结果+诊断组合，继续禁止无意义 3D、渐变、发光、彩虹色和装饰性复杂图。
-- 启发式算法若支撑最终结论，应保存真实迭代历史和适当的收敛/重复实验稳定性证据；缺失时标记 `OPTIMIZATION_CONVERGENCE_EVIDENCE_MISSING`。
-- 推荐公共 `visualization.py` / `table_export.py`，统一中文字体、DPI、布局、保存和结果表导出，避免各问题复制不同绘图配置。
-- 正式论文候选图建议 PNG + SVG，PNG 默认不少于 300 DPI，并以真实 A4 插图尺寸检查；新增 `PAPER_FIGURE_READABILITY_FAILED`。
-- 升级结果表格系统：普通 DataFrame 优先 `CSV/XLSX → Word 原生表格`，不默认截图；相关/混淆/敏感性/场景/分配等二维结构矩阵才优先 heatmap。
-- 新增 `VISUALIZATION_MANIFEST.md` 机制，建立 `论文图号 ↔ 图文件 ↔ 问题 ↔ 数据源 ↔ 生成代码 ↔ 支撑结论` 的完整证据链。
-- 新增 Visual QA，检查真实生成、中文字体、坐标轴、单位、图例、遮挡、裁切、论文尺寸可读性和数据一致性；严重失败标记 `VISUALIZATION_QA_FAILED`。
-- 最终参考论文原则上增加真实整题建模框架图，使用 Graphviz / Mermaid / Matplotlib patches / NetworkX 等确定性方式生成，禁止生成式 AI 图片替代。
-- Stage 1 继续保持克制，仅生成会改变模型选择、数据理解或风险判断的 C 级探索图；Stage 2 才建立完整正式可视化计划。
-- 更新逐题和一次性求解模板，加入 A/B/C 图表计划、核心/明细表、Manifest、Visual QA、输出目录和启发式算法收敛证据。
-- 强化参考论文选图：禁止 Stage 1 旧图、已替换模型旧图、手画类似结果图；论文图必须从最终 Manifest 选择并与 Python 真实结果一致。
-- 强化终稿复审：增加中文图表、坐标轴/单位/图例、字体乱码、论文尺寸、旧版本图、图中数值/趋势和 Manifest 追溯检查。
-- 把原“四包最终交付”明确重定义为 `INTERNAL_DELIVERY`：`题目详解.zip / 参考论文.zip / 源码.zip / 其他.zip` 仅用于队伍内部学习、审核、复现、人工写论文与留档，不再等同于官方提交。
-- 新增 `references/official-submission-policy.md`：正式比赛在终稿复审后必须重新核验当年官方、赛区和提交系统最新规则，再进入 `OFFICIAL_SUBMISSION_EXPORT`；禁止长期写死某一年文件名、页数、支撑材料结构或 AI 使用说明格式。
-- `AI_USAGE_LOG.md` 明确为内部完整真实日志；官方 AI 使用说明必须根据当年最新规则从内部日志导出，不得伪造、删改真实使用记录。
-- 官方导出失败状态新增 `OFFICIAL_SUBMISSION_EXPORT_FAILED`。
-- 同步更新 `SKILL.md`、`agents/openai.yaml`、输出规范、探索规范、完整分析协议、求解模式、内部交付、参考论文、终稿复审和相关模板，修复旧规则把 `FINAL_DELIVERY` / 四包误当成官方终点的概念冲突。
+- 一个根目录只对应一道赛题。
+- 原题、raw、processed、external、代码、结果、论文、资料和临时文件分层管理。
+- 用户已有结构和明确要求优先，不破坏性整理原文件。
 
-## v8 — 探索性研究、双解题模式与第一阶段交互重构
+## v10.1 — 逐题确认与真实外部数据
 
-- 第一阶段从“纯理论预分析”升级为“深读题 + 探索性研究 + 路线决策”。
-- 新增 `references/exploratory-research.md`：允许 Codex/本地环境在 Stage 1 使用轻量 Python 做 EDA、数据质量检查、趋势/季节性分析、baseline、可行域/规模分析和候选模型前提验证。
-- 候选模型推荐分必须吸收探索证据；探索推翻初判时主动更新评分，不允许为了维持第一次判断忽略数据。
-- 第一阶段输出大幅瘦身：每问使用清晰的 `# 问题一 / # 问题二 / ...`，问题之间用 `---` 分割，取消大量 `1.1 / 4.2 / 6.3` 式深层数字标题。
-- 每问默认展示“一句话判断 → 核心思路 → 关键探索证据 → 候选方案 → 推荐/备用/切换条件”，只展示真正影响路线的证据。
-- 整题路线由“至少三条”改为“通常 2–3 条，以真正有意义为准”，禁止为了数量制造弱路线。
-- 新增 `references/solve-modes.md`，第一阶段完成后若用户未提前指定，AI 必须让用户明确选择第二阶段执行方式，禁止自行替用户决定。
-- 新增模式 A `STAGE_2_QUESTION_BY_QUESTION`：逐题深度求解，适合 Codex/本地执行。
-- 新增模式 B `STAGE_2_ONE_PASS`：一次性完整求解，适合 Chat 或队伍前期快速获取整题参考。
-- 新增 `assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md`：每一问完整执行“要求回查 → 上下关联探索 → 问题级探索 → 模型 → Python → 实际结果 → 验证 → 代码解析 → 本问资料/文献 → 本问答案 → 下一问交接”。
-- 逐题模式强化跨问题关联：每进入新问题都重新检查上一问真实结果、本问输入输出、下一问需求，以及当前证据是否需要回头修订接口/参数/假设。
-- 逐题模式默认每问完成后暂停询问是否继续；用户可明确要求自动连续执行而不暂停。
-- 每一问都要求输出代码解析与本问相关资料/文献信息，不再等最后统一回填。
-- 全部问题完成后新增 Requirement Traceability：重新读取原题，逐条核对动作词、子要求、边界、单位、输出格式以及对应代码/结果；未完成回查不得进入最终参考论文和 `FINAL_DELIVERY`。
-- 扩展 `MODELING_DECISION_STATE_TEMPLATE.md`，记录解题模式、当前问题、已完成问题、探索证据与逐问交接。
-- 同步更新主 `SKILL.md`、一次性求解模板和 `agents/openai.yaml`，确保探索研究、模式选择和清爽交互不会被旧规则覆盖。
+- 每问先研究和讨论，用户确认后再写最终代码、Final Run、图表和教程。
+- 现实数据缺失时主动检索权威来源，找不到就报告，禁止编造。
+- 中国现实背景优先使用本土官方统计、对象官网、国内标准和应用研究。
 
-## v7 — 参考论文撰写与参考文献链接核验修复
+## v10.0 — Evidence-first Figure、Run Ledger 与一致性
 
-- 修复 `参考论文.zip` 被错误理解为“外部论文原文包”的核心语义问题。
-- 重新定义“参考论文”：由 AI 针对本次赛题，基于最终锁定路线、真实 Python 运行结果、最终图表和已核验参考文献认真撰写的完整数学建模成果论文。
-- `参考论文.zip` 默认必须包含 AI 自写论文的 `.docx + .pdf` 两个正式版本，不得因为外部论文全文无法下载而留空。
-- 明确“参考论文”和“参考文献”是两个不同概念：前者是最终成果论文，后者是论文引用的真实外部证据。
-- 新增 `references/reference-paper-writing.md`，规定参考论文内容结构、与源码/结果一致性、Word/PDF 生成与论文模板优先规则。
-- 最终参考论文成为 Markdown-only 规则的明确例外；教程、README、日志、决策记录等普通文本交付仍统一使用 UTF-8 Markdown。
-- 强化参考文献 URL 核验：禁止猜测/拼接 URL、编造 DOI、把搜索结果页当正式链接。
-- 新增链接状态：`PAGE_VERIFIED`、`DOWNLOAD_VERIFIED`、`METADATA_ONLY`、`PAYWALLED`、`DOWNLOAD_UNVERIFIED`、`BROKEN_LINK`、`REJECTED`。
-- 只有经过 `DOWNLOAD_VERIFIED` 的链接才允许标记为“可下载”。
-- 重要参考文献出现打不开、下载失败、付费、DOI 不匹配、只能看摘要等问题时，AI 必须尝试替代来源；仍无法解决时必须主动反馈用户，并记录到 `其他.zip/文献与来源/文献问题反馈.md`。
-- 同步修正 `SKILL.md`、第二阶段模板、两阶段工作流、最终打包规范、来源核验政策、输出规范与 Agent 默认提示，避免规则互相覆盖。
+- 每张正式图先明确结论、主证据、panel、数据、Run 和不确定性。
+- 每问冻结 `FINAL_RUN_ID`，旧结果标记 `SUPERSEDED`。
+- 新增跨代码、结果、图表、教程和论文的一致性扫描与 ripple check。
 
-## v6 — Python 图表与 Markdown 文档规范
+## v9.0 — Python 可视化与官方提交导出
 
-- 默认禁止使用 AI 图片生成工具；只有用户明确提出生成、设计或风格化图片需求时才允许例外。
-- 数学建模中的统计图、预测图、误差图、敏感性图、热力图、相关性图、路径图、网络图、Pareto 前沿、仿真图和模型诊断图等，默认必须由 Python 根据真实数据、模型结果或确定结构生成。
-- 新增专业图表标准：标题、坐标轴、单位、图例、分辨率、必要注释与可复现性完整，同时禁止无意义 3D、渐变、发光、过多颜色、曲线、标记和信息堆叠。
-- 新增 `references/output-artifact-policy.md`，统一管理图片工具、Python 图表和文档格式规则。
-- 除最终参考论文这一正式成果例外外，AI 自行创建的教程、README、AI 使用说明、建模决策、文献账本、数据来源、运行环境等文本型文件统一使用 UTF-8 Markdown（`.md`）。
-- Markdown 强制采用 AI-friendly 结构：稳定标题层级、LaTeX 公式、标明语言的代码块、显式源码/输出路径，并避免依赖图片才能理解核心模型。
+- 建立 A/B/C 图表分级、中文字体回退、Manifest、Visual QA 和启发式算法收敛证据。
+- 内部四包与官方上传文件分开；官方提交格式按当年规则重新核验。
 
-## v5 — 最终源码、教程与四包交付
+## v8 — 探索性研究与双解题模式
 
-- 调整代码边界：第一阶段仍不生成最终可执行代码；路线确认后的第二阶段必须把锁定方案落实为完整 Python 实现。
-- 第二阶段在工具允许时实际运行关键 Python 入口，保存关键图片、表格和必要中间结果，并修复明显错误。
-- 新增逐问教学材料要求：教程必须从题意、模型、公式一路对应到最终源码、运行命令、输出解释、验证和论文表达。
-- 新增 `FINAL_DELIVERY` 最终状态。
-- 新增 `references/final-delivery-packaging.md`，统一规定最终交付目录与打包验收。
-- 最终交付固定为四个 ZIP：`题目详解.zip`、`参考论文.zip`、`源码.zip`、`其他.zip`。
-- `源码.zip` 强制按实际赛题编号和问题编号组织，并包含 Python 代码、依赖、必要数据和代码生成的图片/表格/中间结果。
-- `其他.zip` 集中保存 AI 使用说明、人工复核、建模决策、路线变更、文献账本、数据来源和运行环境等材料。
-- 子问题数量始终按实际题面调整，不机械固定为三问。
+- Stage 1 增加 EDA、baseline、模型前提和候选评分。
+- 支持逐题深解与一次性完整求解。
+- 全题完成后建立 Requirement Traceability。
 
-## v4 — README 与项目可发现性优化
+## v7 — 参考论文与文献核验
 
-- 重构 README 首页，让项目定位、核心价值和使用流程能够在首屏快速理解。
-- 新增中英文检索关键词，覆盖 CUMCM、数学建模、Mathematical Modeling、Optimization、Time Series、Sensitivity Analysis、Robustness Analysis 等主题。
-- 新增项目徽章、Quick Start、适用任务、两阶段 Mermaid 工作流、100 分评分体系和与普通 AI 建模回答的差异说明。
-- 强化“逐问核心思路 → 候选解法评分 → 本问推荐 → 整体路线”的核心卖点。
-- 优化 `agents/openai.yaml` 的展示名称、简短描述和默认提示，使其与当前逐问分析工作流保持一致。
+- 明确 `参考论文.zip` 是 AI 针对本题撰写的内部参考成果，不是外部论文包。
+- 参考论文默认包含 DOCX 和 PDF；文献 DOI、URL 与下载状态必须真实核验。
 
-## v3 — AI 主动检索与持续论文审查
+## v6 — Python 图表与 Markdown 文档
 
-- 修正首轮文献与数据检索的职责设计。
-- 第一阶段要求 AI 在可用工具范围内主动完成首轮真实文献、数据来源和参数依据检索。
-- 只有在无法联网、无法读取全文或证据不足时，才列出待补证据缺口和检索式。
-- 团队后续提供的论文作为持续补充证据，可在任何阶段进入审查流程。
-- 每篇论文仍需诚实给出核验层级、具体帮助、推荐指数和对当前路线的影响。
-- 禁止虚构文献，也禁止把首轮检索责任默认外包。
+- 科学结果图默认由 Python 等确定性工具生成。
+- 普通文本成果使用 UTF-8 Markdown，教程公式使用规范 LaTeX。
 
-## v2 — 两阶段工作流
+## v5 及更早
 
-- 新赛题默认先输出题目背景、拆题、各问推荐解法和算法总览。
-- 第一阶段结束后停在等待确认状态，不自动进行完整求解。
-- 用户确认后，第二阶段按锁定路线一次性解决全部问题。
-- 新增路线锁定、重开条件和跨会话状态模板。
-- 队友提交新论文时，必须判断是否影响各问方法、推荐指数或整体路线。
+- 建立 Python 实跑、逐问教程、内部四包、两阶段路线、首轮文献检索和候选方案评分等基础能力。
+- 完整历史可通过 Git 提交记录查看。
