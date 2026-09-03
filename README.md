@@ -4,6 +4,12 @@
   <img src="assets/readme-showcase/hero-cumcm-modeling-analyst.svg" alt="CUMCM Modeling Analyst：从题面、数据与模型走到可复核的结论" width="100%" />
 </p>
 
+<p align="center">
+  <a href="assets/readme-showcase/cumcm-readme-workflow.svg">
+    <img src="assets/readme-showcase/cumcm-readme-workflow.svg" alt="CUMCM Modeling Analyst 工作流程图：从阅读题目到生成 AI 内部参考论文" width="100%" />
+  </a>
+</p>
+
 <div align="center">
 
 # CUMCM Modeling Analyst
