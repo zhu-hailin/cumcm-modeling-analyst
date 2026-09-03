@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1580" role="img" aria-labelledby="title desc">
+<title id="title">CUMCM Modeling Analyst 工作流程图</title>
+<desc id="desc">从阅读题目与附件，到安全审计、Stage 1 分析、Stage 2 求解、论文证据蓝图和 AI 内部参考论文的完整工作流程。</desc>
+<defs>
+  <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#577b80" stroke-opacity=".07"/></pattern>
+  <marker id="arrow" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" refX="13" refY="7" orient="auto"><path d="M0 0l14 7-14 7z" fill="#0c6570"/></marker>
+  <style>
+    svg{font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",Arial,sans-serif;fill:#163746}text{font-family:inherit}
+    .title{font-size:54px;font-weight:800}.subtitle{font-size:27px;font-weight:750;fill:#0c6570}.note{font-size:18px;fill:#60747a}
+    .phase{font-size:27px;font-weight:800;fill:#fff}.phaseSub{font-size:19px;font-weight:650;fill:#fff}
+    .card{fill:#fff;stroke-width:2}.cardTitle{font-size:25px;font-weight:800}.body{font-size:16px}.small{font-size:14px;fill:#60747a}.tiny{font-size:12px}.mono{font-family:Consolas,"SFMono-Regular",monospace}
+    .num{font-size:21px;font-weight:800;fill:#fff;text-anchor:middle}.center{text-anchor:middle}.bold{font-weight:750}.muted{fill:#60747a}
+    .line{fill:none;stroke-linecap:round;stroke-linejoin:round}.flow{fill:none;stroke-width:5;marker-end:url(#arrow)}
+    .teal{stroke:#147d84}.green{stroke:#2f8f5b}.blue{stroke:#1f6fa3}.purple{stroke:#6254a6}
+    .tealFill{fill:#147d84}.greenFill{fill:#2f8f5b}.blueFill{fill:#1f6fa3}.purpleFill{fill:#6254a6}
+    .softTeal{fill:#eff8f6}.softGreen{fill:#f0f8f2}.softBlue{fill:#f1f7fa}.softPurple{fill:#f7f4fc}.softGold{fill:#faf8f1}
+  </style>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6" class="line" fill="none" stroke="currentColor" stroke-width="3"/></symbol>
+  <symbol id="doc" viewBox="0 0 80 100"><path d="M10 3h43l17 17v77H10z" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M53 3v18h17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 41h38M20 55h38M20 69h28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="sheet" viewBox="0 0 110 86"><rect x="3" y="3" width="104" height="80" rx="5" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M3 22h104M29 22v61M55 22v61M81 22v61M3 42h104M3 62h104" stroke="currentColor" stroke-opacity=".35" stroke-width="2"/><path d="M69 72V53h9v19m6 0V42h9v30m-36 0V61h9v11" fill="currentColor" opacity=".75"/></symbol>
+  <symbol id="search" viewBox="0 0 72 72"><circle cx="30" cy="30" r="21" fill="none" stroke="currentColor" stroke-width="5"/><path d="M46 46l19 19" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
+  <symbol id="shield" viewBox="0 0 100 116"><path d="M50 4L91 23l-6 55Q73 101 50 112 27 101 15 78L9 23z" fill="none" stroke="currentColor" stroke-width="5"/><path d="M29 61l15 15 29-34" class="line" fill="none" stroke="currentColor" stroke-width="6"/></symbol>
+  <symbol id="person" viewBox="0 0 90 90"><circle cx="45" cy="26" r="17" fill="currentColor"/><path d="M16 80q4-34 29-34t29 34z" fill="currentColor"/></symbol>
+  <symbol id="paper" viewBox="0 0 115 145"><path d="M8 4h75l24 24v113H8z" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M83 4v25h24" fill="none" stroke="currentColor" stroke-width="3"/><path d="M21 43h70M21 58h70M21 73h56M21 92h70M21 107h63M21 122h45" stroke="currentColor" stroke-opacity=".42" stroke-width="3" stroke-linecap="round"/></symbol>
+</defs>
+
+<rect width="2400" height="1580" rx="28" fill="#f7faf8"/>
+<rect width="2400" height="1580" rx="28" fill="url(#grid)"/>
+<circle cx="2110" cy="150" r="330" fill="#d7efeb" opacity=".25"/><circle cx="250" cy="1280" r="280" fill="#e6ebf7" opacity=".2"/>
+
+<!-- Header -->
+<g>
+  <rect x="38" y="30" width="286" height="116" rx="17" class="softTeal" stroke="#147d84" stroke-width="2"/>
+  <text x="58" y="60" font-size="19" font-weight="800" fill="#0c6570">示例题目主题</text>
+  <g transform="translate(60 76)" stroke="#163746" fill="none" stroke-width="3"><circle cx="24" cy="24" r="17"/><circle cx="72" cy="24" r="17"/><path d="M24 24l20-30 14 30H24zm20-30h28l0 30M37-6h14" class="line"/></g>
+  <text x="162" y="92" font-size="21" font-weight="800"><tspan x="162">共享单车</tspan><tspan x="162" dy="27">需求预测与调度</tspan></text>
+  <text id="mainTitle" class="title center" x="1360" y="75">CUMCM Modeling Analyst 工作流程图</text>
+  <path d="M720 108h180m920 0h180" class="line teal" stroke-width="3"/><circle cx="912" cy="108" r="5" class="tealFill"/><circle cx="1808" cy="108" r="5" class="tealFill"/>
+  <text class="subtitle center" x="1360" y="122">从阅读题目到生成 AI 内部参考论文的完整链路</text>
+  <g transform="translate(945 137)" color="#147d84"><use href="#shield" width="24" height="29"/></g>
+  <text class="note center" x="1370" y="158">AI 生成的参考论文禁止直接提交，需队员理解、核查并人工重写</text>
+</g>
+
+<!-- Phase containers -->
+<g>
+  <rect x="34" y="188" width="2332" height="290" rx="22" fill="#fff" stroke="#147d84" stroke-width="2.3"/>
+  <path d="M56 188h160v290H56q-22 0-22-22V210q0-22 22-22z" class="tealFill"/><text class="phase center" x="125" y="236"><tspan x="125">A. 输入</tspan><tspan x="125" dy="32">与审计</tspan></text>
+  <g transform="translate(93 302)" stroke="#fff" fill="none" stroke-width="4"><rect width="64" height="62" rx="8"/><path d="M12 0q0-38 20-38T52 0"/><circle cx="32" cy="28" r="5" fill="#fff"/><path d="M32 33v14"/></g>
+  <text class="phaseSub center" x="125" y="418"><tspan x="125">安全合规</tspan><tspan x="125" dy="25">可信输入</tspan></text>
+
+  <rect x="34" y="504" width="2332" height="290" rx="22" fill="#fff" stroke="#2f8f5b" stroke-width="2.3"/>
+  <path d="M56 504h160v290H56q-22 0-22-22V526q0-22 22-22z" class="greenFill"/><text class="phase center" x="125" y="552"><tspan x="125">B. Stage 1</tspan><tspan x="125" dy="32">分析</tspan></text>
+  <g transform="translate(82 620)" stroke="#fff" fill="none" stroke-width="4"><path d="M0 70V0m0 70h84" class="line"/><path d="M12 56l19-20 18 9 27-34" class="line"/><circle cx="12" cy="56" r="4" fill="#fff"/><circle cx="31" cy="36" r="4" fill="#fff"/><circle cx="49" cy="45" r="4" fill="#fff"/><circle cx="76" cy="11" r="4" fill="#fff"/></g>
+  <text class="phaseSub center" x="125" y="736"><tspan x="125">理解数据</tspan><tspan x="125" dy="25">探索路线</tspan></text>
+
+  <rect x="34" y="820" width="2332" height="290" rx="22" fill="#fff" stroke="#1f6fa3" stroke-width="2.3"/>
+  <path d="M56 820h160v290H56q-22 0-22-22V842q0-22 22-22z" class="blueFill"/><text class="phase center" x="125" y="868"><tspan x="125">C. Stage 2</tspan><tspan x="125" dy="32">求解</tspan></text>
+  <g transform="translate(84 927)" stroke="#fff" fill="none"><circle cx="42" cy="42" r="36" stroke-width="4"/><circle cx="42" cy="42" r="21" stroke-width="4"/><circle cx="42" cy="42" r="6" fill="#fff"/><path d="M49 35l36-36" stroke-width="5" stroke-linecap="round"/><path d="M85-1l-13 2 12 12z" fill="#fff"/></g>
+  <text class="phaseSub center" x="125" y="1050"><tspan x="125">建立模型</tspan><tspan x="125" dy="25">求解输出</tspan></text>
+
+  <rect x="34" y="1136" width="2332" height="342" rx="22" fill="#fff" stroke="#6254a6" stroke-width="2.3"/>
+  <path d="M56 1136h160v342H56q-22 0-22-22v-298q0-22 22-22z" class="purpleFill"/><text class="phase center" x="125" y="1183"><tspan x="125">D. 论文证据</tspan><tspan x="125" dy="32">与参考论文</tspan></text>
+  <g transform="translate(92 1240)" color="#fff"><use href="#paper" width="72" height="92"/></g>
+  <text class="phaseSub center" x="125" y="1407"><tspan x="125">证据闭环</tspan><tspan x="125" dy="25">生成论文</tspan></text>
+</g>
+
+<!-- A cards -->
+<g>
+  <g transform="translate(236 207)"><rect class="card" width="500" height="252" rx="16" stroke="#b7cfcd"/><circle cx="42" cy="42" r="22" class="tealFill"/><text class="num" x="42" y="50">1</text><text class="cardTitle" x="77" y="50">阅读题目与附件</text>
+    <g transform="translate(55 77)" color="#147d84"><use href="#doc" width="80" height="100"/><rect x="7" y="8" width="34" height="20" rx="5" fill="#e64d57"/><text x="24" y="23" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">PDF</text></g>
+    <g transform="translate(242 86)" color="#2f8f5b"><use href="#sheet" width="130" height="100"/><text x="65" y="-7" class="small center" font-weight="700">data.xlsx</text></g>
+    <g transform="translate(156 110)" color="#163746"><use href="#search" width="72" height="72"/></g>
+    <text class="small center" x="250" y="224">PDF 题面 · Excel 附件 · 放大镜</text>
+  </g>
+  <path d="M742 333h24" class="flow teal"/>
+  <g transform="translate(776 207)"><rect class="card" width="500" height="252" rx="16" stroke="#b7cfcd"/><circle cx="42" cy="42" r="22" class="tealFill"/><text class="num" x="42" y="50">2</text><text class="cardTitle" x="77" y="50">安全审计</text>
+    <rect x="48" y="80" width="205" height="118" rx="10" class="softTeal" stroke="#9fc3c1" stroke-width="1.5"/><text x="65" y="108" class="body bold">SHA-256</text><text x="65" y="132" class="body mono">a4f2…9c7b</text><text x="65" y="158" class="small">文件完整性校验</text><text x="65" y="181" class="small">隐藏对象 / 宏 / 外链</text>
+    <g color="#2f8f5b"><use href="#check" x="222" y="144" width="20" height="20"/><use href="#check" x="222" y="168" width="20" height="20"/></g><g transform="translate(315 76)" color="#147d84"><use href="#shield" width="105" height="122"/></g>
+    <text class="small center" x="250" y="224">哈希校验 · 隐藏对象检查 · 警示盾牌</text>
+  </g>
+  <path d="M1282 333h24" class="flow teal"/>
+  <g transform="translate(1316 207)"><rect class="card" width="500" height="252" rx="16" stroke="#b7cfcd"/><circle cx="42" cy="42" r="22" class="tealFill"/><text class="num" x="42" y="50">3</text><text class="cardTitle" x="77" y="50">深读题意与数据结构识别</text>
+    <text x="45" y="86" class="small bold">动作词识别</text><g class="softTeal" stroke="#b7cfcd"><rect x="45" y="96" width="72" height="28" rx="14"/><rect x="128" y="96" width="72" height="28" rx="14"/><rect x="211" y="96" width="72" height="28" rx="14"/><rect x="294" y="96" width="72" height="28" rx="14"/></g><g class="tiny center"><text x="81" y="115">预测</text><text x="164" y="115">调度</text><text x="247" y="115">优化</text><text x="330" y="115">评估</text></g>
+    <path d="M54 184l25-26 22 11 23-30 26 12 26-31" class="line teal" stroke-width="3"/><g fill="#fff" stroke="#147d84" stroke-width="2"><circle cx="54" cy="184" r="4"/><circle cx="79" cy="158" r="4"/><circle cx="101" cy="169" r="4"/><circle cx="124" cy="139" r="4"/><circle cx="150" cy="151" r="4"/><circle cx="176" cy="120" r="4"/></g>
+    <rect x="218" y="139" width="76" height="56" rx="7" fill="#f5faf9" stroke="#9fc3c1"/><path d="M226 185l18-25 15 14 25-28" class="line teal" stroke-width="2"/>
+    <path d="M342 143v44m-30-22h60m-47 0l-13 22h26zm34 0l-13 22h26z" class="line teal" stroke-width="3"/>
+    <text class="small center" x="250" y="224">动作词 · 时序 / 空间 / 优化结构标签</text>
+  </g>
+  <path d="M1822 333h24" class="flow teal"/>
+  <g transform="translate(1856 207)"><rect class="card" width="486" height="252" rx="16" stroke="#b7cfcd"/><circle cx="42" cy="42" r="22" class="tealFill"/><text class="num" x="42" y="50">4</text><text class="cardTitle" x="77" y="50">模式与溯源设置</text>
+    <rect x="43" y="83" width="180" height="112" rx="11" class="softGreen" stroke="#a5cfb3"/><text class="body bold center" x="133" y="110" fill="#2f8f5b">LIVE_RESEARCH</text><text class="small center" x="133" y="134">检索增强</text><circle cx="133" cy="165" r="20" fill="none" stroke="#2f8f5b" stroke-width="2"/><path d="M113 165h40m-20-20q-12 20 0 40m0-40q12 20 0 40" class="line green" stroke-width="1.5"/>
+    <rect x="263" y="83" width="180" height="112" rx="11" fill="#f6f7f8" stroke="#bcc8cc"/><text class="body bold center" x="353" y="110">BLIND_BENCHMARK</text><text class="small center" x="353" y="134">盲测基准</text><path d="M326 166q27-28 54 0-27 28-54 0zm13 0l28-28" class="line" stroke="#6d7d82" stroke-width="2.5"/>
+    <rect x="204" y="145" width="78" height="36" rx="18" fill="#fff" stroke="#147d84" stroke-width="2"/><circle cx="261" cy="163" r="14" class="tealFill"/>
+    <text class="small center" x="243" y="224">LIVE_RESEARCH / BLIND_BENCHMARK 双分支</text>
+  </g>
+</g>
+
+<!-- Row transitions -->
+<path d="M2110 464v23H238v8" class="flow teal" stroke-dasharray="9 8" stroke-width="3"/>
+<path d="M2110 780v23H238v8" class="flow green" stroke-dasharray="9 8" stroke-width="3"/>
+<path d="M2110 1096v23H238v8" class="flow blue" stroke-dasharray="9 8" stroke-width="3"/>
+
+<!-- B cards -->
+<g>
+  <g transform="translate(236 523)"><rect class="card" width="700" height="252" rx="16" stroke="#b7d7c1"/><circle cx="42" cy="42" r="22" class="greenFill"/><text class="num" x="42" y="50">5</text><text class="cardTitle" x="77" y="50">Stage 1：机制探索 + EDA + baseline</text>
+    <text x="42" y="85" class="small bold">小时级需求（示例站点）</text><path d="M42 191V105m0 86h202" class="line" stroke="#9fb4b8" stroke-width="1.5"/><path d="M42 176l28-25 29 12 27-39 29 16 30-31 29 13 30-28" class="line green" stroke-width="3.5"/><g fill="#fff" stroke="#2f8f5b" stroke-width="2"><circle cx="42" cy="176" r="4"/><circle cx="70" cy="151" r="4"/><circle cx="99" cy="163" r="4"/><circle cx="126" cy="124" r="4"/><circle cx="155" cy="140" r="4"/><circle cx="185" cy="109" r="4"/><circle cx="214" cy="122" r="4"/><circle cx="244" cy="94" r="4"/></g>
+    <text x="290" y="85" class="small bold">站点流动热力图</text><g transform="translate(300 99)"><rect width="104" height="92" fill="#eef6f4" stroke="#b7cfcd"/><g fill="#2d7ca3"><rect x="0" y="0" width="26" height="23" opacity=".18"/><rect x="26" y="0" width="26" height="23" opacity=".4"/><rect x="52" y="0" width="26" height="23" opacity=".7"/><rect x="78" y="0" width="26" height="23" opacity=".3"/><rect x="0" y="23" width="26" height="23" opacity=".5"/><rect x="26" y="23" width="26" height="23" opacity=".9"/><rect x="52" y="23" width="26" height="23" opacity=".55"/><rect x="78" y="23" width="26" height="23" opacity=".25"/><rect x="0" y="46" width="26" height="23" opacity=".75"/><rect x="26" y="46" width="26" height="23" opacity=".6"/><rect x="52" y="46" width="26" height="23" opacity=".32"/><rect x="78" y="46" width="26" height="23" opacity=".82"/><rect x="0" y="69" width="26" height="23" opacity=".25"/><rect x="26" y="69" width="26" height="23" opacity=".48"/><rect x="52" y="69" width="26" height="23" opacity=".68"/><rect x="78" y="69" width="26" height="23" opacity=".4"/></g></g>
+    <text x="458" y="85" class="small bold">baseline 框图</text><g class="softTeal" stroke="#b7cfcd"><rect x="468" y="99" width="184" height="34" rx="7"/><rect x="468" y="143" width="184" height="34" rx="7"/><rect x="468" y="187" width="184" height="28" rx="7"/></g><text class="tiny center" x="560" y="121">X（特征）</text><text class="tiny center" x="560" y="165">基线模型</text><text class="tiny center" x="560" y="206">预测值 ŷ</text><path d="M560 133v8m0 36v8" class="flow green" stroke-width="2"/>
+    <text class="small center" x="350" y="231">时间序列折线图 · 热力图 · 透明 baseline</text>
+  </g>
+  <path d="M942 649h24" class="flow green"/>
+  <g transform="translate(976 523)"><rect class="card" width="700" height="252" rx="16" stroke="#b7d7c1"/><circle cx="42" cy="42" r="22" class="greenFill"/><text class="num" x="42" y="50">6</text><text class="cardTitle" x="77" y="50">候选路线比较与推荐</text>
+    <g><rect x="35" y="82" width="190" height="126" rx="11" fill="#fafcfc" stroke="#b7cfcd"/><rect x="255" y="76" width="190" height="138" rx="11" class="softGreen" stroke="#2f8f5b" stroke-width="3"/><rect x="475" y="82" width="190" height="126" rx="11" fill="#fafcfc" stroke="#b7cfcd"/></g>
+    <text class="body bold center" x="130" y="108">路线 A</text><text class="tiny center" x="130" y="130"><tspan x="130">时空图网络</tspan><tspan x="130" dy="17">+ 时序预测</tspan></text><path d="M87 169l35-25 39 30 22-41" class="line green" stroke-width="2.5"/><g fill="#fff" stroke="#2f8f5b" stroke-width="2"><circle cx="87" cy="169" r="5"/><circle cx="122" cy="144" r="5"/><circle cx="161" cy="174" r="5"/><circle cx="183" cy="133" r="5"/></g>
+    <text class="body bold center" x="350" y="105" fill="#2f8f5b">路线 B（推荐）</text><text class="tiny center" x="350" y="127"><tspan x="350">预测 + 调度</tspan><tspan x="350" dy="17">MILP / 启发式</tspan></text><path d="M282 177l25-18 22 5 26-31" class="line green" stroke-width="3"/><rect x="376" y="161" width="44" height="25" rx="4" class="greenFill"/><circle cx="387" cy="189" r="6" class="greenFill"/><circle cx="410" cy="189" r="6" class="greenFill"/>
+    <text class="body bold center" x="570" y="108">路线 C</text><text class="tiny center" x="570" y="130"><tspan x="570">端到端模型</tspan><tspan x="570" dy="17">Seq2Seq</tspan></text><path d="M525 173l44-39 48 40" class="line purple" stroke-width="2.5"/><circle cx="525" cy="173" r="6" fill="#fff" stroke="#6254a6" stroke-width="2"/><circle cx="569" cy="134" r="6" fill="#fff" stroke="#6254a6" stroke-width="2"/><circle cx="617" cy="174" r="6" fill="#fff" stroke="#6254a6" stroke-width="2"/>
+    <g fill="#e9ad27" font-size="18"><text x="75" y="202">★★★★☆</text><text x="295" y="206">★★★★★</text><text x="515" y="202">★★★☆☆</text></g><text class="small center" x="350" y="232">只比较真正存在决策差异的 1–3 条路线</text>
+  </g>
+  <path d="M1682 649h24" class="flow green"/>
+  <g transform="translate(1716 523)"><rect class="card" width="626" height="252" rx="16" stroke="#b7d7c1"/><circle cx="42" cy="42" r="22" class="greenFill"/><text class="num" x="42" y="50">7</text><text class="cardTitle" x="77" y="50">用户确认整题路线 / 逐题模式</text>
+    <g transform="translate(48 89)" color="#147d84"><use href="#person" width="64" height="64"/></g><rect x="145" y="79" width="300" height="70" rx="12" fill="#fff" stroke="#9fc3c1" stroke-width="1.5"/><path d="M145 119l-18 12 18 2" fill="#fff" stroke="#9fc3c1" stroke-width="1.5"/><text class="body bold center" x="295" y="105"><tspan x="295">确认采用路线 B</tspan><tspan x="295" dy="22">作为全题主路线？</tspan></text>
+    <path d="M490 114l27-27 27 27-27 27z" fill="#eff8f6" stroke="#2f8f5b" stroke-width="2"/><g color="#2f8f5b"><use href="#check" x="505" y="101" width="24" height="24"/></g>
+    <rect x="135" y="175" width="205" height="42" rx="9" class="softGreen" stroke="#2f8f5b"/><rect x="360" y="175" width="205" height="42" rx="9" fill="#f6f7f8" stroke="#b7cfcd"/><text class="small bold center" x="237" y="201" fill="#2f8f5b">整题统一路线（推荐）</text><text class="small bold center" x="462" y="201">逐题独立选择</text>
+    <text class="small center" x="313" y="235">确认对话 · 决策节点 · 求解模式</text>
+  </g>
+</g>
+
+<!-- C cards -->
+<g>
+  <g transform="translate(236 839)"><rect class="card" width="700" height="252" rx="16" stroke="#b8d0df"/><circle cx="42" cy="42" r="22" class="blueFill"/><text class="num" x="42" y="50">8</text><text class="cardTitle" x="77" y="50">Stage 2：正式求解</text>
+    <g><rect x="36" y="82" width="195" height="130" rx="10" class="softBlue" stroke="#b8d0df"/><rect x="252" y="82" width="195" height="130" rx="10" class="softBlue" stroke="#b8d0df"/><rect x="468" y="82" width="195" height="130" rx="10" class="softBlue" stroke="#b8d0df"/></g>
+    <text class="body bold" x="50" y="108">Q1 需求预测</text><text class="small mono" x="50" y="132">y_t=f(X_t)+e_t</text><path d="M54 189v-43m0 43h150" class="line" stroke="#9fb4b8"/><path d="M54 181l25-22 28 9 27-28 29 15 31-26" class="line blue" stroke-width="3"/>
+    <text class="body bold" x="266" y="108">Q2 调度优化</text><text class="small mono" x="266" y="132">min Σ c_ij x_ij</text><text class="tiny" x="266" y="151">s.t. 容量 / 守恒 / 时间窗</text><path d="M297 184l39-28 40 35 30-48" class="line blue" stroke-width="2.5"/><g fill="#fff" stroke="#1f6fa3" stroke-width="2"><circle cx="297" cy="184" r="5"/><circle cx="336" cy="156" r="5"/><circle cx="376" cy="191" r="5"/><circle cx="406" cy="143" r="5"/></g>
+    <text class="body bold" x="482" y="108">Q3 策略评估</text><text class="tiny" x="482" y="132"><tspan x="482">覆盖率 · 缺供率</tspan><tspan x="482" dy="17">周转率 · 碳排放</tspan></text><g fill="#2d7ca3"><rect x="515" y="170" width="18" height="28"/><rect x="545" y="150" width="18" height="48"/><rect x="575" y="163" width="18" height="35"/><rect x="605" y="134" width="18" height="64"/></g>
+    <text class="small center" x="350" y="232">Q1 / Q2 / Q3：公式、优化与预测成果</text>
+  </g>
+  <path d="M942 965h24" class="flow blue"/>
+  <g transform="translate(976 839)"><rect class="card" width="700" height="252" rx="16" stroke="#b8d0df"/><circle cx="42" cy="42" r="22" class="blueFill"/><text class="num" x="42" y="50">9</text><text class="cardTitle" x="77" y="50">Python 实现与真实运行</text>
+    <rect x="36" y="82" width="318" height="125" rx="8" fill="#103746"/><rect x="366" y="82" width="298" height="125" rx="8" fill="#0d3040"/><rect x="36" y="82" width="318" height="25" rx="8" fill="#184c5e"/><rect x="366" y="82" width="298" height="25" rx="8" fill="#184c5e"/><text x="50" y="100" class="tiny mono" fill="#fff" font-weight="700">model_pipeline.py</text><text x="380" y="100" class="tiny mono" fill="#fff" font-weight="700">终端 / RUN_LEDGER</text>
+    <text x="50" y="124" class="tiny mono" fill="#d8e9ef"><tspan x="50">import pandas as pd</tspan><tspan x="50" dy="18">from sklearn... import XGB...</tspan><tspan x="50" dy="18">model.fit(X_train, y_train)</tspan><tspan x="50" dy="18">pred = model.predict(X_test)</tspan></text>
+    <text x="380" y="124" class="tiny mono" fill="#d8e9ef"><tspan x="380">Loading data ...</tspan><tspan x="380" dy="18">Training model ...</tspan><tspan x="380" dy="18">Validating ...</tspan><tspan x="380" dy="18">Done.</tspan></text>
+    <rect x="238" y="216" width="270" height="28" rx="14" class="greenFill"/><text x="373" y="235" class="tiny mono center" fill="#fff" font-weight="800">FINAL_RUN_ID = R20260903_1530</text>
+  </g>
+  <path d="M1682 965h24" class="flow blue"/>
+  <g transform="translate(1716 839)"><rect class="card" width="626" height="252" rx="16" stroke="#b8d0df"/><circle cx="42" cy="42" r="22" class="blueFill"/><text class="num" x="42" y="50">10</text><text class="cardTitle" x="77" y="50">科学有效性 × 竞赛完成度双门</text>
+    <rect x="35" y="82" width="180" height="126" rx="10" class="softGreen" stroke="#a5cfb3"/><rect x="226" y="82" width="180" height="126" rx="10" class="softGreen" stroke="#a5cfb3"/><rect x="417" y="82" width="174" height="126" rx="10" fill="#fff3f3" stroke="#e3b0b0"/>
+    <text class="small bold center" x="125" y="105" fill="#2f8f5b">科学有效性（门1）</text><text class="small bold center" x="316" y="105" fill="#2f8f5b">竞赛完成度（门2）</text><text class="small bold center" x="504" y="105" fill="#bf4148">未通过</text>
+    <g color="#2f8f5b"><use href="#check" x="48" y="118" width="16" height="16"/><use href="#check" x="48" y="141" width="16" height="16"/><use href="#check" x="48" y="164" width="16" height="16"/><use href="#check" x="239" y="118" width="16" height="16"/><use href="#check" x="239" y="141" width="16" height="16"/><use href="#check" x="239" y="164" width="16" height="16"/></g>
+    <text class="tiny" x="70" y="131"><tspan x="70">假设与数据合理</tspan><tspan x="70" dy="23">模型与验证充分</tspan><tspan x="70" dy="23">结论强度可信</tspan></text><text class="tiny" x="261" y="131"><tspan x="261">Q1/Q2/Q3 完成</tspan><tspan x="261" dy="23">交付项与图表完整</tspan><tspan x="261" dy="23">原题回答直接</tspan></text><text class="tiny" x="438" y="131" fill="#bf4148"><tspan x="438">• 缺验证</tspan><tspan x="438" dy="23">• 结果不足</tspan><tspan x="438" dy="23">• 回退重做</tspan></text>
+    <rect x="70" y="184" width="110" height="18" rx="9" class="greenFill"/><rect x="261" y="184" width="110" height="18" rx="9" class="greenFill"/><rect x="454" y="184" width="100" height="18" rx="9" fill="#d64a51"/><text x="125" y="197" class="tiny center" fill="#fff" font-weight="800">PASS / QUALIFIED</text><text x="316" y="197" class="tiny center" fill="#fff" font-weight="800">PASS / QUALIFIED</text><text x="504" y="197" class="tiny center" fill="#fff" font-weight="800">FAIL</text>
+    <text class="small center" x="313" y="232">双门分别判断“站得住”与“交付完整”</text>
+  </g>
+</g>
+
+<!-- D cards -->
+<g>
+  <g transform="translate(236 1155)"><rect class="card" width="1340" height="304" rx="16" stroke="#c9c2e5"/><circle cx="42" cy="42" r="22" class="purpleFill"/><text class="num" x="42" y="50">11</text><text class="cardTitle" x="77" y="50">Final / Validation Run → 论文证据蓝图 → 科研图表</text>
+    <rect x="34" y="80" width="265" height="175" rx="10" class="softPurple" stroke="#d3cdec"/><text class="small bold" x="48" y="104">结果表（示例）</text><g stroke="#d6d1e8" fill="#fff"><rect x="48" y="116" width="235" height="104"/><path d="M48 142h235M48 168h235M48 194h235M103 116v104M158 116v104M215 116v104"/></g><g class="tiny center"><text x="75" y="134">站点</text><text x="130" y="134">MAE</text><text x="186" y="134">RMSE</text><text x="249" y="134">MAPE%</text><text x="75" y="160">S01</text><text x="130" y="160">18.7</text><text x="186" y="160">24.1</text><text x="249" y="160">12.3</text><text x="75" y="186">S02</text><text x="130" y="186">16.2</text><text x="186" y="186">21.8</text><text x="249" y="186">10.9</text><text x="75" y="212">总体</text><text x="130" y="212">17.3</text><text x="186" y="212">22.9</text><text x="249" y="212">11.6</text></g><text class="tiny center" x="166" y="244">FINAL_RUN_ID = Rxxx</text>
+    <rect x="317" y="80" width="300" height="175" rx="10" class="softPurple" stroke="#d3cdec"/><text class="small bold" x="331" y="104">关键图表（示例）</text><path d="M350 218V125m0 93h235" class="line" stroke="#9fb4b8" stroke-width="1.5"/><path d="M350 201l35-27 38 15 36-42 39 23 40-39 47 16 40-31" class="line purple" stroke-width="3.2"/><path d="M350 207l35-21 38 8 36-37 39 18 40-32 47 10 40-24" class="line teal" stroke-width="2.5" stroke-dasharray="8 5"/><g fill="#fff" stroke="#6254a6" stroke-width="2"><circle cx="350" cy="201" r="4"/><circle cx="385" cy="174" r="4"/><circle cx="423" cy="189" r="4"/><circle cx="459" cy="147" r="4"/><circle cx="498" cy="170" r="4"/><circle cx="538" cy="131" r="4"/><circle cx="585" cy="147" r="4"/></g><text class="tiny center" x="467" y="244">预测 vs 实际（S01）</text>
+    <rect x="635" y="80" width="286" height="175" rx="10" class="softPurple" stroke="#d3cdec"/><text class="small bold" x="649" y="104">论文证据蓝图</text><g fill="#fff" stroke="#d3cdec"><rect x="651" y="118" width="254" height="25" rx="5"/><rect x="651" y="149" width="254" height="25" rx="5"/><rect x="651" y="180" width="254" height="25" rx="5"/><rect x="651" y="211" width="254" height="25" rx="5"/></g><g color="#6254a6"><use href="#check" x="658" y="122" width="16" height="16"/><use href="#check" x="658" y="153" width="16" height="16"/><use href="#check" x="658" y="184" width="16" height="16"/><use href="#check" x="658" y="215" width="16" height="16"/></g><text class="tiny" x="680" y="136"><tspan x="680">Requirement ID → 主答案</tspan><tspan x="680" dy="31">主 Run / 验证 Run</tspan><tspan x="680" dy="31">主图 / 主表 / 公式</tspan><tspan x="680" dy="31">限制与跨问接口</tspan></text>
+    <rect x="939" y="80" width="365" height="175" rx="10" class="softPurple" stroke="#d3cdec"/><text class="small bold" x="953" y="104">技术路线图</text><g fill="#fff" stroke="#6254a6" stroke-width="1.5"><rect x="956" y="120" width="78" height="44" rx="7"/><rect x="1075" y="120" width="78" height="44" rx="7"/><rect x="1194" y="120" width="78" height="44" rx="7"/><rect x="1016" y="198" width="78" height="44" rx="7"/><rect x="1135" y="198" width="78" height="44" rx="7"/></g><g class="tiny center"><text x="995" y="139"><tspan x="995">数据输入</tspan><tspan x="995" dy="15">与审计</tspan></text><text x="1114" y="139"><tspan x="1114">模型</tspan><tspan x="1114" dy="15">构建</tspan></text><text x="1233" y="139"><tspan x="1233">求解</tspan><tspan x="1233" dy="15">优化</tspan></text><text x="1055" y="217"><tspan x="1055">评估</tspan><tspan x="1055" dy="15">校验</tspan></text><text x="1174" y="217"><tspan x="1174">结果</tspan><tspan x="1174" dy="15">输出</tspan></text></g><path d="M1036 142h34m85 0h34m44 24-47 28m-88 4-49-30m47 52h34" class="flow purple" stroke-width="2"/>
+    <text class="small center" x="670" y="284">结果、Run、图表与正文位置形成可追溯的证据闭环</text>
+  </g>
+  <path d="M1582 1307h24" class="flow purple"/>
+  <g transform="translate(1616 1155)"><rect class="card" width="726" height="304" rx="16" stroke="#c9c2e5"/><circle cx="42" cy="42" r="22" class="purpleFill"/><text class="num" x="42" y="50">12</text><text class="cardTitle" x="77" y="50">AI 内部参考论文</text>
+    <g transform="translate(38 83)" color="#6254a6"><use href="#paper" width="150" height="190"/></g><g transform="translate(170 83)" color="#6254a6"><use href="#paper" width="150" height="190"/></g><g transform="translate(302 83)" color="#6254a6"><use href="#paper" width="150" height="190"/></g>
+    <text class="body bold" x="60" y="113">摘要</text><text class="tiny" x="192" y="113">3. 模型</text><text class="tiny" x="324" y="113">4. 结果与分析</text><path d="M80 210l22-18 23 11 22-29" class="line purple" stroke-width="2.5"/><g fill="#2d7ca3"><rect x="342" y="200" width="12" height="25"/><rect x="362" y="187" width="12" height="38"/><rect x="382" y="195" width="12" height="30"/></g>
+    <path d="M474 177h32" class="flow purple" stroke-width="4"/>
+    <rect x="520" y="93" width="174" height="162" rx="12" class="softPurple" stroke="#6254a6" stroke-width="1.7"/><text class="body bold center" x="607" y="121" fill="#6254a6"><tspan x="607">人工重写</tspan><tspan x="607" dy="21">与终稿审计</tspan></text><g color="#6254a6"><use href="#check" x="540" y="155" width="17" height="17"/><use href="#check" x="540" y="180" width="17" height="17"/><use href="#check" x="540" y="205" width="17" height="17"/><use href="#check" x="540" y="230" width="17" height="17"/></g><text class="tiny" x="565" y="168"><tspan x="565">理解消化</tspan><tspan x="565" dy="25">核查验证</tspan><tspan x="565" dy="25">查重合规</tspan><tspan x="565" dy="25">人工重写</tspan></text>
+    <text class="small center" x="363" y="284">参考论文仅供内部学习与重写，不得直接提交</text>
+  </g>
+</g>
+
+<!-- Footer -->
+<g>
+  <rect x="38" y="1495" width="1050" height="62" rx="14" fill="#f3f8f7" stroke="#b7cfcd"/><text x="62" y="1534" font-size="18" font-weight="800">全流程原则</text>
+  <g class="body"><g color="#147d84"><circle cx="190" cy="1526" r="10" fill="#fff" stroke="currentColor" stroke-width="2"/><use href="#check" x="182" y="1518" width="16" height="16"/></g><text x="210" y="1533">安全合规</text><g color="#147d84"><circle cx="370" cy="1526" r="10" fill="#fff" stroke="currentColor" stroke-width="2"/><use href="#check" x="362" y="1518" width="16" height="16"/></g><text x="390" y="1533">可复现可追溯</text><g color="#1f6fa3"><circle cx="610" cy="1526" r="10" fill="#fff" stroke="currentColor" stroke-width="2"/><use href="#check" x="602" y="1518" width="16" height="16"/></g><text x="630" y="1533">科学严谨</text><g color="#2f8f5b"><circle cx="790" cy="1526" r="10" fill="#fff" stroke="currentColor" stroke-width="2"/><use href="#check" x="782" y="1518" width="16" height="16"/></g><text x="810" y="1533">目标导向</text><g color="#6254a6"><circle cx="945" cy="1526" r="10" fill="#fff" stroke="currentColor" stroke-width="2"/><use href="#check" x="937" y="1518" width="16" height="16"/></g><text x="965" y="1533">人机协同</text></g>
+  <rect x="1110" y="1495" width="1252" height="62" rx="14" class="softGold" stroke="#d9c99c"/><text x="1135" y="1534" font-size="18" font-weight="800">产出物清单</text><g class="body"><text x="1280" y="1533">▣ 审计报告</text><text x="1450" y="1533">▣ 路线建议</text><text x="1620" y="1533">▣ 代码与日志</text><text x="1810" y="1533">▣ 结果与图表</text><text x="2000" y="1533">▣ 证据蓝图</text><text x="2170" y="1533">▣ 参考论文（内部）</text></g>
+</g>
+</svg>
