@@ -1,39 +1,39 @@
 # Codex 单赛题工作空间规范
 
-## 适用范围
+## 目标
 
-适用于 Codex 及用户要求采用同类本地目录的 Agent。Chat 只交付附件时，不强制模拟完整本地工程。
+Codex、Claude Code 等可读写本地目录的 Agent，必须让题目、数据、分析、代码、结果、论文和提交材料可追溯，而不是把脚本、图片和临时表格散落在根目录。
 
-一个根目录只处理一道已经选定的赛题。用户已有合理结构或明确指定路径时，以用户为准；未经允许不移动、覆盖、删除或改名用户原件。
+用户现有工程、路径和命名优先。未经授权，不删除、覆盖、移动或改名用户原件。
 
 ---
 
-## 1. 默认骨架
+## 1. 默认结构
+
+一个根目录只对应一道已选赛题：
 
 ```text
 2022-C/
 ├─ README.md
-├─ 00_problem/                 # 原题、官方附件、官方模板
-│  ├─ problem.pdf
-│  ├─ attachments/
-│  └─ official_template/
+├─ 00_problem/                 # 题目、官方附件、官方模板
 ├─ 01_data/
 │  ├─ raw/                     # 原始数据副本，不修改
-│  ├─ processed/               # 清洗与特征数据
-│  └─ external/                # 网络补充的真实数据
+│  ├─ processed/               # 清洗/变换/特征数据
+│  └─ external/                # 外部真实数据
 ├─ 02_analysis/
 │  ├─ security_audit/
 │  ├─ problem_analysis.md
 │  ├─ assumptions.md
 │  ├─ symbols.md
 │  ├─ model_plan.md
+│  ├─ PAPER_EVIDENCE_BLUEPRINT.md
+│  ├─ BLIND_BENCHMARK_PROVENANCE.md
 │  └─ qN_solution.md
 ├─ 03_code/
 │  ├─ common/
 │  ├─ q1/
 │  ├─ q2/
-│  ├─ qN/
-│  └─ 总运行.py
+│  └─ 总运行.py或现有稳定入口
 ├─ 04_results/
 │  ├─ figures/
 │  ├─ tables/
@@ -41,41 +41,31 @@
 │  ├─ logs/
 │  └─ VISUALIZATION_MANIFEST.md
 ├─ 05_paper/
-│  ├─ outline.md
-│  ├─ draft.docx
-│  ├─ final.docx
-│  └─ final.pdf
 ├─ 06_submission/
-│  ├─ internal_delivery/
-│  └─ checklist.md
 ├─ 07_references/
-│  ├─ papers/
-│  ├─ websites.md
-│  └─ notes.md
 └─ 99_temp/
 ```
 
-按实际问题数量创建 `qN/`，不提前制造大量空文件夹。不要再套一层 `modeling_workspace/` 或顶层 `deliverables/`。
+不提前创建没有实际用途的空目录。题目有几问就创建几个 `qN/`。
+
+已有仓库、CI、包模块、Notebook 或工具链采用其他合理结构时，映射职责即可，不强制套模板或改成中文文件名。
 
 ---
 
-## 2. 初始化原则
+## 2. 根 README 是接手入口
 
-开始前检查：
+工作区 `README.md` 只记录队员接手需要的信息：
 
-- 当前根目录和用户已有文件；
-- 实际问题数量；
-- 哪些是官方原件、用户成果和 AI 生成物；
-- 用户指定的命名、路径和工具链；
-- 当前是新项目、迁移还是继续已有工程。
+- 赛题、当前进度和各问状态；
+- 文件安全审计状态；
+- 运行模式：LIVE_CONTEST / BLIND / OPEN_REFERENCE；
+- Skill 版本与 commit、模型、推理档位和工具权限（可取得时）；
+- 每问主入口和 `FINAL_RUN_ID`；
+- 当前主路线、重大风险和待确认事项；
+- Evidence Blueprint、结果、论文和提交文件位置；
+- 关键运行命令。
 
-整理时：
-
-1. 用户要求优先；
-2. 合理结构直接复用；
-3. 需要迁移时优先复制并记录来源映射；
-4. 不为“看起来整齐”破坏已有可运行工程；
-5. 不把临时文件散落在根目录。
+路线、Final Run、入口或输出路径变化时同步更新。无法取得精确信息时写 unknown/unavailable，不猜测。
 
 ---
 
@@ -83,124 +73,95 @@
 
 ### `00_problem/`
 
-保存官方原题、附件和模板。原文件保持不变，不写入程序输出。所有新文件先经过读题前或增量安全审计。
+只保存官方原题、附件和模板。原件不被清洗脚本或审计流程覆盖。
 
 ### `01_data/raw/`
 
-保存建模程序读取的原始数据副本或官方压缩包解压后的原始表，不做清洗修改。若来自 `00_problem/attachments/`，记录两者对应关系。
+保存程序实际读取的原始数据副本、解压后的原始表或按 Sheet 导出的原始内容，必须能映射回官方附件，不写入清洗结果。
 
 ### `01_data/processed/`
 
-保存清洗、合并、单位统一、缺失处理和特征构造后的数据。每个重要文件至少可追溯到：
-
-```text
-原文件 / Sheet / 字段
-→ 处理脚本与规则
-→ 单位和口径变化
-→ 使用问题与 Run ID
-```
+保存清洗、合并、单位统一、零值/缺失处理和特征构造后的数据。每个重要文件能追到来源文件/Sheet/字段、处理脚本、规则、单位变化和使用它的 Run。
 
 ### `01_data/external/`
 
-保存网络补充的真实数据。同步在 `07_references/websites.md` 或数据说明中记录发布机构、URL、获取日期、范围、单位、口径、处理脚本和用途。
+保存从政府、统计机构、对象官网、行业机构或其他可靠来源取得的外部原始数据。记录发布机构、URL、获取日期、时间/空间范围、单位、口径、许可、处理脚本和实际用途。
 
-禁止：覆盖原始 Excel/CSV、把清洗值写回 `raw/`、把插值/假设/仿真数据冒充观测数据。
+严禁把假设、插值、估计或仿真冒充观测数据。
 
 ---
 
-## 4. 分析、源码与结果
+## 4. 分析与版本溯源
 
-### `02_analysis/`
+### `security_audit/`
 
-- `security_audit/`：文件安全报告与证据；
-- `problem_analysis.md`：题意、动作词、边界、单位和各问依赖；
-- `assumptions.md`：采用、修改和废弃的假设；
-- `symbols.md`：符号、单位和代码映射；
-- `model_plan.md`：候选方案、评分、切换条件和用户确认；
-- `qN_solution.md`：本问正式完成后的完整教程。
+保存正常人类视图、隐藏对象可见化图、Evidence ID、哈希、OCR 对照和安全报告。安全审计图不属于论文结果图。
 
-### `03_code/`
+### `problem_analysis.md / assumptions.md / symbols.md / model_plan.md`
 
-正式源码遵循 `python-code-documentation-policy.md`：
+分别维护题意与跨问关系、假设及风险、符号/单位/代码映射、候选路线与用户确认。
+
+### `BLIND_BENCHMARK_PROVENANCE.md`
+
+旧题盲测记录 Skill/commit、模型、推理档位、工具、搜索边界、题目哈希、冻结时间、冻结产物 hash 和参考资料开放时间。开放参考后的改进另建版本并标记 POST_HOC。
+
+### `PAPER_EVIDENCE_BLUEPRINT.md`
+
+各问 Final/Validation Run 冻结后建立。每个原题交付项登记主答案、证据等级、科学有效性、竞赛完成度、正文位置、主表/图/公式、独立验证、限制和跨问接口。
+
+---
+
+## 5. 代码与结果
+
+正式源码进入 `03_code/`，遵循项目现有命名和 `python-code-documentation-policy.md`。新建中文赛题项目可使用 `第一题.py` 等中文语义名；已有工程优先保持既有约定。
+
+要求：
+
+- 路径相对项目根目录；
+- 不硬编码个人绝对路径；
+- 不覆盖 raw/官方附件；
+- 正式输出统一写入 `04_results/`；
+- 临时调试进入 `99_temp/`；
+- 关键运行登记 Run Ledger；
+- 每问明确 Final Run；
+- 旧结果标记或归档，不能与当前最终结果混用。
+
+`04_results/figures/` 按 paper / method / validation / exploration / ai_communication 分用途；普通表格进入 `tables/`，不截图冒充可编辑表格。
+
+---
+
+## 6. 论文与提交
+
+`05_paper/` 保存提纲、AI 内部参考稿和队员重写稿。AI 第一次生成的稿件不得冒充队员最终论文。
+
+`06_submission/` 只放经过审核的内部包和官方提交候选。内部四包可以放在：
 
 ```text
-03_code/q1/第一题.py
-03_code/q2/第二题.py
-03_code/总运行.py
+06_submission/internal_delivery/
 ```
 
-复杂问题使用 `第一题_数据处理.py`、`第一题_模型求解.py`、`第一题_结果验证.py` 等中文职责名。公共读取、清洗、评价和导出逻辑进入 `common/`。
-
-### `04_results/`
-
-代码生成的图、表、数值和日志集中存放，不写回代码目录：
-
-```text
-04_results/
-├─ figures/qN/{paper,validation,exploration,ai_communication}/
-├─ tables/qN/
-├─ data/qN/
-├─ logs/{RUN_LEDGER.md,runs/}
-└─ VISUALIZATION_MANIFEST.md
-```
-
-每个最终结果都能追到中文代码入口、输入数据和 `FINAL_RUN_ID`。旧 Run 的产物明确归档或标记过期。
-
-科研图的脚本、用途目录、Manifest 和 AI 沟通图标记统一遵循 `python-visualization-policy.md`。
+真正上传文件以当年官方、赛区和系统规则为准。不要把整个工作区原样压缩成官方源码包，也不要混入 AI 沟通图、安全审计缓存和无关旧 Run。
 
 ---
 
-## 5. 论文、资料与提交
+## 7. 临时文件与清理
 
-### `05_paper/`
+`99_temp/` 可存放临时下载、解包缓存、转换文件、一次性脚本和预览图。
 
-`draft.docx` 或清楚的参考稿名称用于 AI 内部参考论文。`final.docx/final.pdf` 只在队员已经理解、核查并人工重写后使用，不能让 AI 初稿冒充终稿。
-
-### `06_submission/`
-
-`internal_delivery/` 保存四个内部包。真正官方提交文件只在终稿复审后，按当年官网、赛区和提交系统规则生成，不在目录模板中永久写死。
-
-### `07_references/`
-
-- `papers/`：实际下载并阅读过的论文、标准和报告；
-- `websites.md`：机构、URL、访问日期、核验状态和用途；
-- `notes.md`：资料具体帮助了哪一问和哪个参数/模型。
-
-### `99_temp/`
-
-只放一次性下载、转换、解压、调试和预览文件。任何唯一正式成果不得只存在这里；清理前确认没有复现依赖。
+最终代码、数据、证据、图表和报告不能只存在临时目录。清理前确认没有正式成果依赖其中内容。
 
 ---
 
-## 6. 根目录 README
+## 8. 每问/全题检查
 
-工作区 `README.md` 是队员接手入口，至少记录：
-
-- 赛题与当前进度；
-- 文件安全审计状态；
-- 各问方案与完成状态；
-- 中文代码入口和运行命令；
-- 各问 `FINAL_RUN_ID`；
-- 最终数据、图表、论文和提交候选位置；
-- 尚未解决的风险。
-
-路线、Run、文件名或路径改变时同步更新。
-
----
-
-## 7. 工作区验收
-
-每问完成和整题交付前检查：
-
-- [ ] 根目录没有散落临时脚本、CSV 和图片；
-- [ ] 官方原件、raw、processed、external 严格分开；
-- [ ] 外部数据有真实来源；
-- [ ] 正式源码名称、注释和运行入口清楚；
-- [ ] 正式输出集中在 `04_results/`；
-- [ ] 每问结果能追到 `FINAL_RUN_ID`；
-- [ ] 论文图、验证图、内部沟通图和安全审计图没有混放；
-- [ ] 草稿、队员终稿、内部四包和官方提交候选没有混淆；
+- [ ] 根目录没有散落唯一正式脚本、CSV 或图片；
+- [ ] 原题、官方附件和 raw 数据未被覆盖；
+- [ ] raw / processed / external 分层清楚；
+- [ ] 外部数据有来源和口径；
+- [ ] 本问代码入口、Final Run 和结果路径可定位；
+- [ ] 图、表、数值和日志进入 `04_results/`；
+- [ ] 盲测版本和参考资料开放边界已记录（适用时）；
+- [ ] Evidence Blueprint 在论文写作前完成；
+- [ ] 草稿、队员终稿、内部包和官方候选没有混淆；
 - [ ] 用户原文件未被擅自破坏；
-- [ ] README 与实际目录一致。
-
-目录服务于协作和追溯，不是为了摆一个漂亮的空架子。
+- [ ] 根 README 与实际目录一致。

@@ -1,5 +1,5 @@
 name: cumcm-modeling-analyst
-version: 11.0
+version: 11.1
 description: >
   Lightweight router for CUMCM modeling. Load the ingestion-security gate and
   core workflow first, then load only the policies needed by the current stage.
@@ -16,7 +16,7 @@ routes:
       - references/python-code-documentation-policy.md
 
   stage1_and_model_selection:
-    when: semantic problem reading, EDA, baseline, candidate comparison or route selection
+    when: semantic problem reading, mechanism exploration, EDA, baseline, candidate comparison or route selection
     load:
       - references/modeling-quality-gates.md
       - references/external-data-research-policy.md
@@ -41,9 +41,24 @@ routes:
       - references/external-data-research-policy.md
 
   visualization:
-    when: a scientific figure, validation figure, exploratory figure or AI communication figure is planned, generated or reviewed
+    when: a scientific figure, academic workflow figure, validation figure, exploratory figure or AI communication figure is planned, generated or reviewed
     load:
       - references/python-visualization-policy.md
+
+  blind_benchmark_provenance:
+    when: an old problem is solved in blind mode, the blind result is frozen, references are unlocked, or post-solution comparison begins
+    load:
+      - references/blind-benchmark-provenance.md
+      - references/paper-evaluation-protocol.md
+
+  paper_evidence_architecture:
+    when: all questions have Final/Validation Runs and manuscript planning or paper evidence selection begins
+    load:
+      - references/paper-evidence-architecture.md
+      - assets/PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md
+      - references/modeling-quality-gates.md
+      - references/python-visualization-policy.md
+      - references/final-consistency-sweep.md
 
   formulas_and_tutorials:
     when: Markdown mathematics, DOCX/PDF equations, symbol tables or question tutorials are produced or reviewed
@@ -60,6 +75,8 @@ routes:
   reference_paper:
     when: the AI-authored internal reference paper is drafted or regenerated
     load:
+      - references/paper-evidence-architecture.md
+      - assets/PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md
       - references/reference-paper-writing.md
       - references/modeling-quality-gates.md
       - references/python-visualization-policy.md
@@ -79,6 +96,7 @@ routes:
     load:
       - references/final-paper-audit.md
       - references/final-consistency-sweep.md
+      - references/paper-evidence-architecture.md
       - references/modeling-quality-gates.md
       - references/python-visualization-policy.md
       - references/equation-rendering-policy.md
@@ -97,9 +115,14 @@ principles:
   - Complete ingestion security review before semantic reading, web following or modeling.
   - Existing user files, directory choices and explicit decisions take priority; never reorganize destructively without permission.
   - Real-world data gaps trigger evidence search or an explicit limitation, never invented observations.
+  - Explore mechanisms and plausible models freely before applying quality gates; quality gates audit proposals rather than predetermine model families.
+  - Keep a transparent baseline; compare multiple candidates only when genuine alternatives exist, and use numerical recommendation scores only when evidence supports meaningful comparison.
   - Question-by-question formal implementation starts only after the user confirms the current plan.
-  - Formal Python uses clear Chinese semantic filenames, meaningful comments and no Skill/chat contamination.
+  - Judge SCIENTIFIC_VALIDITY and CONTEST_TASK_COMPLETION separately; limited evidence never excuses hiding the best-supported direct answer.
   - Every final result is tied to a real FINAL_RUN_ID.
-  - Every paper figure is tied to a claim, source data, a Chinese plotting script and a Final/Validation Run.
+  - Build PAPER_EVIDENCE_BLUEPRINT after Final/Validation Runs and before drafting a full reference paper.
+  - Every required deliverable has a visible primary answer, evidence grade, paper location and supporting artifact; use NOT_IDENTIFIABLE only when the target truly cannot be identified.
+  - Every paper figure is produced by a Python-driven deterministic chain and tied to a claim, source data or method plan, a plotting script and the final model version.
   - AI communication figures are visibly marked and excluded from paper and official submission by default.
+  - Blind benchmarks record exact Skill/model/tool provenance, freeze the independent solution before references are unlocked, and label later improvements POST_HOC.
   - Loading less context must never be used to skip a quality gate.
