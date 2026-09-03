@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""对 Skill 路由、Markdown 链接和 v11.1 关键契约做快速静态校验。"""
+"""对 Skill 路由、Markdown 链接和关键契约做快速静态校验。"""
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
@@ -29,6 +28,7 @@ REQUIRED_FILES = (
     "assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md",
     "assets/FINAL_PAPER_AUDIT_TEMPLATE.md",
     "assets/readme-showcase/ASSET_MANIFEST.md",
+    "assets/readme-showcase/hero-cumcm-modeling-analyst.svg",
 )
 
 REQUIRED_TOKENS = {
@@ -69,35 +69,27 @@ REQUIRED_TOKENS = {
     ),
 }
 
-SHOWCASE_FILES = (
-    "hero-cumcm-modeling-analyst.png",
+# README 默认只公开不含赛题答案的项目宣传图。旧题结果如需公开，应进入
+# 独立案例目录并明确 benchmark / POST_HOC 边界，而不是混入首页资源。
+README_HERO = "assets/readme-showcase/hero-cumcm-modeling-analyst.svg"
+OLD_CASE_FILENAMES = (
     "case-q1-weathering-clr-shift.png",
     "case-q2-loao-classification-margin.png",
     "case-q3-support-domain.png",
     "case-q4-proportionality-difference-matrix.png",
     "case-q4-simultaneous-intervals.png",
+    "case-q1-weathering-clr-shift.webp",
+    "case-q2-loao-classification-margin.webp",
+    "case-q3-support-domain.webp",
+    "case-q4-proportionality-difference-matrix.webp",
+    "case-q4-simultaneous-intervals.webp",
 )
 
 FORBIDDEN_GENERIC_TERMS = ("高钾", "铅钡", "古代玻璃", "桂电")
 POLICY_PLACEHOLDERS = re.compile(r"(?im)^\s*(?:TODO|TBD|FIXME)\s*:")
 ROUTE_PATH = re.compile(r"^\s*-\s+((?:references|assets)/[^\s#]+\.md)\s*$")
 MD_LINK = re.compile(r"!?(?:\[[^\]]*\])\(([^)]+)\)")
-MANIFEST_HASH_ROW = re.compile(r"`([^`]+\.png)`[^\n]*`([0-9a-f]{64})`")
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def png_dimensions(path: Path) -> tuple[int, int] | None:
-    data = path.read_bytes()[:24]
-    if len(data) < 24 or data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
-        return None
-    return int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+SVG_NUMBER = re.compile(r"^(\d+(?:\.\d+)?)")
 
 
 def resolve_markdown_link(source: Path, target: str) -> Path | None:
@@ -107,6 +99,24 @@ def resolve_markdown_link(source: Path, target: str) -> Path | None:
     if target.startswith("/"):
         return None
     return (source.parent / target).resolve()
+
+
+def svg_dimensions(path: Path) -> tuple[float, float] | None:
+    """读取 SVG 的显式宽高；无法可靠判断时返回 None。"""
+    text = path.read_text("utf-8")
+    if "<svg" not in text or "viewBox=" not in text:
+        return None
+
+    width_match = re.search(r'\bwidth="([^"]+)"', text)
+    height_match = re.search(r'\bheight="([^"]+)"', text)
+    if not width_match or not height_match:
+        return None
+
+    width_number = SVG_NUMBER.match(width_match.group(1))
+    height_number = SVG_NUMBER.match(height_match.group(1))
+    if not width_number or not height_number:
+        return None
+    return float(width_number.group(1)), float(height_number.group(1))
 
 
 def validate(root: Path) -> dict[str, object]:
@@ -159,40 +169,57 @@ def validate(root: Path) -> dict[str, object]:
             checks += 1
             if term in text:
                 errors.append(f"发现题目专用硬编码：{path.relative_to(root)} -> {term}")
+        checks += 1
         if POLICY_PLACEHOLDERS.search(text):
             errors.append(f"发现未解决占位内容：{path.relative_to(root)}")
 
-    asset_root = root / "assets/readme-showcase"
-    hash_manifest = asset_root / "ASSET_MANIFEST.md"
-    declared_hashes: dict[str, str] = {}
-    if hash_manifest.is_file():
-        declared_hashes = dict(MANIFEST_HASH_ROW.findall(hash_manifest.read_text("utf-8")))
+    readme = root / "README.md"
+    hero = root / README_HERO
+    asset_manifest = root / "assets/readme-showcase/ASSET_MANIFEST.md"
 
-    for filename in SHOWCASE_FILES:
-        path = asset_root / filename
+    if readme.is_file():
+        readme_text = readme.read_text("utf-8")
         checks += 1
-        if not path.is_file():
-            errors.append(f"README 展示图缺失：{filename}")
-            continue
-        dimensions = png_dimensions(path)
+        if README_HERO not in readme_text:
+            errors.append(f"README 未引用顶部宣传图：{README_HERO}")
+
+        for filename in OLD_CASE_FILENAMES:
+            checks += 1
+            if filename in readme_text:
+                warnings.append(
+                    f"README 直接展示旧题结果图：{filename}；请确认不会污染后续盲测，并明确 POST_HOC 边界"
+                )
+
+    if hero.is_file():
+        text = hero.read_text("utf-8")
+        checks += 1
+        dimensions = svg_dimensions(hero)
         if dimensions is None:
-            errors.append(f"README 展示图不是有效 PNG：{filename}")
-        elif dimensions[0] < 300 or dimensions[1] < 180:
-            warnings.append(f"README 展示图尺寸偏小：{filename} {dimensions}")
-        expected = declared_hashes.get(filename)
-        if expected is None:
-            errors.append(f"ASSET_MANIFEST 未登记：{filename}")
-        elif sha256(path) != expected:
-            errors.append(f"README 展示图哈希不一致：{filename}")
+            errors.append("README 顶部宣传图不是可验证的 SVG，或缺少 viewBox / 显式宽高")
+        elif dimensions[0] < 900 or dimensions[1] < 250:
+            warnings.append(f"README 顶部宣传图尺寸偏小：{dimensions}")
+        if "<title" not in text or "<desc" not in text:
+            warnings.append("README 顶部 SVG 缺少 title/desc，无障碍说明不完整")
+
+    if asset_manifest.is_file():
+        checks += 1
+        manifest_text = asset_manifest.read_text("utf-8")
+        if Path(README_HERO).name not in manifest_text:
+            errors.append("ASSET_MANIFEST 未登记 README 顶部宣传图")
 
     skill = root / "SKILL.md"
     if skill.is_file():
-        size = skill.stat().st_size
         checks += 1
+        size = skill.stat().st_size
         if size > 18_000:
             warnings.append(f"SKILL.md 已达到 {size} 字节，建议继续保持入口轻量")
 
-    return {"status": "PASS" if not errors else "FAIL", "checks": checks, "errors": errors, "warnings": warnings}
+    return {
+        "status": "PASS" if not errors else "FAIL",
+        "checks": checks,
+        "errors": errors,
+        "warnings": warnings,
+    }
 
 
 def main() -> int:
