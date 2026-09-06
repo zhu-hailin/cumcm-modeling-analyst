@@ -32,3 +32,6 @@ jobs:
 
       - name: Validate competition-first contract
         run: python tests/test_competition_first_contract.py
+
+      - name: Validate helper tools
+        run: python tests/test_helper_tools.py

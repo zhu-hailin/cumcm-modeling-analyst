@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## v11.2 — Competition-first 自主执行与按证据成熟度加载
+
+- 入口瘦身：`SKILL.md`、`manifest.yaml`、`agents/openai.yaml` 不再重复整套深层规范，启动只保留一次性安全门与核心工作流。
+- 明确 Agent 自主执行边界：已确认路线内允许自主 EDA、诊断实验、调参、求解器调整、代码重构、验证和按预先确认条件切换备用路线；只有目标、关键约束、会改变结论的关键假设、关键数据缺口或团队策略选择改变时才需要用户决定。
+- 新增 `references/modeling-research-playbook.md`，用区分性实验和关键研究问题帮助 Agent 主动发现更好路线，而不是新增固定模型清单。
+- Stage 2 模式按团队协作方式选择，不再按 Codex/Chat 硬编码；逐题确认只确认建模边界，连续模式不因普通技术失败、调参或求解器更换反复暂停。
+- Stage 1 不默认加载外部文献/数据规范，只有真实缺口会影响模型时才加载；探索阶段上下文优先用于建模研究和质量门。
+- 绘图拆分 `QUICK_EXPLORATION / FORMAL_EVIDENCE`：EDA/调试图可快速生成，只有正式论文图、验证图和方法图才承担完整 Run、脚本、尺寸、字体和 A4 视觉 QA。
+- Evidence Blueprint 改为 `EARLY_SKELETON → FINAL_FREEZE`：读题后建立交付项骨架，每问 Final Run 后增量补充，全部关键结果冻结后才允许 `PAPER_EVIDENCE_BLUEPRINT_READY`。
+- 统一蓝图权威路径为 `02_analysis/PAPER_EVIDENCE_BLUEPRINT.md`；`05_paper/` 不再维护第二份蓝图副本。
+- 内部 A/B/C 证据等级、Final Run、PASS/FAIL 等状态继续用于项目管理，但不再要求机械展示在正式论文正文；论文用验证方法、误差、稳定性、现实约束和适用范围表达证据。
+- 来源核验把“文献真实/已读/支持当前主张”和“公开可下载全文”拆开；只有声称提供可下载入口时才强制 `DOWNLOAD_VERIFIED`。
+- Run Ledger 明确“同一运行元数据一个权威来源”，减少 README、教程、蓝图反复手抄；统一加入 `METHOD_FIGURE` 类型。
+- 中文源码命名回归可读性偏好：新建中文项目可以使用中文语义名，已有仓库、CI、包、Notebook 和跨平台工具链继承现有命名。
+- 新增 `scripts/run_record.py`、`scripts/figure_utils.py`、`scripts/delivery_check.py`，把运行记录、绘图机械设置和 ZIP 实际解压验收从 Agent 文本流程中抽离。
+- 新增 `tests/test_competition_first_contract.py` 与 GitHub Actions，持续防止强制推荐分、探索图论文级负担、下载链接硬门和技术细节反复审批等回归。
+
+## v11.1 — 每个赛题工作区只做一次初始安全审计
+
+- `problem-ingestion-security.md` 只在首次接收当前赛题题面及随题官方附件时完整执行一次。
+- 审计通过后记录 `INGESTION_SECURITY_AUDIT_LOCKED`，主 Agent 与子代理复用 `FILE_SECURITY_AUDIT.md`、`FILE_AUDIT_MANIFEST.md` 与正常人类视图。
+- 后续补充论文、数据、图片、代码、外部下载、问题切换和子代理切换不再触发完整或增量安全审计；只有用户明确要求重审或开启新赛题工作区时例外。
+
 ## v11.0 — 证据质量门、科研制图标准与 Skill 瘦身
 
 - 新增 `references/modeling-quality-gates.md`，把优秀论文中可迁移的建模意识整理为可执行质量门：数据结构识别、可追溯预处理、模型前提、baseline、独立验证、现实约束、完美指标审计、潜在阶段解释和跨问复用。
