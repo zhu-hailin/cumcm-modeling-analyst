@@ -102,16 +102,23 @@ def main() -> int:
     if "必须比较 3" in gates or "至少三个模型" in gates:
         raise AssertionError("质量门重新锁死候选数量")
 
-    paper = require(
+    require(
         "references/paper-evidence-architecture.md",
+        "EARLY_SKELETON",
+        "FINAL_FREEZE",
         "PAPER_CORE",
         "PAPER_SUPPORT",
         "RUN_ONLY",
         "PAPER_EVIDENCE_BLUEPRINT_READY",
-        "FINAL_FREEZE",
     )
-    if paper.index("PAPER_EVIDENCE_BLUEPRINT_READY") < paper.index("FINAL_FREEZE"):
-        raise AssertionError("Evidence Blueprint Ready 出现在正式冻结流程之前")
+
+    paper_writing = require(
+        "references/reference-paper-writing.md",
+        "PAPER_EVIDENCE_BLUEPRINT_READY",
+        "只有以下条件满足后才开始完整写作",
+    )
+    if "完整参考论文的前置条件" not in paper_writing:
+        raise AssertionError("参考论文没有明确 Evidence Blueprint 前置门")
 
     print("old_problem_forward_contract: PASS")
     print("说明：这是隔离流程契约测试，不是某道旧题的解题性能测试。")
