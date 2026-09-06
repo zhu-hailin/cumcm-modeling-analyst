@@ -3,21 +3,25 @@
 ## v11.2 — Competition-first 自主执行与按证据成熟度加载
 
 - 入口瘦身：`SKILL.md`、`manifest.yaml`、`agents/openai.yaml` 不再重复整套深层规范，启动只保留一次性安全门与核心工作流。
-- 新增明确的 Agent 自主执行边界：已确认路线内允许自主 EDA、诊断实验、调参、求解器调整、代码重构、验证和按预先确认条件切换备用路线；只有目标、关键约束、会改变结论的关键假设、关键数据缺口或团队策略选择改变时才需要用户决定。
+- 明确 Agent 自主执行边界：已确认路线内允许自主 EDA、诊断实验、调参、求解器调整、代码重构、验证和按预先确认条件切换备用路线；只有目标、关键约束、会改变结论的关键假设、关键数据缺口或团队策略选择改变时才需要用户决定。
+- 新增 `references/modeling-research-playbook.md`，用区分性实验和关键研究问题帮助 Agent 主动发现更好路线，而不是新增固定模型清单。
 - Stage 2 模式按团队协作方式选择，不再按 Codex/Chat 硬编码；逐题确认只确认建模边界，连续模式不因普通技术失败、调参或求解器更换反复暂停。
-- Stage 1 默认只加载建模质量门；外部数据、参数、标准和文献只有在确实会影响模型、验证或结论时才加载来源研究规范。
-- 绘图分为 `QUICK_EXPLORATION` 与 `FORMAL_EVIDENCE`：EDA/调试图可快速生成，只有正式论文图、验证图和方法图才承担完整 Run、脚本、尺寸、字体和 A4 视觉 QA。
-- 论文证据蓝图改为 `EARLY_SKELETON → FINAL_FREEZE`：读题后建立交付项骨架，每问 Final Run 后增量补充，全部关键结果冻结后才允许 `PAPER_EVIDENCE_BLUEPRINT_READY`。
+- Stage 1 不默认加载外部文献/数据规范，只有真实缺口会影响模型时才加载；探索阶段上下文优先用于建模研究和质量门。
+- 绘图拆分 `QUICK_EXPLORATION / FORMAL_EVIDENCE`：EDA/调试图可快速生成，只有正式论文图、验证图和方法图才承担完整 Run、脚本、尺寸、字体和 A4 视觉 QA。
+- Evidence Blueprint 改为 `EARLY_SKELETON → FINAL_FREEZE`：读题后建立交付项骨架，每问 Final Run 后增量补充，全部关键结果冻结后才允许 `PAPER_EVIDENCE_BLUEPRINT_READY`。
 - 统一蓝图权威路径为 `02_analysis/PAPER_EVIDENCE_BLUEPRINT.md`；`05_paper/` 不再维护第二份蓝图副本。
 - 内部 A/B/C 证据等级、Final Run、PASS/FAIL 等状态继续用于项目管理，但不再要求机械展示在正式论文正文；论文用验证方法、误差、稳定性、现实约束和适用范围表达证据。
-- 来源核验把“文献真实/已读/能支持当前主张”和“公开可下载全文”拆开；只有声称提供可下载入口时才强制 `DOWNLOAD_VERIFIED`。
+- 来源核验把“文献真实/已读/支持当前主张”和“公开可下载全文”拆开；只有声称提供可下载入口时才强制 `DOWNLOAD_VERIFIED`。
 - Run Ledger 明确“同一运行元数据一个权威来源”，减少 README、教程、蓝图反复手抄；统一加入 `METHOD_FIGURE` 类型。
 - 中文源码命名回归可读性偏好：新建中文项目可以使用中文语义名，已有仓库、CI、包、Notebook 和跨平台工具链继承现有命名。
-- 新增 `scripts/run_record.py`：执行并记录重要真实运行；FINAL 运行失败不会被登记成最终结果。
-- 新增 `scripts/figure_utils.py`：提供中文字体检测、基础可读性和 PNG/SVG/PDF 多格式保存辅助，不固定配色或图型。
-- 新增 `scripts/delivery_check.py`：对内部 ZIP 执行 CRC、路径安全、实际解压、DOCX/PDF/Python 基本完整性检查，减少“ZIP 存在但内容为空/打不开”的假完成。
-- `quick_validate.py` 增加辅助脚本语法检查与 competition-first 回归检查。
-- 新增 `tests/test_competition_first_contract.py`，防止后续修改重新引入强制推荐分、探索图论文级负担、下载链接硬门和技术细节反复审批。
+- 新增 `scripts/run_record.py`、`scripts/figure_utils.py`、`scripts/delivery_check.py`，把运行记录、绘图机械设置和 ZIP 实际解压验收从 Agent 文本流程中抽离。
+- 新增 `tests/test_competition_first_contract.py` 与 GitHub Actions，持续防止强制推荐分、探索图论文级负担、下载链接硬门和技术细节反复审批等回归。
+
+## v11.1 — 每个赛题工作区只做一次初始安全审计
+
+- `problem-ingestion-security.md` 只在首次接收当前赛题题面及随题官方附件时完整执行一次。
+- 审计通过后记录 `INGESTION_SECURITY_AUDIT_LOCKED`，主 Agent 与子代理复用 `FILE_SECURITY_AUDIT.md`、`FILE_AUDIT_MANIFEST.md` 与正常人类视图。
+- 后续补充论文、数据、图片、代码、外部下载、问题切换和子代理切换不再触发完整或增量安全审计；只有用户明确要求重审或开启新赛题工作区时例外。
 
 ## v11.0 — 证据质量门、科研制图标准与 Skill 瘦身
 
@@ -26,20 +30,22 @@
 - `SKILL.md` 改为轻量路由与硬底线，不再复制每个深层 policy 的完整内容。
 - `manifest.yaml` 启动只加载 `problem-ingestion-security.md + core-workflow.md`，进入具体阶段再按需加载。
 - 重写 `python-visualization-policy.md`，合并图前证据契约、图像用途、中文绘图脚本和科研图片 QA；删除重复绘图 policy。
-- 科研制图采用国内外学术规范的保守交集，并在正式排版时服从当年竞赛模板。
-- 线图、路径、网络和流程图优先保存 SVG/PDF；常规统计图保留高质量 PNG 与矢量源。
+- 科研制图采用 GB/T 7713.2-2022 与 Nature、IEEE、Elsevier、PLOS 官方要求的保守交集，并在正式排版时服从当年竞赛模板。
+- 线图、路径、网络和流程图优先保存 SVG/PDF；位图按最终插入尺寸检查，普通统计图保留至少 300 dpi PNG，混合图和纯线稿使用更高分辨率基线。
 - 增加最终 A4 尺寸下的字体、线宽、panel、单位、误差、颜色可访问性、灰度区分、图题表题、数据完整性和 Word/PDF 视觉检查。
 - 禁止截轴误导、选择性删样本、隐藏失败 seed、只展示有利场景、用生成式图片替代真实科学结果。
 - A 级核心结论原则上要求“主模型证据 + 至少一种独立验证证据”。
-- 重写 `python-code-documentation-policy.md`，合并文件命名、注释、源码纯净度和运行入口规则。
+- 重写 `python-code-documentation-policy.md`，合并中文文件命名、注释、源码纯净度和运行入口规则。
 - 精简 Codex 工作区、逐题模板、一次性模板、参考论文、终稿审核、一致性扫描和四包规则；保留质量门，删除重复说明。
+- 删除旧兼容模板、未使用模板、重复工作流、重复可视化/命名 policy 和无人引用的旧路由文件。
+- README 同步展示新的证据链、科研制图基线和精简后的文件结构。
 
 ## v10.5 — 中文源码命名与图像用途标记
 
-- 正式 Python 使用语义明确的源码名称。
-- 论文图脚本与输出使用同一语义主干。
+- 正式 Python 使用 `第一题.py`、`第一题_模型求解.py`、`总运行.py` 等中文语义名称。
+- 论文图脚本与 PNG/SVG 使用同一语义主干。
 - 论文图、验证图、探索图、AI 沟通图和安全审计图分开管理。
-- AI 沟通图使用明确前缀、图面角标和 Manifest 用途标记，不进入论文或官方提交。
+- AI 沟通图使用 `AI沟通图_` 前缀、图面角标和 Manifest 用途标记，不进入论文或官方提交。
 
 ## v10.4 — Python 注释、可维护性与源码纯净度
 
@@ -73,7 +79,7 @@
 
 ## v9.0 — Python 可视化与官方提交导出
 
-- 建立图表分级、中文字体回退、Manifest、Visual QA 和启发式算法收敛证据。
+- 建立 A/B/C 图表分级、中文字体回退、Manifest、Visual QA 和启发式算法收敛证据。
 - 内部四包与官方上传文件分开；官方提交格式按当年规则重新核验。
 
 ## v8 — 探索性研究与双解题模式

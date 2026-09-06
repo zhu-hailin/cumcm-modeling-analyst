@@ -19,6 +19,7 @@ routes:
   stage1_modeling:
     when: semantic problem reading, mechanism exploration, EDA, baseline, candidate comparison or route selection
     load:
+      - references/modeling-research-playbook.md
       - references/modeling-quality-gates.md
 
   question_by_question:

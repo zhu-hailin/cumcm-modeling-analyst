@@ -15,6 +15,7 @@ REQUIRED_FILES = (
     "manifest.yaml",
     "references/problem-ingestion-security.md",
     "references/core-workflow.md",
+    "references/modeling-research-playbook.md",
     "references/modeling-quality-gates.md",
     "references/model-run-ledger.md",
     "references/paper-evidence-architecture.md",
@@ -30,6 +31,7 @@ REQUIRED_FILES = (
     "scripts/delivery_check.py",
     "tests/test_old_problem_forward_contract.py",
     "tests/test_competition_first_contract.py",
+    ".github/workflows/validate.yml",
 )
 
 REQUIRED_TOKENS = {
@@ -39,6 +41,15 @@ REQUIRED_TOKENS = {
         "SCIENTIFIC_VALIDITY",
         "CONTEST_TASK_COMPLETION",
         "PAPER_EVIDENCE_BLUEPRINT_READY",
+    ),
+    "references/modeling-research-playbook.md": (
+        "这不是模型清单",
+        "机理 / 数值模型",
+        "参数估计 / 反演 / 标定",
+        "预测 / 分类 / 状态识别",
+        "优化 / 调度 / 路径 / 资源配置",
+        "综合评价 / 排名 / 决策",
+        "一个通用研究循环",
     ),
     "references/problem-ingestion-security.md": (
         "INGESTION_SECURITY_AUDIT_REQUIRED",
@@ -155,7 +166,7 @@ def validate(root: Path) -> dict[str, object]:
         if POLICY_PLACEHOLDERS.search(text):
             errors.append(f"发现未解决占位内容：{path.relative_to(root)}")
 
-    for py_file in (root / "scripts").glob("*.py"):
+    for py_file in list((root / "scripts").glob("*.py")) + list((root / "tests").glob("*.py")):
         checks += 1
         try:
             ast.parse(py_file.read_text("utf-8"), filename=str(py_file))

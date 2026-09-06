@@ -45,7 +45,21 @@ def main() -> int:
     forbid(always, "manifest always_load", "modeling-quality-gates.md", "source-verification-policy.md", "python-visualization-policy.md")
 
     stage1_block = manifest.split("stage1_modeling:", 1)[1].split("question_by_question:", 1)[0]
+    require(stage1_block, "stage1_modeling route", "modeling-research-playbook.md", "modeling-quality-gates.md")
     forbid(stage1_block, "stage1_modeling route", "external-data-research-policy.md", "source-verification-policy.md")
+
+    playbook = read("references/modeling-research-playbook.md")
+    require(
+        playbook,
+        "modeling-research-playbook.md",
+        "这不是模型清单",
+        "能区分路线的小实验",
+        "参数估计 / 反演 / 标定",
+        "预测 / 分类 / 状态识别",
+        "优化 / 调度 / 路径 / 资源配置",
+        "综合评价 / 排名 / 决策",
+        "一个通用研究循环",
+    )
 
     core = read("references/core-workflow.md")
     require(

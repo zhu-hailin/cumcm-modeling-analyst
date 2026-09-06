@@ -3,7 +3,8 @@
 
 示例：
 python scripts/run_record.py --root . --problem Q1 --purpose "最终预测" \
-    --status FINAL --input 01_data/processed/q1.csv -- \
+    --status FINAL --input 01_data/processed/q1.csv \
+    --output 04_results/data/q1/result.csv -- \
     python 03_code/q1/main.py
 
 脚本只负责机械记录，不判断模型是否科学合理。
@@ -48,13 +49,25 @@ def next_run_id(runs_dir: Path) -> str:
     return f"R{highest + 1:03d}"
 
 
+def display_path(root: Path, path: Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
 def file_record(root: Path, value: str) -> dict[str, object]:
-    path = (root / value).resolve() if not Path(value).is_absolute() else Path(value).resolve()
-    record: dict[str, object] = {"path": str(path.relative_to(root)) if path.is_relative_to(root) else str(path)}
+    candidate = Path(value)
+    path = candidate.resolve() if candidate.is_absolute() else (root / candidate).resolve()
+    record: dict[str, object] = {
+        "path": display_path(root, path),
+        "exists": path.exists(),
+        "kind": "directory" if path.is_dir() else "file" if path.is_file() else "missing",
+    }
     if path.is_file():
-        record.update({"exists": True, "size": path.stat().st_size, "sha256": sha256(path)})
+        record.update({"size": path.stat().st_size, "sha256": sha256(path)})
     else:
-        record.update({"exists": path.exists(), "size": None, "sha256": None})
+        record.update({"size": None, "sha256": None})
     return record
 
 
@@ -112,9 +125,18 @@ def main() -> int:
     stdout_path.write_text(proc.stdout, encoding="utf-8", errors="replace")
     stderr_path.write_text(proc.stderr, encoding="utf-8", errors="replace")
 
-    effective_status = args.status if proc.returncode == 0 else "REJECTED"
     input_records = [file_record(root, value) for value in args.input]
     output_records = [file_record(root, value) for value in args.output]
+    missing_outputs = [record["path"] for record in output_records if not record["exists"]]
+    empty_output_files = [
+        record["path"]
+        for record in output_records
+        if record["kind"] == "file" and record.get("size") == 0
+    ]
+
+    run_ok = proc.returncode == 0 and not missing_outputs and not empty_output_files
+    effective_status = args.status if run_ok else "REJECTED"
+    effective_return_code = proc.returncode if proc.returncode != 0 else (0 if run_ok else 2)
 
     record = {
         "run_id": run_id,
@@ -130,6 +152,8 @@ def main() -> int:
         "repeat": args.repeat or None,
         "inputs": input_records,
         "outputs": output_records,
+        "missing_outputs": missing_outputs,
+        "empty_output_files": empty_output_files,
         "stdout_log": str(stdout_path.relative_to(root)),
         "stderr_log": str(stderr_path.relative_to(root)),
         "conclusion": args.conclusion,
@@ -152,11 +176,15 @@ def main() -> int:
         },
     )
 
-    print(f"{run_id}: {effective_status} (exit={proc.returncode})")
+    print(f"{run_id}: {effective_status} (command_exit={proc.returncode})")
     print(f"record: {json_path.relative_to(root)}")
-    if args.status == "FINAL" and proc.returncode != 0:
-        print("FINAL 请求运行失败，已记录为 REJECTED，不得作为 FINAL_RUN_ID。", file=sys.stderr)
-    return proc.returncode
+    if missing_outputs:
+        print(f"missing outputs: {', '.join(map(str, missing_outputs))}", file=sys.stderr)
+    if empty_output_files:
+        print(f"empty output files: {', '.join(map(str, empty_output_files))}", file=sys.stderr)
+    if args.status == "FINAL" and not run_ok:
+        print("FINAL 请求未通过运行/输出完整性检查，已记录为 REJECTED，不得作为 FINAL_RUN_ID。", file=sys.stderr)
+    return effective_return_code
 
 
 if __name__ == "__main__":
