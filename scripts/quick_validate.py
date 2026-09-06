@@ -31,6 +31,7 @@ REQUIRED_FILES = (
     "scripts/delivery_check.py",
     "tests/test_old_problem_forward_contract.py",
     "tests/test_competition_first_contract.py",
+    "tests/test_helper_tools.py",
     ".github/workflows/validate.yml",
 )
 
