@@ -3,7 +3,8 @@
 
 该测试不评价历史题得分，只防止后续编辑重新引入：过度加载、技术细节反复审批、
 探索图论文级负担、强制推荐分、下载链接硬门、内部状态直接进入论文，或让正式
-建模 Python 重新变成难以快速接手的“无区域结构代码”等回归。
+建模 Python 重新变成难以快速接手的“无区域结构代码”，以及丢失新建中文赛题项目
+对简体中文文件名、注释和结果表字段的默认偏好等回归。
 """
 
 from __future__ import annotations
@@ -76,10 +77,15 @@ def main() -> int:
     require(
         code_policy,
         "python-code-documentation-policy.md",
+        "简体中文优先、注释有效",
+        "Python 文件名尽量使用简体中文语义名",
+        "列名尽量使用清楚的简体中文语义",
+        "`01_data/raw/` 中的官方原始列名应保持原样",
+        "原字段 → 中文字段",
+        "docstring 默认使用简体中文",
         "区域级注释：先让人一眼看懂“这一段在做什么”",
         "核心建模区域必须尽量写明实际模型/算法名称",
-        "区域级注释回答“这一段做什么”；行内注释继续重点回答“为什么这样做”",
-        "数据清洗",
+        "人工编写注释默认使用简体中文",
         "核心建模：XGBoost 回归",
         "结果验证",
     )
@@ -90,8 +96,12 @@ def main() -> int:
         "QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md",
         "确认的是建模边界",
         "满足已确认触发条件后切换到已确认备用路线",
+        "Python 文件名尽量使用清楚的**简体中文语义名**",
+        "简体中文区域级注释",
+        "人工编写的行内注释默认使用**简体中文**",
+        "新建 `processed` 数据、CSV/XLSX 结果表",
+        "原字段 → 中文字段",
         "核心建模：<实际模型/算法名称>",
-        "区域级注释说明“这一段做什么”，行内注释继续解释“为什么这样做”",
     )
     forbid(q_template, "QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md", "| 推荐指数 |", "写中文命名、带有效注释的正式 Python")
 
@@ -100,8 +110,10 @@ def main() -> int:
         one_pass,
         "STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md",
         "普通技术失败、调参失败、求解器更换或已确认备用路线触发，不单独暂停",
-        "项目现有命名约定",
-        "多阶段建模脚本用区域级注释标出主要职责",
+        "Python 文件名尽量使用清楚的**简体中文语义名**",
+        "人工编写的行内注释默认使用**简体中文**",
+        "新建 `processed` 数据、CSV/XLSX 结果表",
+        "多阶段建模脚本用简体中文区域级注释标出主要职责",
         "核心建模区域尽量直接写明实际模型/算法名称",
     )
 
@@ -125,7 +137,7 @@ def main() -> int:
     )
 
     ledger = read("references/model-run-ledger.md")
-    require(ledger, "model-run-ledger.md", "同一运行元数据只维护一个权威来源", "METHOD_FIGURE")
+    require(ledger, "references/model-run-ledger.md", "同一运行元数据只维护一个权威来源", "METHOD_FIGURE")
 
     blueprint = read("references/paper-evidence-architecture.md")
     require(
