@@ -2,7 +2,8 @@
 """v11.2 competition-first 行为契约测试。
 
 该测试不评价历史题得分，只防止后续编辑重新引入：过度加载、技术细节反复审批、
-探索图论文级负担、强制推荐分、下载链接硬门和内部状态直接进入论文等回归。
+探索图论文级负担、强制推荐分、下载链接硬门、内部状态直接进入论文，或让正式
+建模 Python 重新变成难以快速接手的“无区域结构代码”等回归。
 """
 
 from __future__ import annotations
@@ -71,8 +72,27 @@ def main() -> int:
         "Requirement / Evidence 骨架",
     )
 
+    code_policy = read("references/python-code-documentation-policy.md")
+    require(
+        code_policy,
+        "python-code-documentation-policy.md",
+        "区域级注释：先让人一眼看懂“这一段在做什么”",
+        "核心建模区域必须尽量写明实际模型/算法名称",
+        "区域级注释回答“这一段做什么”；行内注释继续重点回答“为什么这样做”",
+        "数据清洗",
+        "核心建模：XGBoost 回归",
+        "结果验证",
+    )
+
     q_template = read("assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md")
-    require(q_template, "QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md", "确认的是建模边界", "满足已确认触发条件后切换到已确认备用路线")
+    require(
+        q_template,
+        "QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md",
+        "确认的是建模边界",
+        "满足已确认触发条件后切换到已确认备用路线",
+        "核心建模：<实际模型/算法名称>",
+        "区域级注释说明“这一段做什么”，行内注释继续解释“为什么这样做”",
+    )
     forbid(q_template, "QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md", "| 推荐指数 |", "写中文命名、带有效注释的正式 Python")
 
     one_pass = read("assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md")
@@ -81,6 +101,8 @@ def main() -> int:
         "STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md",
         "普通技术失败、调参失败、求解器更换或已确认备用路线触发，不单独暂停",
         "项目现有命名约定",
+        "多阶段建模脚本用区域级注释标出主要职责",
+        "核心建模区域尽量直接写明实际模型/算法名称",
     )
 
     visualization = read("references/python-visualization-policy.md")
