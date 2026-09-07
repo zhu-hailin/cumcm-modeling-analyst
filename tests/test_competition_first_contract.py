@@ -4,7 +4,8 @@
 该测试不评价历史题得分，只防止后续编辑重新引入：过度加载、技术细节反复审批、
 探索图论文级负担、强制推荐分、下载链接硬门、内部状态直接进入论文，或让正式
 建模 Python 重新变成难以快速接手的“无区域结构代码”，以及丢失新建中文赛题项目
-对简体中文文件名、注释和结果表字段的默认偏好等回归。
+对简体中文文件名、注释和结果表字段的默认偏好，或把正式科研图重新默认拼成
+(a)(b)(c)(d) 多面板图等回归。
 """
 
 from __future__ import annotations
@@ -102,6 +103,9 @@ def main() -> int:
         "新建 `processed` 数据、CSV/XLSX 结果表",
         "原字段 → 中文字段",
         "核心建模：<实际模型/算法名称>",
+        "一个图表 = 一个独立图片文件，由 Python 单独生成和保存",
+        "图1、图2、图3……",
+        "不为了省文件、省版面或视觉效果把独立图强行拼成 `(a)(b)(c)(d)`",
     )
     forbid(q_template, "QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md", "| 推荐指数 |", "写中文命名、带有效注释的正式 Python")
 
@@ -115,6 +119,9 @@ def main() -> int:
         "新建 `processed` 数据、CSV/XLSX 结果表",
         "多阶段建模脚本用简体中文区域级注释标出主要职责",
         "核心建模区域尽量直接写明实际模型/算法名称",
+        "一个图表 = 一个独立图片文件，由 Python 单独生成和保存",
+        "图1、图2、图3……",
+        "不为了减少文件数、节省页数或排版效果强行拼成 `(a)(b)(c)(d)`",
     )
 
     visualization = read("references/python-visualization-policy.md")
@@ -125,6 +132,11 @@ def main() -> int:
         "FORMAL_EVIDENCE",
         "探索图无需填写完整论文证据契约",
         "METHOD_FIGURE",
+        "一个图表 = 一个独立图片文件，由 Python 单独生成并单独保存",
+        "图1、图2、图3……",
+        "`(a)(b)(c)(d)` 多面板图属于**例外**，不是默认风格",
+        "不为了减少文件数、节省页数或“看起来更丰富”把多个本来可以独立表达的图拼成一张大图",
+        "正文优先引用整张 `图3`",
     )
 
     source = read("references/source-verification-policy.md")
@@ -158,8 +170,29 @@ def main() -> int:
         "模型假设：每条都要有用途",
         "如何求解",
         "结果分析",
+        "单图单文件、单图单图号",
+        "图1、图2、图3……",
+        "不为了省文件、省版面或营造“高级感”把独立图硬拼成 `(a)(b)(c)(d)`",
     )
     forbid(paper, "reference-paper-writing.md", "├─ PAPER_EVIDENCE_BLUEPRINT.md")
+
+    audit = read("references/final-paper-audit.md")
+    require(
+        audit,
+        "final-paper-audit.md",
+        "默认一个图表对应一个独立图片文件和一个独立图号",
+        "图1、图2、图3……",
+        "组合 `(a)(b)(c)(d)` 只在共享坐标/尺度/图例或必须同时比较时例外使用",
+    )
+
+    audit_template = read("assets/FINAL_PAPER_AUDIT_TEMPLATE.md")
+    require(
+        audit_template,
+        "FINAL_PAPER_AUDIT_TEMPLATE.md",
+        "一个图表一个独立图片文件",
+        "图1、图2、图3……",
+        "强行使用 `(a)(b)(c)(d)`",
+    )
 
     print("competition_first_contract: PASS")
     return 0
