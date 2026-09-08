@@ -7,7 +7,7 @@
 | 文件 | 用途 | 生成方式 | 是否含赛题结果 |
 |---|---|---|---|
 | `hero-cumcm-modeling-analyst.svg` | README 顶部中文宣传横幅 | 确定性 SVG 排版与矢量图形 | 否 |
-| `cumcm-readme-workflow.svg` | README 完整工作流程图，展示从读题到 AI 内部参考论文的流程 | 确定性 SVG 排版、文字与矢量示意图 | 否 |
+| `cumcm-readme-workflow.svg` | v11.3 逐题流程：本问确认、求解验证、交付后暂停；全部问题完成后冻结证据并编写内部参考论文 | 确定性 SVG 排版、文字与矢量示意图 | 否 |
 
 ## 为什么不直接放入旧题结果图
 
