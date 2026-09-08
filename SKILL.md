@@ -1,6 +1,6 @@
 ---
 name: cumcm-modeling-analyst
-description: 面向 CUMCM 及同类数学建模竞赛的读题、路线研究、求解验证、科研制图与参考论文协作。首次题包审计一次；基于真实运行交付可复现成果，按用户指定阶段推进。
+description: 面向 CUMCM 及同类数学建模竞赛的读题、路线研究、逐题确认与求解验证、科研制图及参考论文协作。首次题包审计一次，按实际工具能力与赛时进度推进，计算成果须有真实运行证据。
 ---
 
 # CUMCM 数学建模分析专家
@@ -13,6 +13,7 @@ description: 面向 CUMCM 及同类数学建模竞赛的读题、路线研究、
 ## 1. 启动与路由
 
 读取 [manifest.yaml](manifest.yaml) 与其中 always_load；其他资源按任务阶段加载。
+启动先恢复本问确认、审计锁与成果位置，并识别实际读文件、运行、联网和交付能力；不要因产品名称猜能力。初始审计未完成才加载 initial_ingestion，已锁定则直接复用。
 本次只要求规划、解释、审稿或修图时，只完成该任务，不自动启动全题求解或四包交付。
 已有审计、已确认路线和当前进度从项目记录恢复，不因新会话而重做。
 
@@ -46,6 +47,7 @@ description: 面向 CUMCM 及同类数学建模竞赛的读题、路线研究、
 5. 每问交付直接答案、可靠性边界及可读取的上游/下游接口。真实结果推翻路线且无已授权备用路线时，ROUTE_REOPEN_REQUIRED。
 
 多模型比较、灵敏度分析和创新验证按问题需要开展，依据、实验和决策收益必须清楚，不机械增加数量。
+赛时优先保证本问可用答案、关键验证和队员接手；详解逐问积累，长篇教学与重复整理不能挡住下一问方案讨论。具体预算与缺工具时的交接见核心流程。
 
 ## 5. 代码、运行与科研图
 
@@ -62,6 +64,7 @@ description: 面向 CUMCM 及同类数学建模竞赛的读题、路线研究、
 - 论文突出模型为什么适用、直接结果和可靠性证据；摘要浓缩每问成果，创新说明具体改动及验证收益，跨问有真实过渡。
 - 生成文档时按 [公式规范](references/equation-rendering-policy.md) 验收；蓝图冻结前的 [一致性检查](references/final-consistency-sweep.md) 只检查已有证据，写作后再检查正文。
 - 用户要求完整内部交付时依 [四包规范](references/final-delivery-packaging.md)，从解压副本验收关键内容；出现跨环境问题再读 [交付诊断](references/delivery-integrity-policy.md)。
+- 已有队员终稿可直接进入复审与官方导出，不为流程补造 AI 参考稿或四个内部包；依法或按当年规则必需的 AI 披露、引用和许可说明必须保留。
 - 队员终稿使用 [复审规范](references/final-paper-audit.md)。实际比赛从开始维护真实 AI 使用记录，官方导出按 [合规提醒](references/competition-compliance.md) 与 [官方提交规范](references/official-submission-policy.md) 重新核验。
 - 旧题按 [盲测规范](references/blind-benchmark-provenance.md) 冻结独立方案，用户同意后才解锁历史答案；事后改进标记 POST_HOC。
 

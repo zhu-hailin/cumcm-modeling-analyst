@@ -14,7 +14,7 @@ MD_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 REQUIRED_FILES = (
     "SKILL.md", "manifest.yaml", "agents/openai.yaml",
     "scripts/run_record.py", "scripts/delivery_check.py", "scripts/figure_utils.py",
-    "tests/test_helper_tools.py", "tests/test_reliability.py",
+    "tests/test_helper_tools.py", "tests/test_reliability.py", "tests/test_figures.py",
     "tests/test_competition_first_contract.py", "tests/test_old_problem_forward_contract.py",
     ".github/workflows/validate.yml",
 )
@@ -65,7 +65,8 @@ def validate(root: Path) -> dict[str, object]:
                 target = (root / relative).resolve()
                 if not target.is_relative_to(root) or not target.is_file():
                     errors.append(f"路由断链/越界：{route} -> {relative}")
-        if not all(isinstance(item, str) for item in manifest.get("principles", [])):
+        principles = manifest.get("principles")
+        if not isinstance(principles, list) or not principles or not all(isinstance(item, str) for item in principles):
             errors.append("principles 应为字符串列表，检查未引用的冒号")
         interface = yaml.safe_load((root / "agents/openai.yaml").read_text("utf-8")).get("interface", {})
         for field in ("display_name", "short_description", "default_prompt"):

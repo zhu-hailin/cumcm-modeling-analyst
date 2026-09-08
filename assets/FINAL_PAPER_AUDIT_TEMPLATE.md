@@ -144,6 +144,8 @@
 
 ## 修订顺序
 
+按实际修改影响选择重跑范围，沿 final-consistency-sweep.md 的 CHANGE_IMPACT 检查；不因问题标为 P0/P1 就重算未受影响模型。
+
 1. P0；
 2. P1；
 3. 重跑受影响的 Python；

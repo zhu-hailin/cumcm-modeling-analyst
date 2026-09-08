@@ -195,7 +195,7 @@ Final Run
 
 ## 10. Ripple Check 与二审
 
-P0/P1 修改后执行：
+P0/P1 修改后按 final-consistency-sweep.md 的 CHANGE_IMPACT 范围复审；仅排版或转述错误不重跑正确模型。题意、数据、模型或计算确实改变时执行：
 
 ```text
 题意/数据/模型修改

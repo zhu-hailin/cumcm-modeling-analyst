@@ -1,15 +1,19 @@
 name: cumcm-modeling-analyst
-version: "11.3"
+version: "11.4"
 description: >
   Competition-first router for CUMCM modeling. Keep startup light, let the agent
   explore freely inside confirmed boundaries, and load strict evidence/figure/paper
   rules only when the corresponding artifact becomes formal.
 
 always_load:
-  - references/problem-ingestion-security.md
   - references/core-workflow.md
 
 routes:
+  initial_ingestion:
+    when: first attached problem-package intake, continuation of its incomplete initial audit, or an explicit user request to re-audit; no file audit for an attachment-free text exercise, and never a routine trigger for later materials or question switches
+    load:
+      - references/problem-ingestion-security.md
+
   local_workspace:
     when: Codex or another writable local agent creates or manages project files
     load:
@@ -39,6 +43,11 @@ routes:
     load:
       - references/external-data-research-policy.md
       - references/source-verification-policy.md
+
+  paper_review:
+    when: the user requests paper evaluation or transferable research-design lessons, or a substantive paper comparison will change the current modeling decision
+    load:
+      - references/source-verification-policy.md
       - references/paper-evaluation-protocol.md
 
   formulas_and_tutorials:
@@ -50,10 +59,9 @@ routes:
     when: an old problem is solved blindly, frozen, compared with references or improved post hoc
     load:
       - references/blind-benchmark-provenance.md
-      - references/paper-evaluation-protocol.md
 
   paper_evidence:
-    when: create or incrementally update the requirement/evidence skeleton; inspect only currently available artifacts
+    when: manage a standalone cross-question evidence blueprint or prepare paper evidence; a compact single-question checklist alone does not trigger this route; inspect only currently available artifacts
     load:
       - references/paper-evidence-architecture.md
       - assets/PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md

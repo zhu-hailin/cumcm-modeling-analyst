@@ -115,7 +115,7 @@ Run ID：N/A（方法结构图）
 - [ ] 每个原题交付项都有 Requirement ID；
 - [ ] 每项有直接 `primary_answer` 或合规 `NOT_IDENTIFIABLE`；
 - [ ] 每项有真实 Final/Validation Run 或明确不适用原因；
-- [ ] 科学有效性与竞赛完成度分别判断；
+- [ ] 科学有效性与竞赛完成度分别判断；完成度 FAIL 的项不得标 READY，NOT_IDENTIFIABLE 不自动豁免原题交付项；
 - [ ] 关键结论有与风险匹配的独立验证；
 - [ ] `PAPER_CORE` 已安排进正文；
 - [ ] 图/表/公式没有机械配额和明显重复；

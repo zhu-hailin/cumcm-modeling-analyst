@@ -7,9 +7,7 @@
 正式比赛的顺序是：
 
 ```text
-INTERNAL_DELIVERY_COMPLETE
-↓
-队员人工重写论文
+队员理解、核查并完成终稿（AI 内部稿若被使用，须人工重写）
 ↓
 FINAL_PAPER_AUDIT
 ↓
@@ -19,6 +17,7 @@ OFFICIAL_SUBMISSION_EXPORT
 ```
 
 不得把某一年的提交文件名、页数或 ZIP 结构永久写死。
+INTERNAL_DELIVERY_COMPLETE 不是官方导出的强制前置状态。用户已有终稿时直接复审和导出，不为流程补造 AI 参考论文、长教程或四个内部 ZIP；数学、证据、匿名与实际必交材料的验收不豁免。
 
 ---
 
@@ -223,7 +222,7 @@ OFFICIAL_SUBMISSION_EXPORT_FAILED
 
 ## 8. 与内部四包的关系
 
-内部四包继续保留：
+用户选择生成的内部四包继续保留；未要求生成时不强制补做：
 
 ```text
 06_submission/internal_delivery/
@@ -244,7 +243,7 @@ OFFICIAL_SUBMISSION_EXPORT_FAILED
 ```text
 完成建模与真实运行
 ↓
-生成并验证内部四包
+保留可复核结果与队员接手说明（内部四包按需）
 ↓
 队员理解、核查并人工重写论文
 ↓
@@ -264,6 +263,7 @@ FINAL_PAPER_AUDIT / 修订 / 二审
 ```
 
 官方导出不能代替队员人工终审。
+“源码纯净”不能用来删除当年要求的 AI 声明、引用或许可信息；按官方要求保留应提交的来源与使用记录。
 
 ---
 

@@ -20,6 +20,8 @@ PAPER_EVIDENCE_BLUEPRINT_READY
 
 ### 1.1 EARLY_SKELETON
 
+单问小题或局部验证可把需求、答案、验证和未完成项留在本问交接中，不强制独立蓝图文件。需要跨问管理或准备论文时再汇入一份权威蓝图，不让两处继续重复维护。
+
 读题后建立轻量 Requirement / Evidence 骨架，至少记录：
 
 - Requirement ID；
@@ -89,7 +91,7 @@ status: PLANNED | READY | BLOCKED | NOT_APPLICABLE
 1. `primary_answer` 直接回答原题；
 2. 核心数字只从登记的 Final/Validation 成果读取；
 3. `paper_location` 最终可定位，不写“正文某处”；
-4. A 级核心结论原则上有主证据和至少一种不同原理的独立验证；
+4. A 级核心结论有主证据和能检验主要失效方式的独立验证，具体口径以 modeling-quality-gates.md 为准；
 5. `NOT_IDENTIFIABLE` 同时给最强替代结论与补充数据需求；
 6. `CONTEST_TASK_COMPLETION = FAIL` 不能靠谨慎措辞掩盖。
 
@@ -222,7 +224,7 @@ SUPERSEDED
 - [ ] 总体路线图已评估；
 - [ ] 前后问正式接口明确；
 - [ ] `SUPERSEDED` 结果未进入正式证据；
-- [ ] 所有 `BLOCKED` 项已解决；科学有效性 FAIL 的主张不能被标为 READY，QUALIFIED 必须带适用条件；
+- [ ] 所有 `BLOCKED` 项已解决；科学有效性或竞赛完成度 FAIL 的交付项不能被标为 READY，QUALIFIED 必须带适用条件；NOT_IDENTIFIABLE 是否完成原题要求按建模质量门判断；
 - [ ] 本次交付范围内的原题要求已覆盖；仅部分问题完成时只交付明确标注的阶段成果，不宣称全题蓝图就绪。
 
 全部通过后标记：
