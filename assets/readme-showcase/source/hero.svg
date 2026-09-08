@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="660" viewBox="0 0 1440 660" role="img" aria-labelledby="title desc">
+  <title id="title">CUMCM Modeling Analyst — 让建模思路成为可信成果</title>
+  <desc id="desc">面向数学建模竞赛的 AI 协作 Skill。全题理解、逐题确认、真实求解、证据驱动写作。右侧为模型与证据的抽象示意，不含实测结果。</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0B1425"/><stop offset="1" stop-color="#102B39"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#237C83" stop-opacity=".34"/><stop offset="1" stop-color="#237C83" stop-opacity="0"/></radialGradient>
+    <linearGradient id="accent"><stop stop-color="#66E4C3"/><stop offset="1" stop-color="#9BE9F6"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#96C5D6" stroke-opacity=".065"/></pattern>
+    <style>
+      text{font-family:'Noto Sans CJK SC',sans-serif;fill:#F4F8FC}
+      .muted{fill:#AFC2D0}.mint{fill:#7BE6C8}.bold{font-weight:700}
+      .stroke{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
+    </style>
+  </defs>
+  <rect width="1440" height="660" rx="28" fill="url(#background)"/>
+  <rect x="820" y="32" width="584" height="442" rx="20" fill="url(#grid)"/>
+  <ellipse cx="1110" cy="245" rx="326" ry="240" fill="url(#glow)"/>
+
+  <circle cx="82" cy="79" r="6" fill="#7BE6C8"/>
+  <text x="102" y="86" font-size="18" letter-spacing="2.3" class="muted">RESEARCH / MODEL / EVIDENCE</text>
+  <rect x="1220" y="54" width="148" height="42" rx="21" fill="#153B44" stroke="#397069"/>
+  <text x="1294" y="82" text-anchor="middle" font-size="18" class="mint bold">SKILL 11.4</text>
+
+  <text id="headline-1" x="72" y="199" font-size="66" class="bold">让建模思路</text>
+  <text id="headline-2" x="72" y="289" font-size="66" font-weight="700" fill="url(#accent)" style="fill:url(#accent)">成为可信成果。</text>
+  <text x="76" y="357" font-size="31" class="bold">CUMCM Modeling Analyst</text>
+  <text x="76" y="405" font-size="23" class="muted">从题目理解到参考论文，逐步形成可复核的答案。</text>
+  <path d="M76 444H150" stroke="#7BE6C8" stroke-width="3" stroke-linecap="round"/>
+  <text x="166" y="451" font-size="19" class="mint">读题 · 选模 · 实跑 · 验证 · 成文</text>
+
+  <!-- Abstract model network and evidence folio; not a result chart. -->
+  <rect x="842" y="130" width="526" height="296" rx="22" fill="#102332" stroke="#315364"/>
+  <text x="868" y="168" font-size="18" letter-spacing="1.4" class="muted">MODEL + EVIDENCE</text>
+  <g class="stroke" stroke="#427487">
+    <path d="M919 222L1021 205L1084 302L937 348Z M919 222L1084 302 M1021 205L937 348"/>
+    <path d="M993 279L919 222M993 279L1021 205M993 279L1084 302M993 279L937 348" stroke="#65B6B0"/>
+    <path d="M1100 281H1130" stroke="#7BE6C8"/><path d="M1122 273L1130 281L1122 289" stroke="#7BE6C8"/>
+  </g>
+  <g fill="#142D3C" stroke="#79CFC2" stroke-width="2.5">
+    <circle cx="919" cy="222" r="10"/><circle cx="1021" cy="205" r="8"/>
+    <circle cx="1084" cy="302" r="10"/><circle cx="937" cy="348" r="8"/>
+  </g>
+  <circle cx="993" cy="279" r="51" fill="#163C46" stroke="#70D4C1" stroke-width="2"/>
+  <text x="993" y="287" text-anchor="middle" font-size="34" class="bold mint">f(x)</text>
+  <text x="991" y="389" text-anchor="middle" font-size="18" class="muted">问题机理 / 现实约束</text>
+  <rect x="1142" y="198" width="196" height="197" rx="14" fill="#ECF6F4"/>
+  <rect x="1162" y="219" width="42" height="5" rx="2.5" fill="#158477"/>
+  <text x="1162" y="256" font-size="23" class="bold" style="fill:#183D46">证据可追溯</text>
+  <g class="stroke" stroke="#14816F"><path d="M1164 282l5 5 9-11M1164 321l5 5 9-11M1164 360l5 5 9-11"/></g>
+  <g font-size="19" style="fill:#36525A"><text x="1191" y="289" style="fill:#36525A">真实运行</text><text x="1191" y="328" style="fill:#36525A">独立验证</text><text x="1191" y="367" style="fill:#36525A">结论有据</text></g>
+  <text x="1105" y="455" text-anchor="middle" font-size="16" class="muted">模型与证据的抽象示意 · 非实测结果</text>
+
+  <path d="M72 499H1368" stroke="#35505F"/>
+  <g>
+    <rect x="76" y="538" width="48" height="48" rx="13" fill="#173F47"/>
+    <path d="M89 562l8 8 15-18" class="stroke" stroke="#7BE6C8"/>
+    <text x="144" y="555" font-size="25" class="bold">逐题确认</text>
+    <text x="144" y="594" font-size="19" class="muted">本问自主推进，完成后暂停</text>
+  </g>
+  <path d="M501 538V606M943 538V606" stroke="#35505F"/>
+  <g>
+    <rect x="532" y="538" width="48" height="48" rx="13" fill="#173F47"/>
+    <path d="M544 553l-7 9 7 9m24-18 7 9-7 9m-8-20-7 22" class="stroke" stroke="#7BE6C8"/>
+    <text x="600" y="555" font-size="25" class="bold">真实求解</text>
+    <text x="600" y="594" font-size="19" class="muted">代码、数据与结果相互对应</text>
+  </g>
+  <g>
+    <rect x="974" y="538" width="48" height="48" rx="13" fill="#173F47"/>
+    <path d="M989 549h15l6 6v22h-21zM994 560h10m-10 7h10" class="stroke" stroke="#7BE6C8"/>
+    <text x="1042" y="555" font-size="25" class="bold">证据驱动写作</text>
+    <text x="1042" y="594" font-size="19" class="muted">让模型、图表与论证连贯</text>
+  </g>
+</svg>

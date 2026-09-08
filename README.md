@@ -1,12 +1,6 @@
-> **重要：AI 生成的参考论文不能直接提交。参赛队员需要理解、核验并自行重写。**
-
 <p align="center">
-  <img src="assets/readme-showcase/hero-cumcm-modeling-analyst.svg" alt="CUMCM Modeling Analyst：从题面、数据与模型走到可复核的结论" width="100%" />
-</p>
-
-<p align="center">
-  <a href="assets/readme-showcase/cumcm-readme-workflow.svg">
-    <img src="assets/readme-showcase/cumcm-readme-workflow.svg" alt="CUMCM Modeling Analyst 工作流程图" width="100%" />
+  <a href="assets/readme-showcase/hero-cumcm-modeling-analyst.svg">
+    <img src="assets/readme-showcase/hero-cumcm-modeling-analyst.svg" alt="CUMCM Modeling Analyst：让建模思路成为可信成果。逐题确认、真实求解、证据驱动写作。" width="100%" />
   </a>
 </p>
 
@@ -14,350 +8,189 @@
 
 # CUMCM Modeling Analyst
 
-面向 CUMCM 及同类数学建模竞赛的 AI 协作 Skill，适配 Codex、Claude Code 等能够读取附件、管理项目、编写代码并真实运行 Python 的 Agent。
+**面向数学建模竞赛的 AI 协作 Skill**
 
-![CUMCM](https://img.shields.io/badge/CUMCM-数学建模-147d84?style=flat-square)
-![Skill](https://img.shields.io/badge/AI-Skill-5b6b9a?style=flat-square)
-![Codex](https://img.shields.io/badge/Codex-Ready-222222?style=flat-square)
-![Python](https://img.shields.io/badge/Python-实跑-3776ab?style=flat-square)
-![Version](https://img.shields.io/badge/version-11.4-4f6b9a?style=flat-square)
+读懂题目 · 研究模型 · 逐题求解 · 验证结果 · 组织论文
+
+[![Version](https://img.shields.io/badge/version-11.4-0F766E?style=flat-square)](CHANGELOG.md)
+[![Validation](https://github.com/zhu-hailin/cumcm-modeling-analyst/actions/workflows/validate.yml/badge.svg)](https://github.com/zhu-hailin/cumcm-modeling-analyst/actions/workflows/validate.yml)
+[![Python](https://img.shields.io/badge/helper_tools-Python_3.11%2B-3776AB?style=flat-square)](requirements-tools.txt)
+
+[核心能力](#capabilities) · [工作流程](#workflow) · [快速开始](#quick-start) · [质量与边界](#quality) · [工具与维护](#development)
 
 </div>
 
----
+把赛题、数据与已有思路，逐步转化为**队员能理解、能复核、能继续使用的建模成果**。模型怎么选，由问题与证据决定；Skill 负责组织研究、明确协作边界，并让代码、结果、图表和论文保持一致。
 
-## 设计目标
+> AI 生成的内部参考论文不能直接提交。参赛队员须理解、核验并自行重写，实际比赛始终以当年官方规则为准。
 
-这个 Skill 不追求把 Agent 管成“流程机器人”。真正目标是：
+<a id="capabilities"></a>
 
-> **让 AI 更容易读对题、找到好路线、真实算出来、验证清楚、画得专业、解释得明白，并最终交付一套队员能接手的成果。**
+## 从题意到成果，每一步都有交付
 
-v11.4 延续 **competition-first**，把证据可靠性与赛时效率一起落实：
+| 环节 | 你会得到什么 | 重点 |
+|---|---|---|
+| 读题与拆解 | 题意解析、交付清单、约束与跨问依赖 | 先回答对的问题 |
+| 建模路线 | 机制分析、合理基线、候选比较与选优理由 | 解释为什么用这个模型 |
+| 逐题求解 | 当前问代码、真实结果、独立验证与简洁交接 | 每问确认后推进，完成后暂停 |
+| 科研图表 | 清晰结果表、模型对比图、必要的灵敏度分析图 | 一图一意，图与数据可追溯 |
+| 参考论文 | 证据蓝图、内部参考稿、终稿复审建议 | 主答案醒目，论证连贯 |
 
-- 科学真实性和交付可靠性仍是硬底线；
-- 模型探索和技术实现尽量让 Agent 自主发挥；
-- 只有真正影响团队建模决策的事情才需要反复确认；
-- 探索成果保持轻量，只有升级为正式证据时才承担完整 QA；
-- 同一事实尽量只维护一个权威来源，减少 Run、README、教程和论文之间反复手抄。
+只需要审题、改图、解释模型或复审论文？可以直接从对应任务进入，不必重走全流程。
 
-本轮重点：按实际工具能力执行；限时先保留可用答案、关键验证和队员接手说明；纯改图不重算模型；内部四包按需；修复带小数点图名被截断并互相覆盖的问题。
-已有的真实运行、空论文拒收、公平选模、灵敏度解释与创新证据要求继续保留。
-中文文件名/注释/结果字段优先及单图单文件要求保留；Word 与 LaTeX 按团队需求选择。
+<a id="workflow"></a>
 
----
+## 全题先看清，解题逐问推进
 
-## 核心流程
+<p align="center">
+  <a href="assets/readme-showcase/cumcm-readme-workflow.svg">
+    <img src="assets/readme-showcase/cumcm-readme-workflow.svg" alt="工作流程：初始题包审计与拆题，研究并比较路线；当前问方案确认后真实求解、独立验证、交付暂停。用户决定进入下一问并单独确认。全题证据齐备且需要完整稿时，冻结证据，生成内部参考论文，再由队员重写与复审。" width="100%" />
+  </a>
+</p>
 
-```text
-初始赛题安全审计（每个赛题工作区仅一次）
-→ 读题 + Requirement 骨架
-→ Stage 1：机制探索 / EDA / baseline / 候选路线
-→ 建立整题候选路线与跨问接口
-→ Stage 2：每问单独确认方案并深解，完成后暂停
-→ Python 真实运行 + 独立验证 + 现实约束
-→ FINAL_RUN_ID
-→ Requirement / Evidence 骨架持续补充
-→ 正式科研图表与论文证据选编完成
-→ PAPER_EVIDENCE_BLUEPRINT_READY
-→ AI 内部参考论文
-→ 队员人工重写 + 终稿复审
-→ 当年官方提交导出
+<p align="center"><sub>点击查看高清 SVG · 图中为通用流程示意，不含旧题答案或实测成绩</sub></p>
+
+**整题路线认可，不代替每问方案确认。** 已确认的本问内，代码修复、调参、求解器调整和验证可以自主进行；改变目标、关键假设或现实约束时，再交由团队决定。
+
+初始题包只审计一次，锁定后复用。小任务按规模保留必要成果；仅改字、改图时，只更新受影响部分。详见[核心工作流](references/core-workflow.md)。
+
+<a id="quick-start"></a>
+
+## 快速开始
+
+### 1. 获取 Skill
+
+```bash
+git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
 ```
 
-启动加载核心流程；首次题包/未完成的初始审计或用户明确重审时才加载完整审计规范。已锁定审计直接复用，强度不变；其他规范由 `manifest.yaml` 按当前阶段加载。
+将仓库目录放入所用 Agent 支持的 Skill 位置，或让 Agent 明确读取本地入口。**仅克隆仓库不代表已经在所有应用中完成注册。** 不同工具的发现与加载方式以其实际支持为准。
 
----
+### 2. 提供题目，先做分析
 
-## 为什么不会把 Codex 锁死
+准备题面、官方附件，以及有助于核对公式或版面的正常可见截图，然后使用：
 
-### 已确认路线内，Codex 默认可自主做
+```text
+请读取本地 cumcm-modeling-analyst/SKILL.md，
+并按 manifest.yaml 加载当前阶段需要的规范。
 
-- EDA、异常检查、诊断实验和 baseline；
-- 参数、初值、容差、求解器和计算预算调整；
-- 代码重构、数值稳定处理和等价数学实现；
-- 交叉验证、滚动验证、bootstrap、多 seed、敏感性和上下界检查；
-- 满足预先确认条件后切换到已确认备用路线；
-- 生成探索图、验证图、方法图和正式论文候选图；
-- 上游结果变化后，重跑已确认且已求解的下游并同步成果，不开始未经确认的后问。
+使用这个 Skill 分析我提供的数学建模赛题：
+先完成必要的初始题包审计、全题拆解与路线研究，
+说明每问交付项、候选模型、选优理由、风险和跨问接口。
+现在先不进入正式求解，等我确认当前问方案。
+```
 
-### 只有这些事需要团队决定
+### 3. 确认当前问，再实现与验证
 
-- 改变原题目标、优化方向、交付对象或关键现实约束；
-- 新增/删除会明显改变结论的关键假设；
-- 需要采用尚未授权、会改变整题逻辑的新路线；
-- 关键现实数据缺失，不同处理会改变主答案；
-- 多条路线证据接近，选择属于队伍风险偏好或论文策略。
+```text
+确认第一问采用刚刚讨论的方案。
+请完成本问实现、真实运行、独立验证与必要图表，
+给出直接答案、适用边界和简洁交接。
+第一问完成后暂停，不自动求解第二问。
+```
 
-**调参失败、数值求解器更换、普通代码问题，不等于“路线重开”。**
+能否读取 PDF、解析表格、执行 Python、联网和交付文件，取决于当前环境的实际能力。没有运行能力时，Skill 可以继续分析与可核查推导，并输出实施规格；需要计算的结果必须标为“待运行”。
 
----
+<details>
+<summary><strong>旧题训练：开启盲测边界</strong></summary>
 
-## 主要能力
+```text
+这是旧题盲测。独立成果冻结前，
+不允许定位或读取历史答案、获奖论文或讲评；
+可以核验通用理论、软件文档和去题目标识化的现实资料。
+冻结后，等我明确同意，再开展历史答案对比。
+```
 
-| 能力 | 做什么 |
+先冻结独立方案和产物，再开放参考。事后学到的改进标为 POST_HOC，不回写成独立发现。README 展示图不使用真实旧题答案，避免污染后续训练。
+
+详见[盲测与溯源规范](references/blind-benchmark-provenance.md)。
+
+</details>
+
+## 让建模优势真正进入论文
+
+- **模型比较有理由**：在相同数据与评价口径下比较有价值的路线；不机械凑模型数量，也不把更换求解算法冒充新模型。
+- **灵敏度分析能解释决策**：说明扰动依据、结果变化和失效边界；区分“固定方案承压”与“允许调整后重新优化”。
+- **创新点有证据**：明确改了什么、为什么适合题目、相比基线改善了什么；必要时通过对照或消融验证。
+- **摘要与主结果优先**：摘要凝练每问方法、关键结果与结论；重要数字集中呈现，前后问通过真实接口自然衔接。
+
+代码文件名、区域注释和结果字段简体中文优先；正式科研图默认**单图单文件，图 1、图 2 独立编号**。探索图保持轻量，定稿图再检查字体、单位、误差、尺寸和清晰度。
+
+Word 与 LaTeX 按团队与交付需求选择，最终以公式排版、页面可读性和官方要求验收。详细规则见[科研绘图](references/python-visualization-policy.md)、[参考论文写作](references/reference-paper-writing.md)与[公式规范](references/equation-rendering-policy.md)。
+
+<a id="quality"></a>
+
+## 质量，靠可核查的证据
+
+| 检查 | 保证什么 | 不代表什么 |
+|---|---|---|
+| 真实运行记录 | 代码、输入、输出与版本可追溯 | 程序成功不等于模型正确 |
+| 独立验证 | 复算约束、检查泛化或给出适用的数学证据 | 最好一次结果不代表稳定性能 |
+| 原题覆盖检查 | 科学有效性与任务完成度分别判断 | 解释缺数据不等于已交付要求的答案 |
+| 文件与论文验收 | 实际解压、解析内容、核对数字与版面 | 文件能打开不等于论文达到获奖水平 |
+
+求解器达到时限但留下完整候选解时，可以独立验证后采用；没有最优性证明，就只称“当前最佳已验证可行解”。数据、文献或工具不足时说明具体缺口，不编造观测、引用、Run 或下载链接。
+
+完整内部交付可组织为题目详解、参考论文、源码和其他材料四包；只要其中一项，就验收该项。已有队员终稿可以直接复审，不强制补造内部参考稿或四包。必要的 AI 披露、引用与许可信息必须保留。
+
+这是一套协作与证据管理方法，**不是获奖保证，也不能替代队员判断**。
+
+<a id="development"></a>
+
+## 工具与维护
+
+入口保持简洁，细则按需加载。赛题工作区与 Skill 仓库分开管理，一个工作区只对应一道赛题。
+
+| 入口 | 用途 |
 |---|---|
-| 一次性读题安全审计 | 首次接收题面与官方附件时检查隐藏对象、透明内容、嵌入对象和疑似 Prompt Injection，之后整个赛题工作区复用审计结果 |
-| Requirement 骨架 | 读题后先固定动作词、交付对象、单位、硬约束和跨问依赖，避免后面模型做复杂却答偏题 |
-| 自由机制探索 | 先理解数据/现实机制，再用 EDA、小实验和 baseline 筛路线，不从模型清单机械套方法 |
-| 证据选模 | `QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS`，质量门负责淘汰不适用/不可验证路线，不预先限制模型家族 |
-| 逐题深度求解 | 每问方案确认后自主完成该问，交付后暂停，下一问单独讨论和确认 |
-| 真实外部数据 | 只有现实数据/参数/标准确实影响模型或结论时才加载外部研究流程，缺数据不编造 |
-| 真实 Python 运行 | 每问明确 `FINAL_RUN_ID`，最终数字、图表和论文都从 Final/Validation Run 读取 |
-| 建模质量门 | 检查数据结构、模型前提、验证单位、现实约束、泄漏、随机算法稳定性和结论强度 |
-| 两级科研绘图 | `QUICK_EXPLORATION` 允许快速 EDA；`FORMAL_EVIDENCE` 才执行完整论文级溯源和 A4 视觉 QA |
-| Evidence Blueprint | 读题后建立骨架、逐问增量补充、全部 Final Run 后冻结，不到最后才突然整理 |
-| 参考论文 | 重点解释为什么假设、为什么选模、如何求解、结果为什么可信，而不是模型名堆砌或 Agent 日志 |
-| 终稿复审 | 从快速阅读链、数学模型、数字、单位、公式、图表、引用和跨成果一致性复审队员终稿 |
-| 按需内部交付 | 完整交付时组织题目详解 / 参考论文 / 源码 / 其他四包；单项请求只验收该项，四包不阻塞已有终稿的官方导出 |
-| 盲测溯源 | 独立方案先冻结，之后才打开历史答案/优秀论文；后学内容标记 `POST_HOC` |
+| [SKILL.md](SKILL.md) / [manifest.yaml](manifest.yaml) | Skill 入口与阶段路由 |
+| [references/](references/) | 建模、运行、绘图、论文与交付规范 |
+| [assets/](assets/) | 逐题求解、证据蓝图和审稿模板 |
+| [run_record.py](scripts/run_record.py) | 重要运行记录、来源快照与新产物检查 |
+| [figure_utils.py](scripts/figure_utils.py) | 中文字体检测、多格式保存与默认防覆盖 |
+| [delivery_check.py](scripts/delivery_check.py) | ZIP 解压、关键文件与 DOCX/PDF 内容检查 |
+| [tests/](tests/) | 路由、运行、交付、绘图回归与独立试用请求 |
 
----
+<details>
+<summary><strong>辅助工具：依赖与调用示例</strong></summary>
 
-## Stage 1：先研究，而不是先选模型名
-
-推荐研究循环：
-
-```text
-识别关键困难
-↓
-提出可能机制 / 数学结构
-↓
-设计能区分这些机制的小实验或 EDA
-↓
-建立透明 baseline / 合理参照
-↓
-根据真实证据保留、修改或放弃路线
-↓
-最后用质量门审计候选
-```
-
-候选通常 1–3 个，路线明显时不凑数。证据不足时不制造“87 分 vs 84 分”这类虚假精确推荐指数。
-
-详细规则：[`references/modeling-quality-gates.md`](references/modeling-quality-gates.md)
-
----
-
-## Stage 2：只保留逐题深度求解
-
-```text
-当前问研究与方案
-→ 队员确认建模边界
-→ Agent 自主完成代码 / 实验 / 验证 / 绘图
-→ FINAL_RUN_ID
-→ 直接答案 + 下一问接口
-→ 暂停，等待用户进入下一问方案讨论
-```
-
-确认的是目标、关键假设、主路线/备用路线和重要约束，不是每一个超参数。
-
-整题路线可提前规划，但不能代替每问方案确认。用户已确认当前问后，调参、代码修复和验证无需逐次请示；完成当前问后不自动求解剩余所有问题。
-
-### 赛时怎么推进
-
-先获得本问可用答案，再做决定结论的验证；已有答案时优先解释关键结果、保留可读取接口与简洁交接，长篇教学展开可后补。时间预算由真实进度决定，不固定机械分钟数。
-
-按任务规模建文件：单问小题/局部验证保留实际代码、结果、运行证据和一份交接，不强制完整赛事目录或独立论文蓝图。无附件的纯文本小题不伪造文件审计；首次实际题包的初始审计不省略。
-
-求解器达到时限不自动代表失败或最优：有完整候选解则独立复算目标和硬约束，确认后才采用；没有解不能把下界当方案。无法识别某项结果可如实说明，但不能自动把未交付的数值/方案标为完成。
-
-只改图中文字、字体或配色时从同一正式数据重绘，不重跑所有模型。官方要求的 AI 披露、引用与许可声明不能因“清理源码”而删除。
-
-### 工具不足时怎么继续
-
-按本次实际的文件读取、计算、联网与交付能力执行，不因为叫 Chat/Codex 就假定有某项工具。能读不能运行时，可继续已审计材料的分析与推导，向执行者交接本问实施规格；数值结果标明待运行，不虚构文件、Run 或下载链接。
-
----
-
-## 科研图片：探索快，定稿严
-
-### QUICK_EXPLORATION
-
-适合：
-
-- EDA；
-- 调试；
-- 变量关系探索；
-- 候选筛选；
-- 快速验证机制猜想。
-
-要求真实、不误导、基本标签和单位清楚即可，不需要每张都填论文证据契约和导出三种格式。
-
-### FORMAL_EVIDENCE
-
-只有准备进入正式成果的：
-
-```text
-PAPER_FIGURE
-VALIDATION_FIGURE
-METHOD_FIGURE
-```
-
-才要求完整链：
-
-```text
-Requirement / 结论
-↔ 源数据或最终方法
-↔ Final/Validation Run（数据图）
-↔ 绘图脚本
-↔ 图片文件
-↔ 最终尺寸 / 字体 / 误差 / 可读性 QA
-```
-
-详细规则：[`references/python-visualization-policy.md`](references/python-visualization-policy.md)
-
----
-
-## Evidence Blueprint：从读题就开始，但最后才冻结
-
-证据蓝图按当前成果成熟度推进：
-
-```text
-EARLY_SKELETON
-→ 每问 Final Run 后持续补充
-→ 全题 Final/Validation Run 冻结
-→ FINAL_FREEZE
-→ PAPER_EVIDENCE_BLUEPRINT_READY
-→ 完整参考论文
-```
-
-权威蓝图只有一份：
-
-```text
-02_analysis/PAPER_EVIDENCE_BLUEPRINT.md
-```
-
-`05_paper/` 不再复制第二份蓝图，减少版本串线。
-
-内部仍然可以使用：
-
-```text
-FINAL_RUN_ID
-SCIENTIFIC_VALIDITY
-CONTEST_TASK_COMPLETION
-A/B/C evidence grade
-PAPER_CORE / PAPER_SUPPORT / RUN_ONLY
-```
-
-但正式论文正文不需要展示这些 Agent 状态词。论文应该给评委看真实验证、误差、稳定性、现实约束和适用范围。
-
----
-
-## 参考论文：重点是建模论证
-
-参考论文应持续回答：
-
-```text
-为什么这样处理？
-为什么需要这些假设？
-为什么选这个模型？
-公式和现实约束如何建立？
-算法为什么这样求解？
-结果具体是什么？
-为什么可信？
-对后续问题有什么作用？
-```
-
-尤其避免：
-
-```text
-根据问题分析
-→ 建立 XX 模型
-→ 使用 Python 求解
-→ 结果如下图表
-```
-
-软件只是求解工具，不是论证。
-
-详细规则：[`references/reference-paper-writing.md`](references/reference-paper-writing.md)
-
----
-
-## 文献核验：真实 ≠ 公开可下载
-
-v11.2 把两件事分开：
-
-1. 文献是否真实、是否实际读过、是否支持当前主张；
-2. 是否存在稳定的公开全文下载入口。
-
-如果队员已经合法提供全文，Agent 实际读过关键内容，即使出版社页面需要机构权限，也可以作为真实学术依据；但不能声称“公开可下载”。
-
-只有你明确提供“下载链接”时，才要求 `DOWNLOAD_VERIFIED`。
-
-详细规则：[`references/source-verification-policy.md`](references/source-verification-policy.md)
-
----
-
-## Codex 单赛题工作区
-
-```text
-2022-C/
-├─ README.md
-├─ 00_problem/                 # 原题、官方附件和模板
-├─ 01_data/                    # raw / processed / external
-├─ 02_analysis/                # 题意、假设、符号、方案、教程、Evidence Blueprint
-├─ 03_code/                    # 正式 Python
-├─ 04_results/                 # figures / tables / data / logs
-├─ 05_paper/                   # 提纲、参考稿和队员终稿
-├─ 06_submission/              # 内部四包与官方提交候选
-├─ 07_references/              # 论文、网页和资料笔记
-└─ 99_temp/                    # 可清理临时文件
-```
-
-中文文件名是新建中文项目的可读性偏好，不是科学正确性的硬门。已有英文仓库、Python 包、Notebook、CI 或跨平台工具链直接继承现有稳定约定。
-
----
-
-## 辅助工具
-
-辅助工具使用 Python 3.11+。安装校验依赖：
+辅助工具要求 Python 3.11+。在 Skill 仓库中安装其依赖：
 
 ```bash
 python -m pip install -r requirements-tools.txt
 ```
 
-其中 PyYAML 用于路由检查，pypdf 用于真实 PDF 解析，Matplotlib 用于科研图辅助函数及导出测试。赛题模型的依赖在其项目中单独维护。
-Windows 终端/重定向涉及中文时，建议启用 Python UTF-8 模式（PowerShell：`$env:PYTHONUTF8="1"`）；自动测试也使用该设置。
+赛题模型另行维护自己的依赖。Windows 中文终端可启用 Python UTF-8 模式，例如 PowerShell 的 `$env:PYTHONUTF8="1"`。
 
-### 记录一次重要真实运行
-
-```bash
-python scripts/run_record.py \
-  --root . \
-  --problem Q1 \
-  --purpose "最终模型" \
-  --status FINAL \
-  --input 01_data/processed/q1.csv \
-  --output "{run_dir}/result.csv" \
-  -- python 03_code/q1/main.py --output-dir "{run_dir}"
-```
-
-上例要求求解脚本支持 --output-dir 并创建输出目录，也可读取 CUMCM_OUTPUT_DIR。{run_dir} 是本次独立目录；旧项目可使用一个尚不存在的新输出路径，不能覆盖旧结果后冒充本次证据。
-工具在运行前记录输入与代码 hash，拒绝缺失输入、已有输出、空产物和失败命令。--code 可补充共用模块/配置；--timeout 按本次预算设置。
-运行 JSON 是权威记录，RUN_LEDGER.md 可以 --rebuild-ledger 重建。FINAL 声明用途，科学有效性和竞赛完成度仍须分别审核。
-
-### 科研图公共保存工具
-
-```python
-from scripts.figure_utils import apply_readable_defaults, save_figure
-
-apply_readable_defaults(require_chinese=True)  # 缺中文字体则明确报错，先配置字体
-# ... 正常绘图 ...
-save_figure(fig, "04_results/figures/q1/paper/预测结果")
-```
-
-工具不固定颜色、不决定图型，只处理字体和机械保存。
-文件主干里的小数点/版本号保留，例如“参数0.1.png”与“参数0.2.png”不会撞名。默认拒绝覆盖已有图片；确认替换可恢复的派生图时才显式传 overwrite=True。空/重复/不支持的导出格式明确失败。
-
-### 实际验收 ZIP
+以下示例假设 Skill 仓库与赛题工作区为同级目录，命令在**赛题工作区**执行。输入与脚本须已存在，求解脚本须支持 `--output-dir` 并创建输出目录：
 
 ```bash
-python scripts/delivery_check.py 06_submission/internal_delivery/*.zip
+python ../cumcm-modeling-analyst/scripts/run_record.py \
+  --root . --problem Q1 --purpose "最终模型候选" --status FINAL \
+  --input 01_data/processed/第一题.csv \
+  --output "{run_dir}/结果.csv" \
+  -- python 03_code/q1/第一题.py --output-dir "{run_dir}"
 ```
 
-会实际解压、检查 DOCX 正文及 PDF 页数/内容，不把文件头正确等同于论文有效。名为“参考论文.zip”的包自动要求 DOCX+PDF，其他名称使用 --profile reference-paper。
-关键文件可用 --require 指定；从选定源文件生成包外 JSON 清单后，用 --manifest 对单包核对路径、大小与 SHA-256。返回 MECHANICAL_ONLY，不代替图表/公式视觉检查、数学正确性与源码复现。
+每次运行使用新产物路径；缺失输入、已有输出、空产物和失败命令不能固化为正式结果。`--status FINAL` 仅声明用途，科学有效性与完成度仍需验证。`--code` 可补充实际使用的共用模块，`--timeout` 可设置运行预算。
 
-### 验证当前 Skill
+`figure_utils.py` 提供 `apply_readable_defaults` 与 `save_figure`。保存主干中的小数点会完整保留，默认不覆盖已有图；明确替换派生图时才使用 `overwrite=True`。
+
+对已生成的参考论文包进行机械验收：
+
+```bash
+python ../cumcm-modeling-analyst/scripts/delivery_check.py \
+  06_submission/internal_delivery/参考论文.zip
+```
+
+默认参考论文包要求 DOCX 与 PDF；其他命名可指定 `--profile reference-paper`。仅交付某一格式时，按实际范围选普通包检查并用 `--require` 指定文件。工具检查不代替数学复核、公式/图表视觉检查或源码实际复现。
+
+</details>
+
+<details>
+<summary><strong>运行全部仓库检查</strong></summary>
+
+在 Skill 仓库中执行：
 
 ```bash
 python scripts/quick_validate.py
@@ -368,89 +201,27 @@ python tests/test_reliability.py
 python tests/test_figures.py
 ```
 
-静态测试检查路由和边界；行为测试实际构造正常/失败运行与压缩包。它们验证工具可靠性，不代表数学建模得分或获奖能力。
-`tests/scenarios.json` 保存独立试用的原始请求，可在新会话中配合 Skill 试用；不把措辞匹配或单次小题表现当作比赛得分证明。
+GitHub Actions 在 Ubuntu / Windows、Python 3.11 / 3.12 上运行检查。测试覆盖路由、实际运行、压缩包和 PNG/SVG/PDF 导出，不把静态通过率当作建模得分。
+
+[独立试用请求](tests/scenarios.json)可用于新会话中的行为验证；微型题表现不等于完整限时比赛表现。
+
+</details>
+
+<details>
+<summary><strong>v11.4 更新重点</strong></summary>
+
+- 赛时优先可用答案、关键验证和队员接手，长篇教学按需补充。
+- 初始审计条件加载，审计锁定后复用；小任务不强建完整赛事目录。
+- 按修改影响范围重跑，不因改字或配色重算所有模型。
+- 明确不可识别结果、任务完成度与限时候选解的处理边界。
+- 修复小数点图名截断与覆盖，新增绘图行为测试。
+
+完整历史见 [CHANGELOG.md](CHANGELOG.md)。
+
+</details>
 
 ---
 
-## 旧题盲测
+发现题意误读、错误选模、数据泄漏、结果串版或交付问题？欢迎提交 [Issue](https://github.com/zhu-hailin/cumcm-modeling-analyst/issues) 或 [Pull Request](https://github.com/zhu-hailin/cumcm-modeling-analyst/pulls)，并附最小复现材料。
 
-```text
-BLIND_RUN_STARTED
-→ BLIND_SOLUTION_FROZEN
-→ POST_SOLUTION_COMPARISON
-→ POST_HOC_IMPROVEMENT
-```
-
-原则：
-
-> **禁止搜答案，不禁止查现实。**
-
-打开历史优秀论文、答案或讲评前先冻结独立成果和 hash；后续学到的新模型、图表和解释都标记 `POST_HOC`。
-
-README 不直接展示旧题结果图，避免污染后续同题盲测。
-
----
-
-## 快速开始
-
-```bash
-git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
-```
-
-然后在支持 Skill 的 Agent 中说：
-
-```text
-使用 cumcm-modeling-analyst 分析这道数学建模赛题。
-```
-
-旧题盲测时额外声明：
-
-```text
-这是旧题盲测，不允许定位或读取历史答案；可以核验通用理论、软件文档和去题目标识化的现实资料。
-```
-
----
-
-## 仓库结构
-
-```text
-.
-├── SKILL.md
-├── manifest.yaml
-├── README.md
-├── agents/openai.yaml
-├── scripts/
-│   ├── quick_validate.py
-│   ├── run_record.py
-│   ├── figure_utils.py
-│   └── delivery_check.py
-├── tests/
-│   ├── test_old_problem_forward_contract.py
-│   └── test_competition_first_contract.py
-├── assets/
-│   ├── PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md
-│   ├── QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md
-│   └── FINAL_PAPER_AUDIT_TEMPLATE.md
-└── references/
-    ├── problem-ingestion-security.md
-    ├── core-workflow.md
-    ├── modeling-quality-gates.md
-    ├── model-run-ledger.md
-    ├── python-visualization-policy.md
-    ├── paper-evidence-architecture.md
-    ├── reference-paper-writing.md
-    ├── source-verification-policy.md
-    ├── final-paper-audit.md
-    └── ...
-```
-
----
-
-## 边界
-
-这个项目不承诺自动获奖，也不能替代参赛队员判断。它追求的是：
-
-> **少做不会改变决策的流程，多做能改变答案质量的研究。**
-
-如果你发现题意误读、虚构数据、错误选模、数据泄漏、旧 Run 混用、误导图表、空 ZIP 或论文一致性问题，欢迎提交 Issue / PR，并尽量附可复现证据。
+**把时间留给能改善答案的研究，把证据留给需要理解它的人。**

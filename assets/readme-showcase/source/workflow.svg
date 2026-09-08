@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1540" viewBox="0 0 1280 1540" role="img" aria-labelledby="title desc">
+  <title id="title">从读懂题目，到写清结论 — CUMCM Modeling Analyst 工作流程</title>
+  <desc id="desc">先完成初始题包审计、读题和路线研究。每个问题分别确认方案，真实求解、独立验证并交付后暂停。由用户决定进入下一问，再单独确认。全题证据齐备且需要完整参考稿时冻结证据、组织内部参考论文，由队员理解重写与复审。图中仅为流程示意。</desc>
+  <defs>
+    <linearGradient id="phase" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102335"/><stop offset="1" stop-color="#153A44"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10Z" fill="#48857F"/></marker>
+    <marker id="mint-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10Z" fill="#8BE4CD"/></marker>
+    <style>
+      text{font-family:'Noto Sans CJK SC',sans-serif;fill:#173443}
+      .bold{font-weight:700}.muted{fill:#5D727D}.white{fill:#F1F7FA}.light{fill:#B8CFD7}.mint{fill:#8BE4CD}
+      .card{fill:#FFFFFF;stroke:#D9E6E8;stroke-width:1.5}
+      .line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
+      .flow{fill:none;stroke:#48857F;stroke-width:2.5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="1540" rx="26" fill="#F2F6F7"/>
+  <path d="M56 53H105" stroke="#168A7A" stroke-width="4" stroke-linecap="round"/>
+  <text x="122" y="60" font-size="18" letter-spacing="1.8" class="muted">THE MODELING WORKFLOW</text>
+  <text x="56" y="119" font-size="45" class="bold">从读懂题目，到写清结论</text>
+  <text x="58" y="163" font-size="23" class="muted">一条证据链，贯穿逐题协作。</text>
+  <text x="1224" y="60" text-anchor="end" font-size="18" class="muted">CUMCM / 11.4</text>
+
+  <!-- 01: intake and understanding -->
+  <rect x="56" y="208" width="1168" height="194" rx="20" class="card"/>
+  <circle cx="102" cy="253" r="23" fill="#E0F3EE"/>
+  <text x="102" y="261" text-anchor="middle" font-size="21" class="bold" style="fill:#147969">01</text>
+  <text x="148" y="263" font-size="31" class="bold">阅读与拆题</text>
+  <text x="148" y="310" font-size="23">首次题包审计，锁定后复用；不重复审计。</text>
+  <text x="148" y="350" font-size="23">明确目标、硬约束、交付项与跨问依赖。</text>
+  <text x="148" y="383" font-size="18" class="muted">产出：题意解析与需求清单</text>
+  <rect x="913" y="243" width="121" height="120" rx="10" fill="#F7FBFB" stroke="#B9D4D1"/>
+  <path d="M940 262h46l17 17v62h-63zM986 262v18h17M951 295h35m-35 13h35m-35 13h23" class="line" stroke="#398B81"/>
+  <rect x="1049" y="260" width="135" height="100" rx="10" fill="#E9F5F0" stroke="#B9D4D1"/>
+  <path d="M1064 286h105m-105 22h105m-105 22h105m-74-59v74m38-74v74" stroke="#83B7AC" stroke-width="2"/>
+  <text x="1050" y="385" text-anchor="middle" font-size="17" class="muted">题面 + 官方附件</text>
+  <path d="M640 406V434" class="flow"/>
+
+  <!-- 02: research, not a fixed model catalogue -->
+  <rect x="56" y="444" width="1168" height="202" rx="20" class="card"/>
+  <circle cx="102" cy="489" r="23" fill="#E0F3EE"/>
+  <text x="102" y="497" text-anchor="middle" font-size="21" class="bold" style="fill:#147969">02</text>
+  <text x="148" y="499" font-size="31" class="bold">研究路线与选模理由</text>
+  <text x="148" y="546" font-size="23">从机理、数据探索与合理基线出发。</text>
+  <text x="148" y="586" font-size="23">比较有价值的路线，明确风险和切换条件。</text>
+  <text x="148" y="622" font-size="18" class="muted">产出：主路线、必要备用路线与跨问接口</text>
+  <g stroke="#8EBDB5" stroke-width="2" fill="none"><path d="M945 546H980V506H1013M980 546V587H1013"/></g>
+  <circle cx="927" cy="546" r="24" fill="#E0F3EE" stroke="#6BAD9F" stroke-width="2"/>
+  <path d="M915 546h24m-12-12v24" class="line" stroke="#348D7D"/>
+  <rect x="1013" y="480" width="177" height="53" rx="10" fill="#E0F3EE" stroke="#7EB9AC"/>
+  <rect x="1013" y="560" width="177" height="53" rx="10" fill="#F7FAFA" stroke="#C2D9D7"/>
+  <text x="1101" y="515" text-anchor="middle" font-size="24" class="bold" style="fill:#167664">主路线</text>
+  <text x="1101" y="595" text-anchor="middle" font-size="23" class="muted">备用路线</text>
+  <path d="M640 650V680" class="flow"/>
+
+  <!-- 03: one question, one confirmation, one handoff -->
+  <rect x="56" y="690" width="1168" height="426" rx="20" fill="url(#phase)"/>
+  <circle cx="102" cy="739" r="23" fill="#28534F"/>
+  <text x="102" y="747" text-anchor="middle" font-size="21" class="bold mint">03</text>
+  <text x="148" y="750" font-size="32" class="bold white">逐题解决</text>
+  <text x="320" y="750" font-size="22" class="light">确认边界，技术细节自主推进</text>
+  <rect x="894" y="719" width="298" height="44" rx="22" fill="#F4D6A1"/>
+  <text x="1043" y="748" text-anchor="middle" font-size="21" class="bold" style="fill:#694C21">本问完成，先暂停</text>
+
+  <g>
+    <rect x="88" y="791" width="346" height="177" rx="14" fill="#183A49" stroke="#487078"/>
+    <circle cx="121" cy="824" r="12" fill="none" stroke="#8BE4CD" stroke-width="2"/>
+    <path d="M110 847q11-11 22 0m16-25 6 6 10-12" class="line" stroke="#8BE4CD"/>
+    <text x="112" y="883" font-size="26" class="bold white">确认本问方案</text>
+    <text x="112" y="922" font-size="21" class="light">目标 / 假设 / 路线 / 约束</text>
+    <text x="112" y="952" font-size="18" class="mint">已明确确认的，不重复询问</text>
+
+    <rect x="467" y="791" width="346" height="177" rx="14" fill="#183A49" stroke="#487078"/>
+    <path d="M497 813l-10 11 10 11m28-22 10 11-10 11m-11-25-6 28" class="line" stroke="#8BE4CD"/>
+    <text x="491" y="883" font-size="26" class="bold white">求解 · 验证 · 制图</text>
+    <text x="491" y="922" font-size="21" class="light">真实运行，独立检查结论</text>
+    <text x="491" y="952" font-size="18" class="mint">必要时比较模型与灵敏度</text>
+
+    <rect x="846" y="791" width="346" height="177" rx="14" fill="#183A49" stroke="#487078"/>
+    <path d="M873 810h25l8 8v28h-33zM880 825h17m-17 9h12" class="line" stroke="#8BE4CD"/>
+    <text x="870" y="883" font-size="26" class="bold white">答案 · 解释 · 交接</text>
+    <text x="870" y="922" font-size="21" class="light">结果、验证、限制与接口</text>
+    <text x="870" y="952" font-size="18" class="mint">先让队员能复核、能接手</text>
+  </g>
+  <path d="M440 879H460" fill="none" stroke="#8BE4CD" stroke-width="2.5" marker-end="url(#mint-arrow)"/>
+  <path d="M820 879H839" fill="none" stroke="#8BE4CD" stroke-width="2.5" marker-end="url(#mint-arrow)"/>
+  <path d="M1019 971V1012H261V979" fill="none" stroke="#8BE4CD" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#mint-arrow)"/>
+  <rect x="412" y="993" width="456" height="36" rx="18" fill="#153540"/>
+  <text x="640" y="1019" text-anchor="middle" font-size="20" class="mint">下一问：先讨论，再单独确认</text>
+  <text x="640" y="1080" text-anchor="middle" font-size="21" class="light">是否进入下一问由用户决定；整题路线认可不替代后问确认。</text>
+
+  <path d="M640 1120V1184" class="flow"/>
+  <text x="666" y="1156" font-size="19" class="muted">全题证据齐备，且需要完整参考稿</text>
+
+  <!-- 04: evidence and paper, only when requested -->
+  <rect x="56" y="1194" width="1168" height="258" rx="20" class="card"/>
+  <circle cx="102" cy="1239" r="23" fill="#E0F3EE"/>
+  <text x="102" y="1247" text-anchor="middle" font-size="21" class="bold" style="fill:#147969">04</text>
+  <text x="148" y="1249" font-size="31" class="bold">组织证据，写成完整参考论文</text>
+  <rect x="88" y="1285" width="300" height="112" rx="12" fill="#EFF7F5"/>
+  <rect x="432" y="1285" width="300" height="112" rx="12" fill="#EFF7F5"/>
+  <rect x="776" y="1285" width="416" height="112" rx="12" fill="#EFF7F5"/>
+  <text x="111" y="1327" font-size="25" class="bold">冻结证据</text>
+  <text x="111" y="1367" font-size="19" class="muted">结果 / Run / 图表 / 结论</text>
+  <text x="455" y="1327" font-size="25" class="bold">AI 内部参考稿</text>
+  <text x="455" y="1367" font-size="19" class="muted">摘要 / 模型 / 验证 / 限制</text>
+  <text x="799" y="1327" font-size="25" class="bold">队员重写与终稿复审</text>
+  <text x="799" y="1367" font-size="20" class="muted">按当年官方规则核对与导出</text>
+  <path d="M395 1341H424" class="flow"/>
+  <path d="M739 1341H768" class="flow"/>
+  <text x="88" y="1431" font-size="18" class="muted">参考稿不可直接提交；已有队员终稿可直接复审，内部四包按需生成。</text>
+  <text x="640" y="1501" text-anchor="middle" font-size="18" class="muted">通用流程示意 · 不含赛题答案或实测成绩 · 只加载当前任务需要的规范</text>
+</svg>

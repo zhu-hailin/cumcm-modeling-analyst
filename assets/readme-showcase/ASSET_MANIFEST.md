@@ -6,8 +6,25 @@
 
 | 文件 | 用途 | 生成方式 | 是否含赛题结果 |
 |---|---|---|---|
-| `hero-cumcm-modeling-analyst.svg` | README 顶部中文宣传横幅 | 确定性 SVG 排版与矢量图形 | 否 |
-| `cumcm-readme-workflow.svg` | v11.3 逐题流程：本问确认、求解验证、交付后暂停；全部问题完成后冻结证据并编写内部参考论文 | 确定性 SVG 排版、文字与矢量示意图 | 否 |
+| [hero-cumcm-modeling-analyst.svg](hero-cumcm-modeling-analyst.svg) | v11.4 介绍图：逐题确认、真实求解、证据驱动写作 | 深蓝 / 青绿 SVG，文字转路径，1440 × 660 | 否 |
+| [cumcm-readme-workflow.svg](cumcm-readme-workflow.svg) | v11.4 流程图：阅读拆题、研究选模、逐题确认与暂停、证据冻结与内部参考稿 | SVG 阶段卡片与有向连接，文字转路径，1280 × 1540 | 否 |
+| [source/hero.svg](source/hero.svg) | 介绍图可编辑母版 | 保留真实文字与原生矢量对象 | 否 |
+| [source/workflow.svg](source/workflow.svg) | 流程图可编辑母版 | 保留真实文字与原生矢量对象 | 否 |
+
+## 视觉与维护
+
+介绍图和流程图共用深蓝、青绿、浅灰白的配色与字体层级。缩减旧流程图中的密集小字、具体模型组合和星级推荐，不用示意内容暗示实测效果。介绍图的网络结构只是抽象图形，不是模型结果。
+
+字体采用 [Noto Sans CJK SC](https://github.com/notofonts/noto-cjk/tree/main/Sans)，使用其 Regular 与 Bold 字重。仓库不分发字体文件；正式展示 SVG 已将文字转为矢量路径，不依赖访问者安装中文字体，同时保留 title / desc；README 提供对应文字说明和 alt 文本。修改文字应编辑 source 母版，而非手改导出路径。
+
+本次使用 Inkscape 1.2.2 导出。安装上述字体后，在仓库根目录执行：
+
+```bash
+inkscape assets/readme-showcase/source/hero.svg --export-text-to-path --export-plain-svg --export-filename=assets/readme-showcase/hero-cumcm-modeling-analyst.svg
+inkscape assets/readme-showcase/source/workflow.svg --export-text-to-path --export-plain-svg --export-filename=assets/readme-showcase/cumcm-readme-workflow.svg
+```
+
+导出后实际渲染核对：文字与箭头无遮挡、各阶段符合当前 Skill、下一问独立确认、参考稿不可直接提交。另检查 README 图片路径、导航与折叠区。没有更改行为规则时不单独提升 Skill 版本。
 
 ## 为什么不直接放入旧题结果图
 
