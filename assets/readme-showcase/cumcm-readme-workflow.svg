@@ -117,11 +117,11 @@
     <g fill="#e9ad27" font-size="18"><text x="75" y="202">★★★★☆</text><text x="295" y="206">★★★★★</text><text x="515" y="202">★★★☆☆</text></g><text class="small center" x="350" y="232">只比较真正存在决策差异的 1–3 条路线</text>
   </g>
   <path d="M1682 649h24" class="flow green"/>
-  <g transform="translate(1716 523)"><rect class="card" width="626" height="252" rx="16" stroke="#b7d7c1"/><circle cx="42" cy="42" r="22" class="greenFill"/><text class="num" x="42" y="50">7</text><text class="cardTitle" x="77" y="50">用户确认整题路线 / 逐题模式</text>
-    <g transform="translate(48 89)" color="#147d84"><use href="#person" width="64" height="64"/></g><rect x="145" y="79" width="300" height="70" rx="12" fill="#fff" stroke="#9fc3c1" stroke-width="1.5"/><path d="M145 119l-18 12 18 2" fill="#fff" stroke="#9fc3c1" stroke-width="1.5"/><text class="body bold center" x="295" y="105"><tspan x="295">确认采用路线 B</tspan><tspan x="295" dy="22">作为全题主路线？</tspan></text>
+  <g transform="translate(1716 523)"><rect class="card" width="626" height="252" rx="16" stroke="#b7d7c1"/><circle cx="42" cy="42" r="22" class="greenFill"/><text class="num" x="42" y="50">7</text><text class="cardTitle" x="77" y="50">逐题确认方案后求解</text>
+    <g transform="translate(48 89)" color="#147d84"><use href="#person" width="64" height="64"/></g><rect x="145" y="79" width="300" height="70" rx="12" fill="#fff" stroke="#9fc3c1" stroke-width="1.5"/><path d="M145 119l-18 12 18 2" fill="#fff" stroke="#9fc3c1" stroke-width="1.5"/><text class="body bold center" x="295" y="105"><tspan x="295">确认采用路线 B</tspan><tspan x="295" dy="22">用于当前问题？</tspan></text>
     <path d="M490 114l27-27 27 27-27 27z" fill="#eff8f6" stroke="#2f8f5b" stroke-width="2"/><g color="#2f8f5b"><use href="#check" x="505" y="101" width="24" height="24"/></g>
-    <rect x="135" y="175" width="205" height="42" rx="9" class="softGreen" stroke="#2f8f5b"/><rect x="360" y="175" width="205" height="42" rx="9" fill="#f6f7f8" stroke="#b7cfcd"/><text class="small bold center" x="237" y="201" fill="#2f8f5b">整题统一路线（推荐）</text><text class="small bold center" x="462" y="201">逐题独立选择</text>
-    <text class="small center" x="313" y="235">确认对话 · 决策节点 · 求解模式</text>
+    <rect x="135" y="175" width="205" height="42" rx="9" class="softGreen" stroke="#2f8f5b"/><rect x="360" y="175" width="205" height="42" rx="9" fill="#f6f7f8" stroke="#b7cfcd"/><text class="small bold center" x="237" y="201" fill="#2f8f5b">本问确认后自主求解</text><text class="small bold center" x="462" y="201">完成后暂停</text>
+    <text class="small center" x="313" y="235">逐题确认 · 本问交付 · 下一问讨论</text>
   </g>
 </g>
 
@@ -132,7 +132,7 @@
     <text class="body bold" x="50" y="108">Q1 需求预测</text><text class="small mono" x="50" y="132">y_t=f(X_t)+e_t</text><path d="M54 189v-43m0 43h150" class="line" stroke="#9fb4b8"/><path d="M54 181l25-22 28 9 27-28 29 15 31-26" class="line blue" stroke-width="3"/>
     <text class="body bold" x="266" y="108">Q2 调度优化</text><text class="small mono" x="266" y="132">min Σ c_ij x_ij</text><text class="tiny" x="266" y="151">s.t. 容量 / 守恒 / 时间窗</text><path d="M297 184l39-28 40 35 30-48" class="line blue" stroke-width="2.5"/><g fill="#fff" stroke="#1f6fa3" stroke-width="2"><circle cx="297" cy="184" r="5"/><circle cx="336" cy="156" r="5"/><circle cx="376" cy="191" r="5"/><circle cx="406" cy="143" r="5"/></g>
     <text class="body bold" x="482" y="108">Q3 策略评估</text><text class="tiny" x="482" y="132"><tspan x="482">覆盖率 · 缺供率</tspan><tspan x="482" dy="17">周转率 · 碳排放</tspan></text><g fill="#2d7ca3"><rect x="515" y="170" width="18" height="28"/><rect x="545" y="150" width="18" height="48"/><rect x="575" y="163" width="18" height="35"/><rect x="605" y="134" width="18" height="64"/></g>
-    <text class="small center" x="350" y="232">Q1 / Q2 / Q3：公式、优化与预测成果</text>
+    <text class="small center" x="350" y="232">每问确认 → 求解与验证 → 交付后暂停</text>
   </g>
   <path d="M942 965h24" class="flow blue"/>
   <g transform="translate(976 839)"><rect class="card" width="700" height="252" rx="16" stroke="#b8d0df"/><circle cx="42" cy="42" r="22" class="blueFill"/><text class="num" x="42" y="50">9</text><text class="cardTitle" x="77" y="50">Python 实现与真实运行</text>

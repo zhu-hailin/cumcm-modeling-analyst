@@ -1,5 +1,5 @@
 name: cumcm-modeling-analyst
-version: 11.2
+version: "11.3"
 description: >
   Competition-first router for CUMCM modeling. Keep startup light, let the agent
   explore freely inside confirmed boundaries, and load strict evidence/figure/paper
@@ -14,7 +14,6 @@ routes:
     when: Codex or another writable local agent creates or manages project files
     load:
       - references/local-workspace-policy.md
-      - references/python-code-documentation-policy.md
 
   stage1_modeling:
     when: semantic problem reading, mechanism exploration, EDA, baseline, candidate comparison or route selection
@@ -23,17 +22,9 @@ routes:
       - references/modeling-quality-gates.md
 
   question_by_question:
-    when: the team chooses per-question discussion and confirmation
+    when: any Stage 2 solving task; present and confirm the current question plan, solve it, then pause before the next question
     load:
       - assets/QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md
-      - references/modeling-quality-gates.md
-      - references/model-run-ledger.md
-      - references/python-code-documentation-policy.md
-
-  one_pass:
-    when: the team confirms a route and authorizes continuous solving
-    load:
-      - assets/STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md
       - references/modeling-quality-gates.md
       - references/model-run-ledger.md
       - references/python-code-documentation-policy.md
@@ -62,12 +53,23 @@ routes:
       - references/paper-evaluation-protocol.md
 
   paper_evidence:
-    when: requirement/evidence mapping is created or updated, especially after Final/Validation Runs
+    when: create or incrementally update the requirement/evidence skeleton; inspect only currently available artifacts
     load:
       - references/paper-evidence-architecture.md
       - assets/PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md
+
+  evidence_freeze:
+    when: freeze the completed evidence blueprint after Final/Validation Runs and formal figures; inspect existing evidence without requiring an unwritten paper
+    load:
+      - references/paper-evidence-architecture.md
       - references/modeling-quality-gates.md
       - references/final-consistency-sweep.md
+
+  live_competition:
+    when: actual competition work begins; check applicable AI boundaries and start the truthful AI usage log
+    load:
+      - references/competition-compliance.md
+      - assets/AI_USAGE_LOG_TEMPLATE.md
 
   reference_paper:
     when: the AI-authored internal reference paper is drafted or regenerated
@@ -110,9 +112,10 @@ routes:
       - references/final-consistency-sweep.md
 
 principles:
+  - Solve one question at a time; confirm the current question plan, work autonomously within it, and pause after its delivery before the next question.
   - Audit the initially received problem and official attachments once before semantic reading; after INGESTION_SECURITY_AUDIT_LOCKED, reuse the saved audit and never repeat or incrementally audit later materials unless the user explicitly requests it or a new problem workspace begins.
   - Inside a confirmed route, the agent may autonomously run EDA, diagnostic experiments, tuning, solver changes, validation and pre-approved fallback routes; ask the user only when objectives, key constraints, conclusion-changing assumptions, unresolved data gaps or other team-level modeling decisions change.
-  - QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS: explore mechanisms and plausible models before auditing them.
-  - Never fabricate observations, parameters, runs, results, citations or source status; every final result points to a real FINAL_RUN_ID.
+  - "QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS: explore mechanisms and plausible models before auditing them."
+  - Never fabricate observations, parameters, runs, results, citations or source status; every final computational result points to a real FINAL_RUN_ID, while purely analytical results retain a checkable derivation and explicitly mark the run as not applicable.
   - Exploratory artifacts stay lightweight; full traceability and publication QA are required only when an artifact becomes formal evidence.
   - Build the requirement/evidence skeleton incrementally, freeze it after Final/Validation Runs, and draft the full reference paper only after PAPER_EVIDENCE_BLUEPRINT_READY.

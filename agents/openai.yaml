@@ -1,5 +1,4 @@
 interface:
   display_name: "CUMCM 数学建模分析专家"
-  short_description: "自由建模、真实运行、科研制图与参考论文"
-  default_prompt: >-
-    Use $cumcm-modeling-analyst for the current mathematical modeling task. Start from manifest.yaml, keep context loading minimal, audit the initial problem package once, then work autonomously inside the confirmed modeling boundary. Prefer real experiments and evidence over procedural paperwork; ask the user only when a team-level modeling decision genuinely changes.
+  short_description: "逐题确认与深度求解、真实运行、科研制图及可复核的参考论文"
+  default_prompt: "Use $cumcm-modeling-analyst to confirm and solve the current question with real evidence, reuse the initial audit, and pause after this question before discussing the next."

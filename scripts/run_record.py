@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-"""记录并执行一次影响建模决策或正式成果的重要运行。
+"""执行并记录重要运行；运行成功不等于模型已通过科学验证。
 
-示例：
-python scripts/run_record.py --root . --problem Q1 --purpose "最终预测" \
-    --status FINAL --input 01_data/processed/q1.csv \
-    --output 04_results/data/q1/result.csv -- \
-    python 03_code/q1/main.py
-
-脚本只负责机械记录，不判断模型是否科学合理。
+命令和 --output 中的 {run_dir} 表示本次独立产物目录。
+例如：--output '{run_dir}/结果.csv' -- python 求解.py --output-dir '{run_dir}'
+只记录明确声明的输入、代码与输出，不声称自动捕获所有依赖。
 """
 
 from __future__ import annotations
@@ -15,176 +11,234 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import re
 import shlex
 import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
 
-VALID_STATUS = {
-    "EXPLORATORY",
-    "BASELINE",
-    "CANDIDATE",
-    "FINAL",
-    "VALIDATION",
-    "REJECTED",
-    "SUPERSEDED",
-}
+VALID_STATUS = {"EXPLORATORY", "BASELINE", "CANDIDATE", "FINAL", "VALIDATION", "REJECTED", "SUPERSEDED"}
 
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as fh:
-        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
 
 
-def next_run_id(runs_dir: Path) -> str:
-    highest = 0
-    for path in runs_dir.glob("R*.json"):
-        stem = path.stem
-        if len(stem) == 4 and stem[1:].isdigit():
-            highest = max(highest, int(stem[1:]))
-    return f"R{highest + 1:03d}"
-
-
 def display_path(root: Path, path: Path) -> str:
     try:
-        return str(path.relative_to(root))
+        return path.relative_to(root).as_posix()
     except ValueError:
         return str(path)
 
 
-def file_record(root: Path, value: str) -> dict[str, object]:
-    candidate = Path(value)
-    path = candidate.resolve() if candidate.is_absolute() else (root / candidate).resolve()
-    record: dict[str, object] = {
-        "path": display_path(root, path),
-        "exists": path.exists(),
-        "kind": "directory" if path.is_dir() else "file" if path.is_file() else "missing",
-    }
+def reserve_run(runs_dir: Path) -> tuple[str, Path]:
+    """原子建目录预留编号；兼容旧 JSON 记录及超过 999 次的运行。"""
+    highest = 0
+    for path in runs_dir.iterdir():
+        match = re.fullmatch(r"R(\d+)(?:\.json)?", path.name)
+        if match:
+            highest = max(highest, int(match.group(1)))
+    while True:
+        highest += 1
+        run_id = f"R{highest:03d}"
+        folder = runs_dir / run_id
+        try:
+            folder.mkdir()
+            return run_id, folder
+        except FileExistsError:
+            continue
+
+
+def snapshot(root: Path, path: Path, *, code: bool = False) -> dict[str, object]:
+    """对声明的文件/目录做内容快照；不跟随符号链接。"""
+    record: dict[str, object] = {"path": display_path(root, path), "exists": path.exists()}
+    if path.is_symlink() or any(parent.is_symlink() for parent in path.parents):
+        raise ValueError(f"声明路径包含符号链接：{path}")
     if path.is_file():
-        record.update({"size": path.stat().st_size, "sha256": sha256(path)})
+        record.update(kind="file", size=path.stat().st_size, sha256=sha256(path))
+    elif path.is_dir():
+        files = []
+        for item in sorted(path.rglob("*")):
+            relative = item.relative_to(path)
+            if code and ("__pycache__" in relative.parts or item.suffix in {".pyc", ".pyo"}):
+                continue
+            if item.is_symlink():
+                raise ValueError(f"目录含符号链接：{item}")
+            if item.is_file():
+                files.append({"path": item.relative_to(path).as_posix(), "size": item.stat().st_size, "sha256": sha256(item)})
+            elif not item.is_dir():
+                raise ValueError(f"不支持的文件类型：{item}")
+        record.update(kind="directory", files=files)
     else:
-        record.update({"size": None, "sha256": None})
+        record.update(kind="missing")
     return record
 
 
-def append_ledger(ledger: Path, row: dict[str, str]) -> None:
-    if not ledger.exists():
-        ledger.write_text(
-            "# RUN_LEDGER\n\n"
-            "| Run ID | 问题 | 目的 | 代码/命令 | 输入/配置 | seed/重复 | 输出目录 | 关键结论 | 状态 |\n"
-            "|---|---|---|---|---|---|---|---|---|\n",
-            encoding="utf-8",
-        )
-    safe = {key: value.replace("|", "\\|").replace("\n", " ") for key, value in row.items()}
-    with ledger.open("a", encoding="utf-8") as fh:
-        fh.write(
-            "| {run_id} | {problem} | {purpose} | `{command}` | {inputs} | {seed_repeat} | {outputs} | {conclusion} | {status} |\n".format(
-                **safe
-            )
-        )
+def has_content(record: dict[str, object]) -> bool:
+    if record["kind"] == "file":
+        return bool(record["size"])
+    return record["kind"] == "directory" and any(item["size"] for item in record["files"])
+
+
+def rebuild_ledger(root: Path) -> Path:
+    """JSON 为唯一权威记录；Markdown 可重建，不手改第二份元数据。"""
+    runs_dir = root / "04_results" / "logs" / "runs"
+    if not runs_dir.is_dir():
+        raise ValueError("未发现运行记录目录，不能重建索引")
+    marker = "<!-- cumcm-run-ledger: generated-from-json -->"
+    lines = [marker, "# RUN_LEDGER", "", "由 runs/R*.json 生成；状态不代替建模质量门。", "",
+             "| Run ID | 问题 | 目的 | 状态 | 执行 | 权威记录 |", "|---|---|---|---|---|---|"]
+    for path in sorted(runs_dir.glob("R*.json")):
+        record = json.loads(path.read_text("utf-8"))
+        values = [record["run_id"], record["problem"], record["purpose"], record["status"],
+                  record.get("execution_status", "LEGACY_UNVERIFIED"), f"runs/{path.name}"]
+        lines.append("| " + " | ".join(str(value).replace("|", "\\|").replace("\n", " ") for value in values) + " |")
+    ledger = runs_dir.parent / "RUN_LEDGER.md"
+    if ledger.exists() and not ledger.read_text("utf-8").startswith(marker):
+        ledger = ledger.with_name("RUN_LEDGER.generated.md")
+        if ledger.exists() and not ledger.read_text("utf-8").startswith(marker):
+            raise ValueError("已有非工具生成的索引文件，已保留原件；请人工指定索引位置后重建")
+    temporary = ledger.with_suffix(f".{os.getpid()}.tmp")
+    temporary.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    temporary.replace(ledger)
+    return ledger
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--problem", required=True)
-    parser.add_argument("--purpose", required=True)
-    parser.add_argument("--status", choices=sorted(VALID_STATUS), required=True)
-    parser.add_argument("--input", action="append", default=[], help="相对项目根目录的输入文件，可重复")
-    parser.add_argument("--output", action="append", default=[], help="预期输出文件/目录，可重复")
+    parser.add_argument("--problem")
+    parser.add_argument("--purpose")
+    parser.add_argument("--status", choices=sorted(VALID_STATUS))
+    parser.add_argument("--input", action="append", default=[], help="输入文件/目录，可重复")
+    parser.add_argument("--code", action="append", default=[], help="额外代码/配置；命令中的本地 .py 自动登记")
+    parser.add_argument("--output", action="append", default=[], help="本次新建的文件/目录；支持 {run_dir}")
     parser.add_argument("--seed", default="")
     parser.add_argument("--repeat", default="")
-    parser.add_argument("--conclusion", default="", help="可在运行后人工补充；这里只记录简短摘要")
-    parser.add_argument("command", nargs=argparse.REMAINDER, help="在 -- 之后提供真实运行命令")
+    parser.add_argument("--conclusion", default="")
+    parser.add_argument("--timeout", type=float, help="按本次预算设置秒数；超时保留失败记录")
+    parser.add_argument("--rebuild-ledger", action="store_true")
+    parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
-
     root = args.root.resolve()
     if not root.is_dir():
         parser.error(f"项目根目录不存在：{root}")
+    if args.rebuild_ledger:
+        try:
+            print(rebuild_ledger(root))
+        except (OSError, ValueError) as exc:
+            parser.error(str(exc))
+        return 0
+    command = args.command[1:] if args.command[:1] == ["--"] else args.command
+    if not command or not all((args.problem, args.purpose, args.status)):
+        parser.error("需要 --problem、--purpose、--status 和 -- 后的真实命令")
+    if args.timeout is not None and args.timeout <= 0:
+        parser.error("--timeout 必须大于 0")
 
-    command = list(args.command)
-    if command and command[0] == "--":
-        command = command[1:]
-    if not command:
-        parser.error("必须在 -- 后提供真实运行命令")
-
-    logs_dir = root / "04_results" / "logs"
-    runs_dir = logs_dir / "runs"
+    runs_dir = root / "04_results" / "logs" / "runs"
     runs_dir.mkdir(parents=True, exist_ok=True)
-    run_id = next_run_id(runs_dir)
+    run_id, folder = reserve_run(runs_dir)
+    artifacts = folder / "artifacts"  # 不预建：空目录不能作为有效输出。
+    command = [part.replace("{run_dir}", str(artifacts)) for part in command]
 
-    stdout_path = runs_dir / f"{run_id}.stdout.log"
-    stderr_path = runs_dir / f"{run_id}.stderr.log"
-    started = datetime.now().astimezone().isoformat(timespec="seconds")
+    def locate(value: str) -> Path:
+        path = Path(value.replace("{run_dir}", str(artifacts)))
+        return path if path.is_absolute() else root / path
 
-    proc = subprocess.run(command, cwd=root, text=True, capture_output=True, check=False)
-    stdout_path.write_text(proc.stdout, encoding="utf-8", errors="replace")
-    stderr_path.write_text(proc.stderr, encoding="utf-8", errors="replace")
-
-    input_records = [file_record(root, value) for value in args.input]
-    output_records = [file_record(root, value) for value in args.output]
-    missing_outputs = [record["path"] for record in output_records if not record["exists"]]
-    empty_output_files = [
-        record["path"]
-        for record in output_records
-        if record["kind"] == "file" and record.get("size") == 0
-    ]
-
-    run_ok = proc.returncode == 0 and not missing_outputs and not empty_output_files
-    effective_status = args.status if run_ok else "REJECTED"
-    effective_return_code = proc.returncode if proc.returncode != 0 else (0 if run_ok else 2)
-
-    record = {
-        "run_id": run_id,
-        "problem": args.problem,
-        "purpose": args.purpose,
-        "requested_status": args.status,
-        "status": effective_status,
-        "started_at": started,
-        "command": command,
-        "command_display": shlex.join(command),
-        "return_code": proc.returncode,
-        "seed": args.seed or None,
-        "repeat": args.repeat or None,
-        "inputs": input_records,
-        "outputs": output_records,
-        "missing_outputs": missing_outputs,
-        "empty_output_files": empty_output_files,
-        "stdout_log": str(stdout_path.relative_to(root)),
-        "stderr_log": str(stderr_path.relative_to(root)),
-        "conclusion": args.conclusion,
+    inputs = [locate(value) for value in args.input]
+    code = [locate(value) for value in args.code]
+    code.extend(locate(value) for value in command if value.endswith(".py") and locate(value).is_file())
+    code = list(dict.fromkeys(code))
+    outputs = [locate(value) for value in args.output]
+    errors: list[str] = []
+    record: dict[str, object] = {
+        "schema_version": 2, "run_id": run_id, "problem": args.problem, "purpose": args.purpose,
+        "requested_status": args.status, "status": "REJECTED", "execution_status": "PREFLIGHT_FAILED",
+        "scientific_validity": "NOT_ASSESSED", "contest_task_completion": "NOT_ASSESSED",
+        "started_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "command": command, "command_display": shlex.join(command), "return_code": None,
+        "seed": args.seed or None, "repeat": args.repeat or None, "timeout_seconds": args.timeout,
+        "inputs": [], "code": [], "outputs": [], "errors": errors,
+        "stdout_log": None, "stderr_log": None, "conclusion": args.conclusion,
     }
+    try:
+        # 先保存输入/代码证据，避免运行修改数据后才记录输入 hash。
+        record["inputs"] = [snapshot(root, path) for path in inputs]
+        record["code"] = [snapshot(root, path, code=True) for path in code]
+        for item in record["inputs"] + record["code"]:
+            if not has_content(item):
+                errors.append(f"输入/代码缺失或为空：{item['path']}")
+        if args.status in {"FINAL", "VALIDATION"} and not outputs:
+            errors.append("FINAL/VALIDATION 必须声明输出；无输入的解析题可只声明验证产物")
+        for path in outputs:
+            resolved = path.resolve()
+            if not resolved.is_relative_to(root):
+                errors.append(f"输出必须在项目目录内：{path}")
+            if path.exists() or path.is_symlink():
+                errors.append(f"输出已存在，不能证明来自本次运行；使用新路径或 {{run_dir}}：{path}")
+            for source in inputs + code + [root / "00_problem", root / "01_data" / "raw"]:
+                source = source.resolve()
+                if resolved == source or resolved.is_relative_to(source) or source.is_relative_to(resolved):
+                    errors.append(f"输出与输入/代码/原件路径重叠：{path}")
+            if any(parent.is_symlink() for parent in path.parents):
+                errors.append(f"输出父目录包含符号链接：{path}")
+
+        if not errors:
+            env = dict(os.environ, CUMCM_RUN_ID=run_id, CUMCM_OUTPUT_DIR=str(artifacts))
+            env.setdefault("PYTHONIOENCODING", "utf-8")
+            with (folder / "stdout.log").open("wb") as stdout, (folder / "stderr.log").open("wb") as stderr:
+                record["stdout_log"] = display_path(root, folder / "stdout.log")
+                record["stderr_log"] = display_path(root, folder / "stderr.log")
+                try:
+                    proc = subprocess.run(command, cwd=root, env=env, stdout=stdout, stderr=stderr,
+                                          timeout=args.timeout, check=False)
+                    record["return_code"] = proc.returncode
+                    record["execution_status"] = "SUCCESS" if proc.returncode == 0 else "FAILED"
+                    if proc.returncode:
+                        errors.append(f"命令非零退出：{proc.returncode}")
+                except subprocess.TimeoutExpired:
+                    record["execution_status"] = "TIMEOUT"
+                    errors.append("命令超时；其产物不得作为本次正式结果")
+                except OSError as exc:
+                    record["execution_status"] = "FAILED"
+                    errors.append(f"命令无法启动：{exc}")
+
+            record["inputs_after"] = [snapshot(root, path) for path in inputs]
+            record["code_after"] = [snapshot(root, path, code=True) for path in code]
+            if record["inputs"] != record["inputs_after"] or record["code"] != record["code_after"]:
+                errors.append("运行修改了声明的输入或代码，保留前后快照；拒绝固化该运行")
+            record["outputs"] = [snapshot(root, path) for path in outputs]
+            for item in record["outputs"]:
+                if not has_content(item):
+                    errors.append(f"输出缺失或为空：{item['path']}")
+        if not errors:
+            record["status"] = args.status
+    except (OSError, ValueError) as exc:
+        errors.append(str(exc))
+
+    record["finished_at"] = datetime.now().astimezone().isoformat(timespec="seconds")
+    record["artifact_integrity"] = "PASS" if not errors else "FAIL"
     json_path = runs_dir / f"{run_id}.json"
-    json_path.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    append_ledger(
-        logs_dir / "RUN_LEDGER.md",
-        {
-            "run_id": run_id,
-            "problem": args.problem,
-            "purpose": args.purpose,
-            "command": shlex.join(command),
-            "inputs": ", ".join(args.input) or "-",
-            "seed_repeat": "/".join(part for part in (args.seed, args.repeat) if part) or "-",
-            "outputs": ", ".join(args.output) or "-",
-            "conclusion": args.conclusion or "-",
-            "status": effective_status,
-        },
-    )
-
-    print(f"{run_id}: {effective_status} (command_exit={proc.returncode})")
-    print(f"record: {json_path.relative_to(root)}")
-    if missing_outputs:
-        print(f"missing outputs: {', '.join(map(str, missing_outputs))}", file=sys.stderr)
-    if empty_output_files:
-        print(f"empty output files: {', '.join(map(str, empty_output_files))}", file=sys.stderr)
-    if args.status == "FINAL" and not run_ok:
-        print("FINAL 请求未通过运行/输出完整性检查，已记录为 REJECTED，不得作为 FINAL_RUN_ID。", file=sys.stderr)
-    return effective_return_code
+    temporary = folder / "record.tmp"
+    temporary.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(json_path)
+    try:
+        ledger = rebuild_ledger(root)
+    except (OSError, ValueError) as exc:
+        print(f"运行 JSON 已保存，但阅读索引无法重建：{exc}", file=sys.stderr)
+        return 2
+    print(f"{run_id}: {record['status']} / {record['execution_status']} / artifacts={record['artifact_integrity']}")
+    print(f"record: {display_path(root, json_path)}")
+    print(f"index: {display_path(root, ledger)}")
+    for error in errors:
+        print(error, file=sys.stderr)
+    return 0 if not errors else 2
 
 
 if __name__ == "__main__":

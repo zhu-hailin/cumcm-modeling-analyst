@@ -137,6 +137,7 @@ unzip -t 参考论文.zip
 - 文件大小；
 - 关键文件是否存在；
 - 是否出现 0 字节文件；
+- 关键成果为空直接失败；只有空 __init__.py 等具有明确用途的例外可以保留；
 - Markdown、Python、CSV/XLSX 是否可读取；
 - DOCX 是否为有效 Office 容器；
 - PDF 是否可解析且页数大于 0；
@@ -162,6 +163,8 @@ unzip -t 参考论文.zip
 - 必须文件是否齐全。
 
 源目录有文件但解压后丢失、文件名无法对应、大小/hash 异常或关键文件打不开时，标记 `DELIVERY_INTEGRITY_FAILED` 并重新打包。
+
+推荐由打包前选定的源文件生成独立 JSON 清单并用 delivery_check.py --manifest 对账。清单必须来自当前 Final Run/论文版本；对 ZIP 本身事后计算 hash 只能证明传输一致，不能证明内容就是本次最终成果。
 
 ---
 

@@ -18,6 +18,14 @@ CROSS_ARTIFACT_CONSISTENCY_FAILED
 
 ## 1. 核对链
 
+按阶段选择范围，避免前置条件循环：
+
+- **EVIDENCE_FREEZE**：核查已存在的题意、数据、代码、Run、正式图表和蓝图；论文位置可为计划位置，不以正文尚未生成判失败。
+- **PAPER_OR_DELIVERY**：已有论文/交付物后，加入实际正文、摘要、结论、公式渲染和包内副本核验。
+- **CHANGE_IMPACT**：某项成果修改后只沿实际依赖检查；不重新做完整初始安全审计。
+
+初建 EARLY_SKELETON 不加载本文件，也不索要 Final Run 或完整论文。
+
 至少对照：
 
 ```text
@@ -34,6 +42,8 @@ CROSS_ARTIFACT_CONSISTENCY_FAILED
 ```
 
 材料缺失时只能做 bounded audit，并明确无法核验项。
+
+当前阶段本就不应存在的后续成果记为不适用，区别于本阶段必需证据缺失。
 
 ---
 

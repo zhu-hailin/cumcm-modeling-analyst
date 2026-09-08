@@ -107,7 +107,7 @@ Codex、Claude Code 等可读写本地目录的 Agent，必须让题目、数据
 
 ### `PAPER_EVIDENCE_BLUEPRINT.md`
 
-各问 Final/Validation Run 冻结后建立。每个原题交付项登记主答案、证据等级、科学有效性、竞赛完成度、正文位置、主表/图/公式、独立验证、限制和跨问接口。
+读题后即建立 EARLY_SKELETON，逐问补充；各问 Final/Validation Run 与正式证据齐备后再 FINAL_FREEZE。早期只填原题要求和依赖，不提前索要尚未生成的论文、图表或运行。
 
 ---
 
@@ -125,6 +125,8 @@ Codex、Claude Code 等可读写本地目录的 Agent，必须让题目、数据
 - 关键运行登记 Run Ledger；
 - 每问明确 Final Run；
 - 旧结果标记或归档，不能与当前最终结果混用。
+
+使用 run_record.py 时，运行专属的 logs/runs/Rxxx/artifacts/ 也属于正式可追溯产物。向 data/tables/figures 导出整理副本时登记源 Run 和 hash；后问引用明确路径，不能凭同名 latest 文件猜版本。
 
 `04_results/figures/` 按 paper / method / validation / exploration / ai_communication 分用途；普通表格进入 `tables/`，不截图冒充可编辑表格。
 

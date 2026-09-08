@@ -6,6 +6,8 @@
 - 批次 ID：
 - 审计日期：
 - 审计状态：
+- 初始审计锁定：INGESTION_SECURITY_AUDIT_LOCKED / 未锁定
+- 后续复用：仅用户明确重审或新赛题才重新启动安全审计
 - 报告：`FILE_SECURITY_AUDIT.md`
 
 ## 原始文件

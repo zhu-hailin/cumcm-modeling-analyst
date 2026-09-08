@@ -8,6 +8,8 @@
 - 审计工具与版本：
 - 审计范围：PDF / DOCX / PPTX / XLSX / 图片 / 压缩包 / 其他
 - 当前状态：
+- 初始审计锁定：INGESTION_SECURITY_AUDIT_LOCKED / 未锁定
+- 复用范围：本赛题工作区；后续资料仅做业务核验，不自动重审
 - 是否允许进入 Stage 1：是 / 否 / 等待用户确认
 
 ## 2. 原始文件清单
@@ -100,6 +102,7 @@ VISUAL_AUDIT_CONFLICT
 
 ```text
 INGESTION_SECURITY_AUDIT_PASSED
+INGESTION_SECURITY_AUDIT_LOCKED
 SUSPECTED_PROMPT_INJECTION
 ACTIVE_CONTENT_QUARANTINED
 VISUAL_AUDIT_CONFLICT

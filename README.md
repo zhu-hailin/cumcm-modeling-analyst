@@ -20,7 +20,7 @@
 ![Skill](https://img.shields.io/badge/AI-Skill-5b6b9a?style=flat-square)
 ![Codex](https://img.shields.io/badge/Codex-Ready-222222?style=flat-square)
 ![Python](https://img.shields.io/badge/Python-实跑-3776ab?style=flat-square)
-![Version](https://img.shields.io/badge/version-11.2-4f6b9a?style=flat-square)
+![Version](https://img.shields.io/badge/version-11.3-4f6b9a?style=flat-square)
 
 </div>
 
@@ -32,13 +32,16 @@
 
 > **让 AI 更容易读对题、找到好路线、真实算出来、验证清楚、画得专业、解释得明白，并最终交付一套队员能接手的成果。**
 
-v11.2 的核心方向是 **competition-first**：
+v11.3 延续 **competition-first**，并加强运行证据、交付验收与论文表达：
 
 - 科学真实性和交付可靠性仍是硬底线；
 - 模型探索和技术实现尽量让 Agent 自主发挥；
 - 只有真正影响团队建模决策的事情才需要反复确认；
 - 探索成果保持轻量，只有升级为正式证据时才承担完整 QA；
 - 同一事实尽量只维护一个权威来源，减少 Run、README、教程和论文之间反复手抄。
+
+本轮重点：新运行不复用旧输出；空论文/假 PDF 不通过机械验收；初始审计锁定后不重审；蓝图分阶段检查；模型比较、灵敏度和创新用实际证据说明收益。
+中文文件名/注释/结果字段优先及单图单文件要求保留；Word 与 LaTeX 按团队需求选择。
 
 ---
 
@@ -48,13 +51,13 @@ v11.2 的核心方向是 **competition-first**：
 初始赛题安全审计（每个赛题工作区仅一次）
 → 读题 + Requirement 骨架
 → Stage 1：机制探索 / EDA / baseline / 候选路线
-→ 队员确认整题建模边界和协作模式
-→ Stage 2：逐题深解 / 一次性连续求解
+→ 建立整题候选路线与跨问接口
+→ Stage 2：每问单独确认方案并深解，完成后暂停
 → Python 真实运行 + 独立验证 + 现实约束
 → FINAL_RUN_ID
 → Requirement / Evidence 骨架持续补充
+→ 正式科研图表与论文证据选编完成
 → PAPER_EVIDENCE_BLUEPRINT_READY
-→ 正式科研图表与论文证据选编
 → AI 内部参考论文
 → 队员人工重写 + 终稿复审
 → 当年官方提交导出
@@ -96,7 +99,7 @@ v11.2 的核心方向是 **competition-first**：
 | Requirement 骨架 | 读题后先固定动作词、交付对象、单位、硬约束和跨问依赖，避免后面模型做复杂却答偏题 |
 | 自由机制探索 | 先理解数据/现实机制，再用 EDA、小实验和 baseline 筛路线，不从模型清单机械套方法 |
 | 证据选模 | `QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS`，质量门负责淘汰不适用/不可验证路线，不预先限制模型家族 |
-| 双求解模式 | 逐题确认适合团队深度讨论；一次性连续模式适合路线已确认后让 Agent 连续推进 |
+| 逐题深度求解 | 每问方案确认后自主完成该问，交付后暂停，下一问单独讨论和确认 |
 | 真实外部数据 | 只有现实数据/参数/标准确实影响模型或结论时才加载外部研究流程，缺数据不编造 |
 | 真实 Python 运行 | 每问明确 `FINAL_RUN_ID`，最终数字、图表和论文都从 Final/Validation Run 读取 |
 | 建模质量门 | 检查数据结构、模型前提、验证单位、现实约束、泄漏、随机算法稳定性和结论强度 |
@@ -133,9 +136,7 @@ v11.2 的核心方向是 **competition-first**：
 
 ---
 
-## Stage 2：两种协作方式
-
-### 逐题深度求解
+## Stage 2：只保留逐题深度求解
 
 ```text
 当前问研究与方案
@@ -143,14 +144,12 @@ v11.2 的核心方向是 **competition-first**：
 → Agent 自主完成代码 / 实验 / 验证 / 绘图
 → FINAL_RUN_ID
 → 直接答案 + 下一问接口
-→ 下一问
+→ 暂停，等待用户进入下一问方案讨论
 ```
 
 确认的是目标、关键假设、主路线/备用路线和重要约束，不是每一个超参数。
 
-### 一次性连续求解
-
-整题路线确认后连续执行，不在各问之间常规暂停。只有真的需要改目标、关键假设、关键现实约束或未授权路线时才回来沟通。
+整题路线可提前规划，但不能代替每问方案确认。用户已确认当前问后，调参、代码修复和验证无需逐次请示；完成当前问后不自动求解剩余所有问题。
 
 ---
 
@@ -195,7 +194,7 @@ Requirement / 结论
 
 ## Evidence Blueprint：从读题就开始，但最后才冻结
 
-旧思路容易变成“全部算完后突然整理一大张表”。v11.2 改为：
+证据蓝图按当前成果成熟度推进：
 
 ```text
 EARLY_SKELETON
@@ -295,6 +294,15 @@ v11.2 把两件事分开：
 
 ## 辅助工具
 
+辅助工具使用 Python 3.11+。安装校验依赖：
+
+```bash
+python -m pip install -r requirements-tools.txt
+```
+
+其中 PyYAML 用于路由检查，pypdf 用于真实 PDF 解析；科研绘图另需 Matplotlib。赛题模型的依赖在其项目中单独维护。
+Windows 终端/重定向涉及中文时，建议启用 Python UTF-8 模式（PowerShell：`$env:PYTHONUTF8="1"`）；自动测试也使用该设置。
+
 ### 记录一次重要真实运行
 
 ```bash
@@ -304,11 +312,13 @@ python scripts/run_record.py \
   --purpose "最终模型" \
   --status FINAL \
   --input 01_data/processed/q1.csv \
-  --output 04_results/data/q1/result.csv \
-  -- python 03_code/q1/main.py
+  --output "{run_dir}/result.csv" \
+  -- python 03_code/q1/main.py --output-dir "{run_dir}"
 ```
 
-FINAL 命令失败时不会被错误登记成最终结果。
+上例要求求解脚本支持 --output-dir 并创建输出目录，也可读取 CUMCM_OUTPUT_DIR。{run_dir} 是本次独立目录；旧项目可使用一个尚不存在的新输出路径，不能覆盖旧结果后冒充本次证据。
+工具在运行前记录输入与代码 hash，拒绝缺失输入、已有输出、空产物和失败命令。--code 可补充共用模块/配置；--timeout 按本次预算设置。
+运行 JSON 是权威记录，RUN_LEDGER.md 可以 --rebuild-ledger 重建。FINAL 声明用途，科学有效性和竞赛完成度仍须分别审核。
 
 ### 科研图公共保存工具
 
@@ -328,7 +338,20 @@ save_figure(fig, "04_results/figures/q1/paper/预测结果")
 python scripts/delivery_check.py 06_submission/internal_delivery/*.zip
 ```
 
-会做 CRC、路径安全、实际解压、DOCX/PDF/Python 基本检查，避免“压缩包存在但实际上为空/打不开”。
+会实际解压、检查 DOCX 正文及 PDF 页数/内容，不把文件头正确等同于论文有效。名为“参考论文.zip”的包自动要求 DOCX+PDF，其他名称使用 --profile reference-paper。
+关键文件可用 --require 指定；从选定源文件生成包外 JSON 清单后，用 --manifest 对单包核对路径、大小与 SHA-256。返回 MECHANICAL_ONLY，不代替图表/公式视觉检查、数学正确性与源码复现。
+
+### 验证当前 Skill
+
+```bash
+python scripts/quick_validate.py
+python tests/test_competition_first_contract.py
+python tests/test_old_problem_forward_contract.py
+python tests/test_helper_tools.py
+python tests/test_reliability.py
+```
+
+静态测试检查路由和边界；行为测试实际构造正常/失败运行与压缩包。它们验证工具可靠性，不代表数学建模得分或获奖能力。
 
 ---
 
@@ -390,7 +413,6 @@ git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
 ├── assets/
 │   ├── PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md
 │   ├── QUESTION_BY_QUESTION_SOLUTION_TEMPLATE.md
-│   ├── STAGE2_ONE_PASS_SOLUTION_TEMPLATE.md
 │   └── FINAL_PAPER_AUDIT_TEMPLATE.md
 └── references/
     ├── problem-ingestion-security.md

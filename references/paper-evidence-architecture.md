@@ -42,7 +42,7 @@ PAPER_EVIDENCE_BLUEPRINT_READY
 4. 补齐 Final/Validation Run、图表、公式、验证、限制与论文位置；
 5. 分成 `PAPER_CORE / PAPER_SUPPORT / RUN_ONLY`；
 6. 评估总体技术路线图；
-7. 执行一致性检查；
+7. 执行 final-consistency-sweep.md 的 EVIDENCE_FREEZE 范围，检查已有证据及计划正文位置，不要求尚未写出的论文；
 8. 才标记 `PAPER_EVIDENCE_BLUEPRINT_READY`。
 
 蓝图不是新的计算阶段，不允许手算核心数字或从聊天抄结果。
@@ -222,7 +222,8 @@ SUPERSEDED
 - [ ] 总体路线图已评估；
 - [ ] 前后问正式接口明确；
 - [ ] `SUPERSEDED` 结果未进入正式证据；
-- [ ] 所有 `BLOCKED` 项已解决或明确阻止写作。
+- [ ] 所有 `BLOCKED` 项已解决；科学有效性 FAIL 的主张不能被标为 READY，QUALIFIED 必须带适用条件；
+- [ ] 本次交付范围内的原题要求已覆盖；仅部分问题完成时只交付明确标注的阶段成果，不宣称全题蓝图就绪。
 
 全部通过后标记：
 
