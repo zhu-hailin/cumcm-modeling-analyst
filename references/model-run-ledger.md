@@ -26,6 +26,8 @@ python scripts/run_record.py --root . --rebuild-ledger
 
 并行运行各自预留目录与编号，不覆盖对方记录。并行任务全部结束后重建一次索引，避免中途索引暂时不完整。
 
+三角色协作时，任务单声明输入 Run/版本、代码快照与输出归属；每个 Run 的记录由实际执行者维护，主代理验收后才将其纳入蓝图和交付。不同代理不得并写同一输出或手工抢占 `latest`。运行编号分配不能替代 [多代理协作](multi-agent-collaboration.md) 的文件单写者与输入版本约定。
+
 已有人工/旧版 RUN_LEDGER.md 时原文件保持不动，新工具使用 RUN_LEDGER.generated.md 并打印实际索引位置；旧的 Markdown-only 运行不会被自动迁移成 JSON。若备用索引也被人工占用，保留原件并报告冲突。
 
 ## 2. 重要运行的内容
@@ -37,6 +39,8 @@ python scripts/run_record.py --root . --rebuild-ledger
 - 执行前输入文件/目录及 hash，seed/重复规则；
 - 输出文件、大小、hash 和关联 Validation Run；
 - 对建模决策的影响、关键结果、替代关系。
+
+决策依据在已有逐问分析文件维护；运行记录可引用 `Q{k}-D{nn}`，不要把全部推导或论文稿复制进账本。其他计算环境可以沿用能记录上述证据的现有账本；不因运行工具示例使用 Python 就强制把所有模型移植到 Python，也不默认要求 SPSSPRO。
 
 状态：EXPLORATORY / BASELINE / CANDIDATE / FINAL / VALIDATION / REJECTED / SUPERSEDED。
 工具自动记录命令中的本地 .py；共用模块、配置及其他依赖通过 --code/--input 明确声明。输入目录记录文件清单与 hash，不能只记目录存在。
@@ -78,6 +82,8 @@ python scripts/run_record.py --root . --problem Q1 --purpose "最终模型候选
 只有机械检查通过、质量门为 PASS 或有依据的 QUALIFIED，且对应交付项满足后，才在蓝图登记 FINAL_RUN_ID。
 纯解析推导/证明可记 Run 不适用，并给可核查推导；数据计算和数值实验不能借此豁免真实运行。
 
+项目交接另按 [核心流程](core-workflow.md) 分别报告计算、核验、论文材料、交付四项状态。运行工具只证明其实际检查项，不自动把论文材料或交付标为完成；这些项目状态保留在既有逐问交接/README，不为此改变运行 JSON 的字段或另建重复账本。
+
 ## 5. 结果替换与下游失效
 
 新运行取代旧运行时：
@@ -85,10 +91,12 @@ python scripts/run_record.py --root . --problem Q1 --purpose "最终模型候选
 1. 旧记录标 SUPERSEDED 并登记新 Run，保留历史产物；
 2. 更新对应 Requirement 的 FINAL_RUN_ID；
 3. 沿实际依赖重跑已确认且已求解的后问，重新生成受影响图表；尚未确认的后问仍先讨论方案；
-4. 更新蓝图、问题详解与已写论文，再核对内部包。
+4. 更新蓝图、关键决策引用、问题详解与已写论文，随后同步交付目录；已存在内部包/官方候选时核对或重导出受影响部分。
 
 下游接口记录上游 Run、正式文件/字段/单位和实际读取位置。不能从聊天、截图或同名旧 CSV 手抄数字。
 可将运行专属产物复制到正式 data/tables/figures 便于阅读，但记录源 Run 与 hash，避免把整理副本当成新运行。
+
+交付目录沿用同一来源关系。新 Final Run 产生但交付副本尚未更新时，报告交付待同步；不得把旧论文数字、旧图和新源码混成“当前最终版”。
 
 ## 6. 随机算法的两个不同目标
 
@@ -97,8 +105,8 @@ python scripts/run_record.py --root . --problem Q1 --purpose "最终模型候选
 
 ## 7. 图表与论文引用
 
-数据图引用 Final/Validation Run、正式数据与绘图脚本。
+数据图引用 Final/Validation Run、正式数据与 Python 绘图脚本。每问结果形成时即按 [绘图规范](python-visualization-policy.md) 的 nature-skills 适配生成所需论文图表，不积压到赛末；图表生成运行与模型计算运行可分开记录，保持数据依赖明确。
 METHOD_FIGURE 可使用 Run ID=N/A（方法结构图），但必须追到已确认模型计划、代码步骤及 CURRENT/SUPERSEDED 方法版本。
-图像类型以 python-visualization-policy.md 为权威定义。
+图像类型、样式和生成验收以 [绘图规范](python-visualization-policy.md) 为权威定义。仅改图形样式时引用原计算结果并重新绘图，无需重跑正确模型；数据或计算逻辑改变时重跑实际受影响链条。
 
 README、问题详解与蓝图只引用权威 Run，不多份手抄完整参数。论文用结果和验证证据论证，正文无需展示内部状态标签。

@@ -12,7 +12,7 @@
 PAPER_EVIDENCE_BLUEPRINT_READY
 ```
 
-才允许开始完整参考论文。
+表示整题证据已就绪、可以冻结；它不是开始组织完整工作稿的门槛。读题后即可建立论文主线，逐问写入已验证材料，未完成部分明确标记。
 
 ---
 
@@ -27,12 +27,13 @@ PAPER_EVIDENCE_BLUEPRINT_READY
 - Requirement ID；
 - 原题动作词、对象、范围、单位；
 - 需要交付的答案形式；
+- `required_location: BODY | SUPPORT | EITHER` 及其题面/适用要求依据；
 - 当前输入与跨问依赖；
 - 已知硬约束；
 - 当前歧义 / 数据缺口；
 - 预计可能需要的模型或证据角色（尚未定稿时允许空缺）。
 
-每问完成 Final Run 后立即补：主答案、Run、验证、结果表/图和下游接口。
+每问完成 Final Run 后立即补：主答案、Run、验证、结果表/图、关键决策引用和下游接口。论文图表在比赛过程中随当前问使用 Python 生成，通过 `python-visualization-policy.md` 使用 nature-skills，不等整题冻结后再补画。
 
 ### 1.2 FINAL_FREEZE
 
@@ -58,6 +59,9 @@ question_id: Q1
 requirement_id: Q1-R1
 prompt_action: 分析/预测/分类/评价/优化/解释/给出方案
 required_deliverable: 原题要求对象、单位和范围
+required_location: BODY | SUPPORT | EITHER
+location_basis: 题面位置或适用交付要求；未指定时说明依据
+decision_refs: [Q1-D01]
 primary_answer: 一句话主答案或 NOT_IDENTIFIABLE
 strongest_supported_alternative: 仅 NOT_IDENTIFIABLE 时填写
 additional_data_needed: 仅 NOT_IDENTIFIABLE 时填写
@@ -70,10 +74,14 @@ main_table:
   artifact: 04_results/tables/...
   paper_location: 4.2
   role: 直接结果 | 数据口径 | 模型比较 | 约束审计
+  explanation_below: 展示什么、反映什么、支持什么判断及必要边界
 main_figure:
   artifact: 04_results/figures/...
   paper_location: 4.2
   role: 结果 | 机制 | 验证 | 决策 | FIGURE_NOT_NEEDED
+  python_entry: 03_code/...
+  supports_claim: 回答的问题与支撑的判断
+  explanation_below: 展示什么、反映什么、支持什么判断及必要边界
 main_formula_or_rule:
   paper_location: 4.1
   code_mapping: 03_code/...
@@ -94,6 +102,8 @@ status: PLANNED | READY | BLOCKED | NOT_APPLICABLE
 4. A 级核心结论有主证据和能检验主要失效方式的独立验证，具体口径以 modeling-quality-gates.md 为准；
 5. `NOT_IDENTIFIABLE` 同时给最强替代结论与补充数据需求；
 6. `CONTEST_TASK_COMPLETION = FAIL` 不能靠谨慎措辞掩盖。
+7. `required_location` 依据原题/适用要求确定，正文位置未定时允许计划位置；最终位置不得违反原题。需求未指定位置时，直接答案和关键论证仍优先在正文可见。
+8. `decision_refs` 引用本问模型说明中的关键建模决策，不复制整段内容或另建重复台账。局部任务无对应选择时可为空，不制造比较。
 
 ---
 
@@ -109,7 +119,9 @@ status: PLANNED | READY | BLOCKED | NOT_APPLICABLE
 
 ### RUN_ONLY
 
-调试、被否决候选、重复运行、无决策价值的中间表和临时图。留在 Run Ledger/工作区，不进入正文。
+无决策价值的调试、重复运行、中间表和临时图。留在 Run Ledger/工作区，不进入正文。
+
+被否决候选若说明选型理由、揭示边界或支持最终取舍，可进入 `PAPER_CORE` / `PAPER_SUPPORT`。选编看它是否支撑论证，不看它是否是最终获选方案。
 
 不要把全部后台结果塞进论文，也不要因为“严谨”而只写限制、不展示原题主答案。
 
@@ -135,6 +147,8 @@ status: PLANNED | READY | BLOCKED | NOT_APPLICABLE
 - 图不能增加理解时使用 `FIGURE_NOT_NEEDED`。
 
 探索图只有在升级为正式证据后才进入蓝图。
+
+绘图执行与样式统一路由至 `python-visualization-policy.md` 指定的 nature-skills；使用 Python 随问生成和核验。这里仅决定证据角色，不维护另一套绘图程序规范。
 
 ---
 
@@ -215,12 +229,16 @@ SUPERSEDED
 ## 8. 完成检查
 
 - [ ] 每个原题交付项有 Requirement ID；
+- [ ] 已核对 `required_location` 和题面依据，精简未移走正文必答项；
+- [ ] 影响结论的选择有可追溯的 `decision_refs`，包含理由、证据和取舍；
 - [ ] 每项有直接 `primary_answer` 或合规 `NOT_IDENTIFIABLE`；
 - [ ] 科学有效性与竞赛完成度分别记录；
 - [ ] 每项有 Final/Validation Run 或明确不适用原因；
 - [ ] 关键结论有与风险匹配的验证；
 - [ ] `PAPER_CORE` 已规划进入正文；
 - [ ] 图、表、公式没有机械配额和明显重复；
+- [ ] 需要的论文图表已随问用 Python 生成并按 nature-skills 核验，而非留到终稿补画；
+- [ ] 每张图表下方有说明，解释内容、发现和判断，未以标题代替；
 - [ ] 总体路线图已评估；
 - [ ] 前后问正式接口明确；
 - [ ] `SUPERSEDED` 结果未进入正式证据；

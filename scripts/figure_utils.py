@@ -1,7 +1,7 @@
-"""数学建模科研绘图的轻量公共函数。
+"""旧项目兼容用的科研绘图公共函数（v12 新图请使用 nature-figure）。
 
 该模块只处理字体、保存和机械 QA，不规定应该画什么，也不固定颜色方案。
-正式图仍需遵循 python-visualization-policy.md 的证据与视觉要求。
+本模块的检查不替代 nature-figure 的设计、渲染与视觉 QA。
 """
 
 from __future__ import annotations

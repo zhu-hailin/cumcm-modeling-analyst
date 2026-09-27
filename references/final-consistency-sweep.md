@@ -38,7 +38,7 @@ CROSS_ARTIFACT_CONSISTENCY_FAILED
 ↔ 04_results / Visualization Manifest
 ↔ 各问教程
 ↔ 参考论文或队员终稿
-↔ 06_submission
+↔ 实际 delivery_root / 提交导出目录
 ```
 
 材料缺失时只能做 bounded audit，并明确无法核验项。
@@ -89,12 +89,16 @@ CROSS_ARTIFACT_CONSISTENCY_FAILED
 
 - 每个原题交付项有直接答案和可定位位置；
 - `PAPER_CORE` 已进入正文；
+- 原题 `required_location` 与实际位置一致，题面要求正文展示的表格没有移入后台；
+- `decision_refs` 指向实际建模决策，理由、证据和取舍与最终实现一致；
 - `PAPER_SUPPORT` 有正文概述和附录接口；
 - `RUN_ONLY` 没有占用正文；
 - 主结果没有只留在 CSV/JSON/日志；
 - `NOT_IDENTIFIABLE` 有最强替代结论和补充数据需求；
 - 论文作者只从蓝图登记的 Final/Validation 证据读取核心数字；
-- 蓝图状态在写作前为 `PAPER_EVIDENCE_BLUEPRINT_READY`。
+- 整题证据封版时满足 `PAPER_EVIDENCE_BLUEPRINT_READY`；允许此前组织完整工作稿并逐问补充，不将 READY 当作开写门槛。
+
+EVIDENCE_FREEZE 范围内“进入正文”检查计划位置及其适用性；PAPER_OR_DELIVERY 范围检查实际位置。没有完成的部分明确标记，不能将阶段稿宣称为整题终稿。
 
 ---
 
@@ -113,7 +117,7 @@ CONTEST_TASK_COMPLETION = PASS | FAIL
 
 ---
 
-## 6. Python 与 Run
+## 6. 计算环境与 Run
 
 建立索引：
 
@@ -128,6 +132,7 @@ CONTEST_TASK_COMPLETION = PASS | FAIL
 - 不存在无关 Skill/聊天/提示词/AI 水印污染；依法或当年规则要求的 AI 声明、引用和版权/许可证信息保留；
 - 不存在影响结果的占位、吞异常或大段旧代码；
 - 总入口可复现最终结果；
+- 实际计算环境和正式结果来源明确，不要求 SPSSPRO；多环境结果经一致性检查才合表或比较；
 - `SUPERSEDED` 结果未混入论文。
 
 ---
@@ -154,7 +159,7 @@ Final Run
 
 ## 8. 科研图与总体路线图
 
-依据 `python-visualization-policy.md` 检查：
+通过 `python-visualization-policy.md` 使用 nature-skills 检查；图表必须在比赛过程中随问使用 Python 代码生成，而非终稿阶段才补画：
 
 | 图号 | 用途 | Requirement ID | Run ID/方法版本 | 源数据/步骤 | 脚本 | 进入论文 | 结论 |
 |---|---|---|---|---|---|---|---|
@@ -162,11 +167,13 @@ Final Run
 确认：
 
 - 数据结果图追到 Final/Validation Run；
+- Python 生成入口、输入输出和当前问版本可追溯；
 - 方法/流程图追到最终模型计划、代码步骤和方法版本，允许 `Run ID=N/A（方法结构图）`；
 - 总体路线图的 REQUIRED/NOT_NEEDED 决策与论文落实一致；
 - 图中趋势、数值、排序和正文一致；
+- 每张图表下方说明覆盖展示对象、主要现象与支撑判断，边界不超过证据；
 - 误差、样本量、检验和统计口径一致；
-- 最终尺寸、字体、线宽、单位、灰度/色觉和紧裁剪通过；
+- 按 nature-skills 完成实际插入尺寸下的视觉 QA，不另套旧的单图/面板、字体或导出程序规范；
 - 没有海报/KPI/UI 风格、截轴夸大、选择性删样本、隐藏失败 seed 或不利场景；
 - `AI_COMMUNICATION_ONLY` 和 `SECURITY_AUDIT_ONLY` 未进入论文/提交。
 
@@ -181,6 +188,8 @@ PAPER_FAST_READ_GATE_FAILED
 ```
 
 逐页检查普通图是否无必要独占整页、互补独立图能否同排、图题是否紧随、是否存在大面积空白、连续页面是否只有限制文字，以及大矩阵/长名单是否使用正文摘要 + 附录完整可编辑表。
+
+另外独立检查论文论证：模型选择原因、推导衔接、比较条件、结果解释和摘要取舍是否完整。技术检查与表达评阅分开给出结论，不使用虚构官方权重或模拟评分预测奖项。精简保护动机、来源与结论边界；保留队员有效摘要和有意排版，批量修改先检查代表页面。
 
 ---
 
@@ -213,9 +222,9 @@ PAPER_FAST_READ_GATE_FAILED
 ```text
 上游变更
 → 数据与代码
-→ Python 重跑
+→ 按实际环境重跑受影响计算
 → Final/Validation Run
-→ 表格/图表与 Manifest
+→ Python 表格/图表与 Manifest
 → Evidence Blueprint
 → 教程
 → 摘要/正文/结论
@@ -225,6 +234,8 @@ PAPER_FAST_READ_GATE_FAILED
 
 不能只在 Word 中手改数字后结束。
 修正文中抄错的数字时可从原已验证结果重新引用，不必为了改错字制造新 Final Run；若源计算本身有错则必须修复并重跑。
+
+交付副本也需重新核对：最终目录/ZIP、论文附录的文件名和运行入口与清单一致。隔离验收只提供已声明外部输入，输出写入验收区域，不覆盖正式结果；历史 PASS 不能替代当前包检查。运行说明区分重新求解和重建已交付结果，未实际重跑项明确标记。
 
 ---
 

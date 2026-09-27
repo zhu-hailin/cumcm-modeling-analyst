@@ -1,4 +1,4 @@
 interface:
   display_name: "CUMCM 数学建模分析专家"
-  short_description: "逐题确认与深度求解、真实运行、科研制图及可复核的参考论文"
-  default_prompt: "Use $cumcm-modeling-analyst to confirm and solve the current question with real evidence, reuse the initial audit, and pause after this question before discussing the next."
+  short_description: "可选三角色、逐问求解与论证、赛中 Python 制图和论文交付"
+  default_prompt: "Use $cumcm-modeling-analyst. Restore the project's agent_mode, or ask once for SINGLE versus THREE_ROLE on a new full project. Confirm each question, develop evidence and manuscript together, create paper figures with nature-figure and Python during the work, and deliver verified artifacts before discussing the next question."

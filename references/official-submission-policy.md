@@ -2,12 +2,12 @@
 
 ## 目标
 
-四个内部 ZIP 是队伍学习、复核和人工写论文使用的材料，不等于竞赛官方提交格式。
+交付目录是队伍使用当前有效论文、代码和支撑材料的入口；分类 ZIP 按需导出。它们不自动等于竞赛官方提交格式。
 
 正式比赛的顺序是：
 
 ```text
-队员理解、核查并完成终稿（AI 内部稿若被使用，须人工重写）
+队员理解、核查、参与表达并确认终稿
 ↓
 FINAL_PAPER_AUDIT
 ↓
@@ -17,7 +17,7 @@ OFFICIAL_SUBMISSION_EXPORT
 ```
 
 不得把某一年的提交文件名、页数或 ZIP 结构永久写死。
-INTERNAL_DELIVERY_COMPLETE 不是官方导出的强制前置状态。用户已有终稿时直接复审和导出，不为流程补造 AI 参考论文、长教程或四个内部 ZIP；数学、证据、匿名与实际必交材料的验收不豁免。
+INTERNAL_DELIVERY_COMPLETE 不是官方导出的强制前置状态。用户已有终稿时直接复审和导出，不为流程补造 AI 参考论文、长教程或四个内部 ZIP；数学、证据、匿名与实际必交材料的验收不豁免。是否另需人工重写、披露或特定使用限制，依据适用规则，不设无条件重写门槛。
 
 ---
 
@@ -28,24 +28,24 @@ Codex 单赛题工作区遵循 `local-workspace-policy.md`。
 默认使用：
 
 ```text
-06_submission/
-├─ internal_delivery/
-│  ├─ 题目详解.zip
-│  ├─ 参考论文.zip
-│  ├─ 源码.zip
-│  └─ 其他.zip
-├─ paper.pdf
-├─ source_code.zip
+交付文件夹/                   # 当前有效交付物；已有指定位置优先
+├─ 交付说明.md
+├─ 交付清单.json
+├─ 论文/
+└─ 支撑材料/
+06_submission/                # 按实际规则导出的上传候选
+├─ <规则要求的论文文件>
+├─ <规则要求的支撑材料>
 └─ checklist.md
 ```
 
 其中：
 
-- `internal_delivery/` 保存四个内部成果包；
-- `paper.pdf`、`source_code.zip` 只是用户给出的默认工作区示例；
+- 用户需要分类归档时，可另在 `06_submission/internal_delivery/` 保存指定 ZIP，未请求则不创建；
+- 以上尖括号是示意，不创建占位文件；实际文件名按规则确定；
 - 正式比赛如果要求其他文件名、数量、格式或目录，以当年官方规则为准；
 - 未通过终稿复审的文件不得冒充提交候选；
-- AI 参考论文不得直接复制成官方 `paper.pdf`。
+- 未经队员理解、核查和确认的 AI 草稿不得冒充终稿。
 
 用户指定其他提交目录时，以用户要求为准。
 
@@ -93,7 +93,7 @@ Codex 单赛题工作区遵循 `local-workspace-policy.md`。
 - 固定 AI 使用说明名称；
 - 固定上传顺序和位置。
 
-`paper.pdf` 与 `source_code.zip` 是默认占位名称，不是永久官方标准。
+即使项目曾采用 `paper.pdf`、`source_code.zip`、30 页或 20 MB，也不能将这些经验写成下一届、其他赛区或所有队伍的标准。
 
 ---
 
@@ -104,9 +104,9 @@ Codex 单赛题工作区遵循 `local-workspace-policy.md`。
 Codex 中的映射通常为：
 
 ```text
-05_paper/final.docx + final.pdf
+05_paper/经确认的终稿（PDF 及约定的 DOCX/TEX 源稿）
         ↓
-按当年规则检查与导出
+与交付文件夹/论文、清单核对后按当年规则导出
         ↓
 06_submission/<官方论文文件>
 
@@ -126,13 +126,13 @@ Codex 中的映射通常为：
 
 保持一致。
 
-不得从 `99_temp/`、旧 Run、AI 参考稿或过期图表直接导出提交文件。
+不得从 `99_temp/`、旧 Run、未核查的 AI 草稿或过期图表直接导出提交文件。源稿可为 DOCX、LaTeX 或按约定不交源稿，最终官方格式以规则为准。
 
 ---
 
 ## 5. AI 使用记录的两层结构
 
-内部持续维护完整、真实的 AI 使用日志。其实际位置由工作区和用户要求决定，可以保存在 `02_analysis/`、`04_results/logs/` 或内部四包的其他材料中，但根目录 `README.md` 应给出索引。
+内部持续维护完整、真实的 AI 使用日志。其实际位置由工作区和用户要求决定，可以保存在 `02_analysis/`、`04_results/logs/` 或按需导出的归档材料中，但根目录 `README.md` 应给出索引。
 
 正式导出时：
 
@@ -202,6 +202,10 @@ Codex 默认维护：
 - 没有漏掉官方必交文件；
 - `06_submission/checklist.md` 已完成。
 
+论文附录的文件名、命令和依赖必须与最终筛选后的支撑材料一致。不能按扩展名删除脚本必需的 Markdown、配置和记录。对最终目录副本/ZIP 解压副本进行隔离复现，只提供已声明的外部输入，结果写入验收区；明确重新求解或重建结果、容差与未验证范围。旧包的 PASS 不能继承到本次导出。
+
+机械检查可使用 `scripts/delivery_check.py`；其 `MECHANICAL_ONLY` 结论不能代替真实运行、论文渲染和科学核验。验收细节遵循 [交付完整性规范](delivery-integrity-policy.md)。
+
 ZIP 解压预检可使用：
 
 ```text
@@ -220,9 +224,9 @@ OFFICIAL_SUBMISSION_EXPORT_FAILED
 
 ---
 
-## 8. 与内部四包的关系
+## 8. 与交付目录及按需归档的关系
 
-用户选择生成的内部四包继续保留；未要求生成时不强制补做：
+当前有效交付目录与原工作区继续保留。用户选择生成的内部分类包可继续留档；未要求时不补做：
 
 ```text
 06_submission/internal_delivery/
@@ -245,9 +249,9 @@ OFFICIAL_SUBMISSION_EXPORT_FAILED
 ↓
 保留可复核结果与队员接手说明（内部四包按需）
 ↓
-队员理解、核查并人工重写论文
+队员理解、核查、参与表达并确认论文
 ↓
-05_paper/final.docx + final.pdf
+当前有效 PDF 及约定的源稿
 ↓
 FINAL_PAPER_AUDIT / 修订 / 二审
 ↓

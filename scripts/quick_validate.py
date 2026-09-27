@@ -16,6 +16,10 @@ REQUIRED_FILES = (
     "scripts/run_record.py", "scripts/delivery_check.py", "scripts/figure_utils.py",
     "tests/test_helper_tools.py", "tests/test_reliability.py", "tests/test_figures.py",
     "tests/test_competition_first_contract.py", "tests/test_old_problem_forward_contract.py",
+    "tests/test_delivery_directory.py", "tests/scenario_rubric.md",
+    "references/multi-agent-collaboration.md", "references/abstract-and-argumentation.md",
+    "assets/SUBAGENT_TASK_TEMPLATE.md", "assets/DELIVERY_README_TEMPLATE.md",
+    "assets/PAPER_OUTLINE_TEMPLATE.md",
     ".github/workflows/validate.yml",
 )
 

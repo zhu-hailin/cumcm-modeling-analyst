@@ -1,73 +1,221 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="660" viewBox="0 0 1440 660" role="img" aria-labelledby="title desc">
-  <title id="title">CUMCM Modeling Analyst — 让建模思路成为可信成果</title>
-  <desc id="desc">面向数学建模竞赛的 AI 协作 Skill。全题理解、逐题确认、真实求解、证据驱动写作。右侧为模型与证据的抽象示意，不含实测结果。</desc>
-  <defs>
-    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0B1425"/><stop offset="1" stop-color="#102B39"/></linearGradient>
-    <radialGradient id="glow"><stop stop-color="#237C83" stop-opacity=".34"/><stop offset="1" stop-color="#237C83" stop-opacity="0"/></radialGradient>
-    <linearGradient id="accent"><stop stop-color="#66E4C3"/><stop offset="1" stop-color="#9BE9F6"/></linearGradient>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#96C5D6" stroke-opacity=".065"/></pattern>
-    <style>
-      text{font-family:'Noto Sans CJK SC',sans-serif;fill:#F4F8FC}
-      .muted{fill:#AFC2D0}.mint{fill:#7BE6C8}.bold{font-weight:700}
-      .stroke{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
-    </style>
-  </defs>
-  <rect width="1440" height="660" rx="28" fill="url(#background)"/>
-  <rect x="820" y="32" width="584" height="442" rx="20" fill="url(#grid)"/>
-  <ellipse cx="1110" cy="245" rx="326" ry="240" fill="url(#glow)"/>
-
-  <circle cx="82" cy="79" r="6" fill="#7BE6C8"/>
-  <text x="102" y="86" font-size="18" letter-spacing="2.3" class="muted">RESEARCH / MODEL / EVIDENCE</text>
-  <rect x="1220" y="54" width="148" height="42" rx="21" fill="#153B44" stroke="#397069"/>
-  <text x="1294" y="82" text-anchor="middle" font-size="18" class="mint bold">SKILL 11.4</text>
-
-  <text id="headline-1" x="72" y="199" font-size="66" class="bold">让建模思路</text>
-  <text id="headline-2" x="72" y="289" font-size="66" font-weight="700" fill="url(#accent)" style="fill:url(#accent)">成为可信成果。</text>
-  <text x="76" y="357" font-size="31" class="bold">CUMCM Modeling Analyst</text>
-  <text x="76" y="405" font-size="23" class="muted">从题目理解到参考论文，逐步形成可复核的答案。</text>
-  <path d="M76 444H150" stroke="#7BE6C8" stroke-width="3" stroke-linecap="round"/>
-  <text x="166" y="451" font-size="19" class="mint">读题 · 选模 · 实跑 · 验证 · 成文</text>
-
-  <!-- Abstract model network and evidence folio; not a result chart. -->
-  <rect x="842" y="130" width="526" height="296" rx="22" fill="#102332" stroke="#315364"/>
-  <text x="868" y="168" font-size="18" letter-spacing="1.4" class="muted">MODEL + EVIDENCE</text>
-  <g class="stroke" stroke="#427487">
-    <path d="M919 222L1021 205L1084 302L937 348Z M919 222L1084 302 M1021 205L937 348"/>
-    <path d="M993 279L919 222M993 279L1021 205M993 279L1084 302M993 279L937 348" stroke="#65B6B0"/>
-    <path d="M1100 281H1130" stroke="#7BE6C8"/><path d="M1122 273L1130 281L1122 289" stroke="#7BE6C8"/>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="597.6pt" viewBox="0 0 1152 597.6" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>CUMCM v12：让建模思路成为完整论证</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>CUMCM v12：让建模思路成为完整论证</dc:title>
+    <dc:description>CUMCM v12 documentation diagram; no contest data or performance claims.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>render_readme_assets.py</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 597.6
+L 1152 597.6
+L 1152 0
+L 0 0
+z
+" style="fill: #f7f7f0"/>
   </g>
-  <g fill="#142D3C" stroke="#79CFC2" stroke-width="2.5">
-    <circle cx="919" cy="222" r="10"/><circle cx="1021" cy="205" r="8"/>
-    <circle cx="1084" cy="302" r="10"/><circle cx="937" cy="348" r="8"/>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 1001.52 30.96
+L 1082.88 30.96
+Q 1098 30.96 1098 46.08
+L 1098 46.8
+Q 1098 61.92 1082.88 61.92
+L 1001.52 61.92
+Q 986.4 61.92 986.4 46.8
+L 986.4 46.08
+Q 986.4 30.96 1001.52 30.96
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #e1eee8; stroke: #e1eee8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 619.92 95.04
+L 1080.72 95.04
+Q 1098.72 95.04 1098.72 113.04
+L 1098.72 408.24
+Q 1098.72 426.24 1080.72 426.24
+L 619.92 426.24
+Q 601.92 426.24 601.92 408.24
+L 601.92 113.04
+Q 601.92 95.04 619.92 95.04
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #eef3eb; stroke: #eef3eb; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 632.16 189.36
+L 1068.48 189.36
+Q 1077.12 189.36 1077.12 198
+L 1077.12 238.32
+Q 1077.12 246.96 1068.48 246.96
+L 632.16 246.96
+Q 623.52 246.96 623.52 238.32
+L 623.52 198
+Q 623.52 189.36 632.16 189.36
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 652.32 203.76
+C 656.138925 203.76 659.80195 205.277275 662.502338 207.977662
+C 665.202725 210.67805 666.72 214.341075 666.72 218.16
+C 666.72 221.978925 665.202725 225.64195 662.502338 228.342338
+C 659.80195 231.042725 656.138925 232.56 652.32 232.56
+C 648.501075 232.56 644.83805 231.042725 642.137662 228.342338
+C 639.437275 225.64195 637.92 221.978925 637.92 218.16
+C 637.92 214.341075 639.437275 210.67805 642.137662 207.977662
+C 644.83805 205.277275 648.501075 203.76 652.32 203.76
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #e0eee7"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 632.16 259.92
+L 1068.48 259.92
+Q 1077.12 259.92 1077.12 268.56
+L 1077.12 308.88
+Q 1077.12 317.52 1068.48 317.52
+L 632.16 317.52
+Q 623.52 317.52 623.52 308.88
+L 623.52 268.56
+Q 623.52 259.92 632.16 259.92
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 652.32 274.32
+C 656.138925 274.32 659.80195 275.837275 662.502338 278.537662
+C 665.202725 281.23805 666.72 284.901075 666.72 288.72
+C 666.72 292.538925 665.202725 296.20195 662.502338 298.902338
+C 659.80195 301.602725 656.138925 303.12 652.32 303.12
+C 648.501075 303.12 644.83805 301.602725 642.137662 298.902338
+C 639.437275 296.20195 637.92 292.538925 637.92 288.72
+C 637.92 284.901075 639.437275 281.23805 642.137662 278.537662
+C 644.83805 275.837275 648.501075 274.32 652.32 274.32
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #e0eee7"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 632.16 330.48
+L 1068.48 330.48
+Q 1077.12 330.48 1077.12 339.12
+L 1077.12 379.44
+Q 1077.12 388.08 1068.48 388.08
+L 632.16 388.08
+Q 623.52 388.08 623.52 379.44
+L 623.52 339.12
+Q 623.52 330.48 632.16 330.48
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 652.32 344.88
+C 656.138925 344.88 659.80195 346.397275 662.502338 349.097662
+C 665.202725 351.79805 666.72 355.461075 666.72 359.28
+C 666.72 363.098925 665.202725 366.76195 662.502338 369.462338
+C 659.80195 372.162725 656.138925 373.68 652.32 373.68
+C 648.501075 373.68 644.83805 372.162725 642.137662 369.462338
+C 639.437275 366.76195 637.92 363.098925 637.92 359.28
+C 637.92 355.461075 639.437275 351.79805 642.137662 349.097662
+C 644.83805 346.397275 648.501075 344.88 652.32 344.88
+z
+" clip-path="url(#p42d8feb5e5)" style="fill: #e0eee7"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 53.28 475.92
+L 1098 475.92
+" clip-path="url(#p42d8feb5e5)" style="fill: none; stroke: #d2dfd8; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="51.84" y="55.372573" transform="rotate(-0 51.84 55.372573)">CUMCM / MODELING ANALYST</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #137e73" x="1041.84" y="49.981929" transform="rotate(-0 1041.84 49.981929)">VERSION 12.0</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 45px; font-family: 'Microsoft YaHei'; fill: #183a3a" transform="translate(50.4 150.043579)">让建模思路</text>
+    <text style="font-weight: 700; font-size: 45px; font-family: 'Microsoft YaHei'; fill: #183a3a" transform="translate(50.4 224.360815)">成为完整论证</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 21px; font-family: 'Microsoft YaHei'; fill: #546c6a" transform="translate(54 266.570493)">为什么这样建模？证据支持什么？</text>
+    <text style="font-size: 21px; font-family: 'Microsoft YaHei'; fill: #546c6a" transform="translate(54 301.343745)">怎样写成读者能理解的论文？</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 18px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="54" y="349.440557" transform="rotate(-0 54 349.440557)">国赛实战经验  ·  逐问确认  ·  随题成稿</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="54" y="385.036333" transform="rotate(-0 54 385.036333)">单代理或三角色，同一套质量标准。</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 20px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="623.52" y="136.507285" transform="rotate(-0 623.52 136.507285)">协作由你选择</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="623.52" y="163.675386" transform="rotate(-0 623.52 163.675386)">主 agent 统筹 · 统一口径、确认与验收</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #137e73" x="652.32" y="223.267559" transform="rotate(-0 652.32 223.267559)">01</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 21px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="679.68" y="229.78979" transform="rotate(-0 679.68 229.78979)">建模手</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="780.48" y="226.436792" transform="rotate(-0 780.48 226.436792)">选择依据 · 推导 · 有效性</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #137e73" x="652.32" y="293.804121" transform="rotate(-0 652.32 293.804121)">02</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 21px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="679.68" y="300.504009" transform="rotate(-0 679.68 300.504009)">代码手</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="780.48" y="296.126089" transform="rotate(-0 780.48 296.126089)">真实运行 · Python 图表</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #137e73" x="652.32" y="364.364121" transform="rotate(-0 652.32 364.364121)">03</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 21px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="679.68" y="371.001665" transform="rotate(-0 679.68 371.001665)">论文手</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="780.48" y="367.615386" transform="rotate(-0 780.48 367.615386)">文章主线 · 摘要 · 结果解释</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="54" y="513.328818" transform="rotate(-0 54 513.328818)">论证</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="54" y="545.638833" transform="rotate(-0 54 545.638833)">模型理由与验证依据</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="342" y="513.254443" transform="rotate(-0 342 513.254443)">制图</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="342" y="544.576333" transform="rotate(-0 342 544.576333)">nature-figure · 赛中 Python</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="730.8" y="513.309131" transform="rotate(-0 730.8 513.309131)">交付</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="730.8" y="545.555161" transform="rotate(-0 730.8 545.555161)">论文 + 支撑材料 + 清楚入口</text>
+   </g>
   </g>
-  <circle cx="993" cy="279" r="51" fill="#163C46" stroke="#70D4C1" stroke-width="2"/>
-  <text x="993" y="287" text-anchor="middle" font-size="34" class="bold mint">f(x)</text>
-  <text x="991" y="389" text-anchor="middle" font-size="18" class="muted">问题机理 / 现实约束</text>
-  <rect x="1142" y="198" width="196" height="197" rx="14" fill="#ECF6F4"/>
-  <rect x="1162" y="219" width="42" height="5" rx="2.5" fill="#158477"/>
-  <text x="1162" y="256" font-size="23" class="bold" style="fill:#183D46">证据可追溯</text>
-  <g class="stroke" stroke="#14816F"><path d="M1164 282l5 5 9-11M1164 321l5 5 9-11M1164 360l5 5 9-11"/></g>
-  <g font-size="19" style="fill:#36525A"><text x="1191" y="289" style="fill:#36525A">真实运行</text><text x="1191" y="328" style="fill:#36525A">独立验证</text><text x="1191" y="367" style="fill:#36525A">结论有据</text></g>
-  <text x="1105" y="455" text-anchor="middle" font-size="16" class="muted">模型与证据的抽象示意 · 非实测结果</text>
-
-  <path d="M72 499H1368" stroke="#35505F"/>
-  <g>
-    <rect x="76" y="538" width="48" height="48" rx="13" fill="#173F47"/>
-    <path d="M89 562l8 8 15-18" class="stroke" stroke="#7BE6C8"/>
-    <text x="144" y="555" font-size="25" class="bold">逐题确认</text>
-    <text x="144" y="594" font-size="19" class="muted">本问自主推进，完成后暂停</text>
-  </g>
-  <path d="M501 538V606M943 538V606" stroke="#35505F"/>
-  <g>
-    <rect x="532" y="538" width="48" height="48" rx="13" fill="#173F47"/>
-    <path d="M544 553l-7 9 7 9m24-18 7 9-7 9m-8-20-7 22" class="stroke" stroke="#7BE6C8"/>
-    <text x="600" y="555" font-size="25" class="bold">真实求解</text>
-    <text x="600" y="594" font-size="19" class="muted">代码、数据与结果相互对应</text>
-  </g>
-  <g>
-    <rect x="974" y="538" width="48" height="48" rx="13" fill="#173F47"/>
-    <path d="M989 549h15l6 6v22h-21zM994 560h10m-10 7h10" class="stroke" stroke="#7BE6C8"/>
-    <text x="1042" y="555" font-size="25" class="bold">证据驱动写作</text>
-    <text x="1042" y="594" font-size="19" class="muted">让模型、图表与论证连贯</text>
-  </g>
+ </g>
+ <defs>
+  <clipPath id="p42d8feb5e5">
+   <rect x="0" y="0" width="1152" height="597.6"/>
+  </clipPath>
+ </defs>
 </svg>
