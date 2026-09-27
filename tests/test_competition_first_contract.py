@@ -11,6 +11,7 @@ def main() -> int:
     routes = manifest["routes"]
     loads = lambda name: set(routes[name]["load"])
     assert set(manifest["always_load"]) == {"references/core-workflow.md"}
+    assert loads("link_bootstrap") == {"references/link-bootstrap.md"}
     assert loads("multi_agent") == {
         "references/multi-agent-collaboration.md", "assets/SUBAGENT_TASK_TEMPLATE.md"
     }
