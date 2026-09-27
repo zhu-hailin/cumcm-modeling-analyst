@@ -50,5 +50,8 @@ jobs:
       - name: Validate runtime and delivery regressions
         run: python tests/test_reliability.py
 
+      - name: Validate delivery directory and source formats
+        run: python tests/test_delivery_directory.py
+
       - name: Validate scientific figure exports
         run: python tests/test_figures.py

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""真实解压并检查内部 ZIP 的机械完整性，不代替数学与视觉验收。
+"""检查交付目录或真实解压后的 ZIP，不代替数学、复现与视觉验收。
 
---profile reference-paper 要求有效 DOCX + PDF；auto 可识别“参考论文.zip”。
---require 指定包内关键文件，可重复；--manifest 接受包外 JSON 对账清单：
+--profile reference-paper 始终要求有效 PDF；--paper-source docx|latex|none
+分别另需 DOCX、TEX 或不检查源稿（默认 docx）。auto 识别“参考论文”目录/ZIP。
+--require 指定关键相对路径，可重复；--manifest 接受独立 JSON 对账清单：
 {"files": [{"path": "结果.csv", "sha256": "...", "size": 123}]}
 PDF 解析依赖 pypdf；依赖缺失会明确失败，不降级为只检查文件头。
 """
@@ -13,6 +14,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import re
 import stat
 import tempfile
@@ -24,6 +26,8 @@ from pathlib import Path, PurePosixPath
 MAX_ENTRIES = 10000
 MAX_UNCOMPRESSED = 1024 * 1024 * 1024  # 机械资源上限，可按可信成果规模调整。
 MAX_XML_BYTES = 32 * 1024 * 1024
+PROFILES = {"generic", "reference-paper"}
+PAPER_SOURCES = {"docx", "latex", "none"}
 
 
 def safe_member(name: str) -> bool:
@@ -108,7 +112,8 @@ def validate_docx(path: Path) -> list[str]:
                     if member not in zf.namelist() or not zf.getinfo(member).file_size:
                         errors.append(f"DOCX 引用的图片不存在或为空：{member}")
             return errors
-    except (OSError, KeyError, ValueError, ET.ParseError, zipfile.BadZipFile, RuntimeError) as exc:
+    except (OSError, KeyError, ValueError, ET.ParseError, zipfile.BadZipFile,
+            RuntimeError, EOFError, zlib.error) as exc:
         return [f"DOCX 解析失败：{path.name}: {exc}"]
 
 
@@ -172,20 +177,191 @@ def validate_table(path: Path) -> list[str]:
         return [f"表格读取失败：{path.name}: {exc}"]
 
 
-def validate_zip(path: Path, *, profile: str = "auto", required: tuple[str, ...] = (),
-                 manifest: dict | None = None, max_bytes: int = MAX_UNCOMPRESSED) -> dict[str, object]:
+def new_result(path: Path, kind: str, profile: str, paper_source: str) -> dict[str, object]:
+    name = path.stem if kind == "zip" else path.name
+    if profile == "auto":
+        profile = "reference-paper" if name == "参考论文" else "generic"
+    result: dict[str, object] = {
+        "path": str(path), "kind": kind, "status": "FAIL", "profile": profile,
+        "paper_source": paper_source, "scope": "MECHANICAL_ONLY",
+        "errors": [], "warnings": [], "files_checked": 0,
+    }
+    if kind == "zip":
+        result["zip"] = str(path)  # 保留旧调用方读取的字段。
+    return result
+
+
+def invalid_options(result: dict, max_bytes: int) -> bool:
+    if result["profile"] not in PROFILES or result["paper_source"] not in PAPER_SOURCES or max_bytes <= 0:
+        result["errors"].append("验收 profile、论文源格式或字节预算无效")
+        return True
+    return False
+
+
+def is_link_or_reparse(info: os.stat_result) -> bool:
+    # Windows junction 在 Python 3.11 不一定被 is_symlink() 识别。
+    return stat.S_ISLNK(info.st_mode) or bool(
+        getattr(info, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    )
+
+
+def tree_inventory(folder: Path, max_bytes: int) -> tuple[list[Path], list[str]]:
+    """仅用元数据预检整棵目录树，未通过前不读内容、不解析、不哈希。
+
+    所有链接（包括内部链接）均要求物化为普通文件，使交付副本自包含。
+    不跟随符号链接/junction，不接受设备/FIFO；计数包含空目录。
+    """
+    files: list[Path] = []
     errors: list[str] = []
-    warnings: list[str] = []
-    profile = ("reference-paper" if path.stem == "参考论文" else "generic") if profile == "auto" else profile
-    result: dict[str, object] = {"zip": str(path), "status": "FAIL", "profile": profile,
-                                "scope": "MECHANICAL_ONLY", "errors": errors, "warnings": warnings, "files_checked": 0}
-    if profile not in {"generic", "reference-paper"} or max_bytes <= 0:
-        errors.append("验收 profile 或字节预算无效")
+    try:
+        root_info = folder.lstat()
+        if is_link_or_reparse(root_info) or not stat.S_ISDIR(root_info.st_mode):
+            return [], ["交付根必须是普通目录，不支持符号链接或 reparse point"]
+        root = folder.resolve(strict=True)
+        pending = [folder]
+        entry_count = total_bytes = 0
+        names: set[str] = set()
+        while pending:
+            with os.scandir(pending.pop()) as entries:
+                for entry in entries:
+                    entry_count += 1
+                    if entry_count > MAX_ENTRIES:
+                        return [], errors + ["目录超出声明的条目数预算"]
+                    item = Path(entry.path)
+                    relative = item.relative_to(folder).as_posix()
+                    info = entry.stat(follow_symlinks=False)
+                    if is_link_or_reparse(info):
+                        errors.append(f"不支持符号链接或 reparse point：{relative}")
+                        continue
+                    if not item.resolve(strict=True).is_relative_to(root):
+                        errors.append(f"目录路径越界：{relative}")
+                        continue
+                    canonical = relative.casefold()
+                    if not safe_member(relative) or "\\" in relative or canonical in names:
+                        errors.append(f"目录路径不安全或存在大小写冲突：{relative}")
+                    names.add(canonical)
+                    if stat.S_ISDIR(info.st_mode):
+                        pending.append(item)
+                    elif stat.S_ISREG(info.st_mode):
+                        files.append(item)
+                        total_bytes += info.st_size
+                        if total_bytes > max_bytes:
+                            return [], errors + ["目录超出声明的字节预算"]
+                    else:
+                        errors.append(f"不支持的文件类型：{relative}")
+    except (OSError, ValueError, RuntimeError) as exc:
+        errors.append(f"目录预检失败：{exc}")
+    return files, errors
+
+
+def validate_tree(folder: Path, *, profile: str = "auto", required: tuple[str, ...] = (),
+                  manifest: dict | None = None, max_bytes: int = MAX_UNCOMPRESSED,
+                  paper_source: str = "docx") -> dict[str, object]:
+    """目录与已解压 ZIP 共用的机械检查；不会执行、导入或编译 TEX。"""
+    result = new_result(folder, "directory", profile, paper_source)
+    errors, warnings = result["errors"], result["warnings"]
+    if invalid_options(result, max_bytes):
         return result
-    if not path.is_file() or path.stat().st_size == 0:
-        errors.append("ZIP 不存在或为 0 字节")
+    files, preflight_errors = tree_inventory(folder, max_bytes)
+    errors.extend(preflight_errors)
+    if errors:
+        return result
+    result["files_checked"] = len(files)
+    try:
+        if not files:
+            errors.append("目录中没有文件")
+        nonempty = [item for item in files if item.stat().st_size]
+        if not nonempty:
+            errors.append("目录中没有任何非空文件")
+
+        # required/manifest 只能引用预检通过的普通文件，不能绕过链接/预算检查。
+        known_files = {
+            (item.relative_to(folder).as_posix().casefold() if os.name == "nt"
+             else item.relative_to(folder).as_posix()): item for item in files
+        }
+
+        def find_file(name: object) -> Path | None:
+            if not isinstance(name, str) or not safe_member(name):
+                return None
+            normalized = str(PurePosixPath(name.replace("\\", "/")))
+            if os.name == "nt":
+                normalized = normalized.casefold()
+            return known_files.get(normalized)
+
+        for name in required:
+            file = find_file(name)
+            if file is None or not file.stat().st_size:
+                errors.append(f"必需文件缺失/为空/路径无效：{name}")
+        if result["profile"] == "reference-paper":
+            suffixes = [".pdf"] + {"docx": [".docx"], "latex": [".tex"], "none": []}[paper_source]
+            for suffix in suffixes:
+                if not any(item.suffix.lower() == suffix for item in nonempty):
+                    errors.append(f"参考论文包缺少非空 {suffix}")
+            if paper_source == "latex":
+                warnings.append("TEX 仅检查存在且非空；编译、公式与资源依赖须另行验收")
+        for item in files:
+            if item.stat().st_size == 0:
+                if item.name == "__init__.py":
+                    warnings.append(f"允许空包初始化文件：{item.relative_to(folder)}")
+                else:
+                    errors.append(f"空成果文件：{item.relative_to(folder)}")
+                continue
+            suffix = item.suffix.lower()
+            if suffix == ".docx":
+                errors.extend(validate_docx(item))
+            elif suffix == ".pdf":
+                errors.extend(validate_pdf(item))
+            elif suffix == ".py":
+                errors.extend(validate_python(item))
+            elif suffix in {".csv", ".tsv"}:
+                errors.extend(validate_table(item))
+        if manifest is not None:
+            entries = manifest.get("files") if isinstance(manifest, dict) else None
+            if not isinstance(entries, list) or not entries:
+                errors.append("对账清单必须包含非空 files 列表")
+            else:
+                for entry in entries:
+                    if not isinstance(entry, dict):
+                        errors.append("对账清单条目必须是对象")
+                        continue
+                    name, expected = entry.get("path", ""), entry.get("sha256", "")
+                    if not isinstance(name, str) or not safe_member(name) or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-fA-F]{64}", expected):
+                        errors.append(f"对账条目路径/hash 无效：{name}")
+                        continue
+                    file = find_file(name)
+                    if file is None:
+                        errors.append(f"清单文件缺失：{name}")
+                        continue
+                    if entry.get("size") is not None and entry["size"] != file.stat().st_size:
+                        errors.append(f"文件大小与清单不一致：{name}")
+                    with file.open("rb") as stream:
+                        digest = hashlib.file_digest(stream, "sha256").hexdigest()
+                    if digest != expected.lower():
+                        errors.append(f"SHA-256 与清单不一致：{name}")
+    except (OSError, ValueError, RuntimeError) as exc:
+        errors.append(f"目录验收失败：{exc}")
+    result["status"] = "FAIL" if errors else "PASS"
+    return result
+
+
+def validate_directory(path: Path, *, profile: str = "auto", required: tuple[str, ...] = (),
+                       manifest: dict | None = None, max_bytes: int = MAX_UNCOMPRESSED,
+                       paper_source: str = "docx") -> dict[str, object]:
+    return validate_tree(path, profile=profile, required=required, manifest=manifest,
+                         max_bytes=max_bytes, paper_source=paper_source)
+
+
+def validate_zip(path: Path, *, profile: str = "auto", required: tuple[str, ...] = (),
+                 manifest: dict | None = None, max_bytes: int = MAX_UNCOMPRESSED,
+                 paper_source: str = "docx") -> dict[str, object]:
+    result = new_result(path, "zip", profile, paper_source)
+    errors = result["errors"]
+    if invalid_options(result, max_bytes):
         return result
     try:
+        if not path.is_file() or path.stat().st_size == 0:
+            errors.append("ZIP 不存在或为 0 字节")
+            return result
         with zipfile.ZipFile(path) as zf:
             errors.extend(inventory(zf, max_bytes))
             if errors:
@@ -196,80 +372,35 @@ def validate_zip(path: Path, *, profile: str = "auto", required: tuple[str, ...]
             with tempfile.TemporaryDirectory(prefix="cumcm_zip_check_") as tmp:
                 folder = Path(tmp)
                 zf.extractall(folder)
-                files = [item for item in folder.rglob("*") if item.is_file()]
-                result["files_checked"] = len(files)
-                if not files:
-                    errors.append("实际解压后没有文件")
-                nonempty = [item for item in files if item.stat().st_size]
-                if not nonempty:
-                    errors.append("实际解压后没有任何非空文件")
-                for name in required:
-                    if not safe_member(name) or not (folder / name).is_file() or not (folder / name).stat().st_size:
-                        errors.append(f"必需文件缺失/为空/路径无效：{name}")
-                if profile == "reference-paper":
-                    for suffix in (".docx", ".pdf"):
-                        if not any(item.suffix.lower() == suffix for item in nonempty):
-                            errors.append(f"参考论文包缺少非空 {suffix}")
-                for item in files:
-                    if item.stat().st_size == 0:
-                        # 空 __init__.py 合法；论文、数据和其他空文件不能冒充成果。
-                        if item.name == "__init__.py":
-                            warnings.append(f"允许空包初始化文件：{item.relative_to(folder)}")
-                        else:
-                            errors.append(f"空成果文件：{item.relative_to(folder)}")
-                        continue
-                    suffix = item.suffix.lower()
-                    if suffix == ".docx":
-                        errors.extend(validate_docx(item))
-                    elif suffix == ".pdf":
-                        errors.extend(validate_pdf(item))
-                    elif suffix == ".py":
-                        errors.extend(validate_python(item))
-                    elif suffix in {".csv", ".tsv"}:
-                        errors.extend(validate_table(item))
-                if manifest is not None:
-                    entries = manifest.get("files") if isinstance(manifest, dict) else None
-                    if not isinstance(entries, list) or not entries:
-                        errors.append("对账清单必须包含非空 files 列表")
-                    else:
-                        for entry in entries:
-                            if not isinstance(entry, dict):
-                                errors.append("对账清单条目必须是对象")
-                                continue
-                            name = entry.get("path", "")
-                            expected = entry.get("sha256", "")
-                            if not isinstance(name, str) or not safe_member(name) or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-fA-F]{64}", expected):
-                                errors.append(f"对账条目路径/hash 无效：{name}")
-                                continue
-                            file = folder / name
-                            if not file.is_file():
-                                errors.append(f"清单文件缺失：{name}")
-                                continue
-                            if entry.get("size") is not None and entry["size"] != file.stat().st_size:
-                                errors.append(f"文件大小与清单不一致：{name}")
-                            with file.open("rb") as stream:
-                                digest = hashlib.file_digest(stream, "sha256").hexdigest()
-                            if digest != expected.lower():
-                                errors.append(f"SHA-256 与清单不一致：{name}")
+                checked = validate_tree(folder, profile=result["profile"], required=required,
+                                        manifest=manifest, max_bytes=max_bytes, paper_source=paper_source)
+                for key in ("status", "errors", "warnings", "files_checked"):
+                    result[key] = checked[key]
+                return result
     except (OSError, ValueError, RuntimeError, zipfile.BadZipFile, NotImplementedError, EOFError, zlib.error) as exc:
         errors.append(f"ZIP 验收失败：{exc}")
-    result["status"] = "FAIL" if errors else "PASS"
     return result
+
+
+def validate_delivery(path: Path, **kwargs) -> dict[str, object]:
+    # 不 resolve 输入，否则目录根本身的符号链接/junction 会被提前隐藏。
+    return validate_directory(path, **kwargs) if path.is_dir() else validate_zip(path, **kwargs)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("zips", nargs="+", type=Path)
+    parser.add_argument("paths", nargs="+", type=Path, help="交付目录或 ZIP，可指定多个")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--profile", choices=("auto", "generic", "reference-paper"), default="auto")
+    parser.add_argument("--paper-source", choices=("docx", "latex", "none"), default="docx")
     parser.add_argument("--require", action="append", default=[])
-    parser.add_argument("--manifest", type=Path, help="包外 JSON 清单；仅用于单个 ZIP")
+    parser.add_argument("--manifest", type=Path, help="独立 JSON 清单；仅用于单个交付目录或 ZIP")
     parser.add_argument("--max-bytes", type=int, default=MAX_UNCOMPRESSED)
     args = parser.parse_args()
     if args.max_bytes <= 0:
         parser.error("--max-bytes 必须大于 0")
-    if args.manifest and len(args.zips) != 1:
-        parser.error("--manifest 一次只能对账一个 ZIP")
+    if args.manifest and len(args.paths) != 1:
+        parser.error("--manifest 一次只能对账一个目录或 ZIP")
     manifest = None
     if args.manifest:
         try:
@@ -278,13 +409,14 @@ def main() -> int:
                 raise ValueError("清单必须是 JSON 对象")
         except (OSError, ValueError) as exc:
             parser.error(f"清单不可读取：{exc}")
-    results = [validate_zip(path.resolve(), profile=args.profile, required=tuple(args.require),
-                            manifest=manifest, max_bytes=args.max_bytes) for path in args.zips]
+    results = [validate_delivery(path.absolute(), profile=args.profile, required=tuple(args.require),
+                                manifest=manifest, max_bytes=args.max_bytes, paper_source=args.paper_source)
+               for path in args.paths]
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))
     else:
         for result in results:
-            print(f"{result['status']}: {result['zip']} ({result['files_checked']} files; MECHANICAL_ONLY)")
+            print(f"{result['status']}: {result['path']} ({result['files_checked']} files; MECHANICAL_ONLY)")
             for message in result["warnings"]:
                 print(f"  WARNING: {message}")
             for message in result["errors"]:

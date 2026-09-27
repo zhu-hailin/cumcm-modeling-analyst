@@ -1,112 +1,440 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1540" viewBox="0 0 1280 1540" role="img" aria-labelledby="title desc">
-  <title id="title">从读懂题目，到写清结论 — CUMCM Modeling Analyst 工作流程</title>
-  <desc id="desc">先完成初始题包审计、读题和路线研究。每个问题分别确认方案，真实求解、独立验证并交付后暂停。由用户决定进入下一问，再单独确认。全题证据齐备且需要完整参考稿时冻结证据、组织内部参考论文，由队员理解重写与复审。图中仅为流程示意。</desc>
-  <defs>
-    <linearGradient id="phase" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102335"/><stop offset="1" stop-color="#153A44"/></linearGradient>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10Z" fill="#48857F"/></marker>
-    <marker id="mint-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L10 5L0 10Z" fill="#8BE4CD"/></marker>
-    <style>
-      text{font-family:'Noto Sans CJK SC',sans-serif;fill:#173443}
-      .bold{font-weight:700}.muted{fill:#5D727D}.white{fill:#F1F7FA}.light{fill:#B8CFD7}.mint{fill:#8BE4CD}
-      .card{fill:#FFFFFF;stroke:#D9E6E8;stroke-width:1.5}
-      .line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
-      .flow{fill:none;stroke:#48857F;stroke-width:2.5;marker-end:url(#arrow)}
-    </style>
-  </defs>
-  <rect width="1280" height="1540" rx="26" fill="#F2F6F7"/>
-  <path d="M56 53H105" stroke="#168A7A" stroke-width="4" stroke-linecap="round"/>
-  <text x="122" y="60" font-size="18" letter-spacing="1.8" class="muted">THE MODELING WORKFLOW</text>
-  <text x="56" y="119" font-size="45" class="bold">从读懂题目，到写清结论</text>
-  <text x="58" y="163" font-size="23" class="muted">一条证据链，贯穿逐题协作。</text>
-  <text x="1224" y="60" text-anchor="end" font-size="18" class="muted">CUMCM / 11.4</text>
-
-  <!-- 01: intake and understanding -->
-  <rect x="56" y="208" width="1168" height="194" rx="20" class="card"/>
-  <circle cx="102" cy="253" r="23" fill="#E0F3EE"/>
-  <text x="102" y="261" text-anchor="middle" font-size="21" class="bold" style="fill:#147969">01</text>
-  <text x="148" y="263" font-size="31" class="bold">阅读与拆题</text>
-  <text x="148" y="310" font-size="23">首次题包审计，锁定后复用；不重复审计。</text>
-  <text x="148" y="350" font-size="23">明确目标、硬约束、交付项与跨问依赖。</text>
-  <text x="148" y="383" font-size="18" class="muted">产出：题意解析与需求清单</text>
-  <rect x="913" y="243" width="121" height="120" rx="10" fill="#F7FBFB" stroke="#B9D4D1"/>
-  <path d="M940 262h46l17 17v62h-63zM986 262v18h17M951 295h35m-35 13h35m-35 13h23" class="line" stroke="#398B81"/>
-  <rect x="1049" y="260" width="135" height="100" rx="10" fill="#E9F5F0" stroke="#B9D4D1"/>
-  <path d="M1064 286h105m-105 22h105m-105 22h105m-74-59v74m38-74v74" stroke="#83B7AC" stroke-width="2"/>
-  <text x="1050" y="385" text-anchor="middle" font-size="17" class="muted">题面 + 官方附件</text>
-  <path d="M640 406V434" class="flow"/>
-
-  <!-- 02: research, not a fixed model catalogue -->
-  <rect x="56" y="444" width="1168" height="202" rx="20" class="card"/>
-  <circle cx="102" cy="489" r="23" fill="#E0F3EE"/>
-  <text x="102" y="497" text-anchor="middle" font-size="21" class="bold" style="fill:#147969">02</text>
-  <text x="148" y="499" font-size="31" class="bold">研究路线与选模理由</text>
-  <text x="148" y="546" font-size="23">从机理、数据探索与合理基线出发。</text>
-  <text x="148" y="586" font-size="23">比较有价值的路线，明确风险和切换条件。</text>
-  <text x="148" y="622" font-size="18" class="muted">产出：主路线、必要备用路线与跨问接口</text>
-  <g stroke="#8EBDB5" stroke-width="2" fill="none"><path d="M945 546H980V506H1013M980 546V587H1013"/></g>
-  <circle cx="927" cy="546" r="24" fill="#E0F3EE" stroke="#6BAD9F" stroke-width="2"/>
-  <path d="M915 546h24m-12-12v24" class="line" stroke="#348D7D"/>
-  <rect x="1013" y="480" width="177" height="53" rx="10" fill="#E0F3EE" stroke="#7EB9AC"/>
-  <rect x="1013" y="560" width="177" height="53" rx="10" fill="#F7FAFA" stroke="#C2D9D7"/>
-  <text x="1101" y="515" text-anchor="middle" font-size="24" class="bold" style="fill:#167664">主路线</text>
-  <text x="1101" y="595" text-anchor="middle" font-size="23" class="muted">备用路线</text>
-  <path d="M640 650V680" class="flow"/>
-
-  <!-- 03: one question, one confirmation, one handoff -->
-  <rect x="56" y="690" width="1168" height="426" rx="20" fill="url(#phase)"/>
-  <circle cx="102" cy="739" r="23" fill="#28534F"/>
-  <text x="102" y="747" text-anchor="middle" font-size="21" class="bold mint">03</text>
-  <text x="148" y="750" font-size="32" class="bold white">逐题解决</text>
-  <text x="320" y="750" font-size="22" class="light">确认边界，技术细节自主推进</text>
-  <rect x="894" y="719" width="298" height="44" rx="22" fill="#F4D6A1"/>
-  <text x="1043" y="748" text-anchor="middle" font-size="21" class="bold" style="fill:#694C21">本问完成，先暂停</text>
-
-  <g>
-    <rect x="88" y="791" width="346" height="177" rx="14" fill="#183A49" stroke="#487078"/>
-    <circle cx="121" cy="824" r="12" fill="none" stroke="#8BE4CD" stroke-width="2"/>
-    <path d="M110 847q11-11 22 0m16-25 6 6 10-12" class="line" stroke="#8BE4CD"/>
-    <text x="112" y="883" font-size="26" class="bold white">确认本问方案</text>
-    <text x="112" y="922" font-size="21" class="light">目标 / 假设 / 路线 / 约束</text>
-    <text x="112" y="952" font-size="18" class="mint">已明确确认的，不重复询问</text>
-
-    <rect x="467" y="791" width="346" height="177" rx="14" fill="#183A49" stroke="#487078"/>
-    <path d="M497 813l-10 11 10 11m28-22 10 11-10 11m-11-25-6 28" class="line" stroke="#8BE4CD"/>
-    <text x="491" y="883" font-size="26" class="bold white">求解 · 验证 · 制图</text>
-    <text x="491" y="922" font-size="21" class="light">真实运行，独立检查结论</text>
-    <text x="491" y="952" font-size="18" class="mint">必要时比较模型与灵敏度</text>
-
-    <rect x="846" y="791" width="346" height="177" rx="14" fill="#183A49" stroke="#487078"/>
-    <path d="M873 810h25l8 8v28h-33zM880 825h17m-17 9h12" class="line" stroke="#8BE4CD"/>
-    <text x="870" y="883" font-size="26" class="bold white">答案 · 解释 · 交接</text>
-    <text x="870" y="922" font-size="21" class="light">结果、验证、限制与接口</text>
-    <text x="870" y="952" font-size="18" class="mint">先让队员能复核、能接手</text>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1152pt" height="964.8pt" viewBox="0 0 1152 964.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>CUMCM v12：可选三角色与逐问交付流程</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>CUMCM v12：可选三角色与逐问交付流程</dc:title>
+    <dc:description>CUMCM v12 documentation diagram; no contest data or performance claims.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>render_readme_assets.py</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 964.8
+L 1152 964.8
+L 1152 0
+L 0 0
+z
+" style="fill: #f7f7f0"/>
   </g>
-  <path d="M440 879H460" fill="none" stroke="#8BE4CD" stroke-width="2.5" marker-end="url(#mint-arrow)"/>
-  <path d="M820 879H839" fill="none" stroke="#8BE4CD" stroke-width="2.5" marker-end="url(#mint-arrow)"/>
-  <path d="M1019 971V1012H261V979" fill="none" stroke="#8BE4CD" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#mint-arrow)"/>
-  <rect x="412" y="993" width="456" height="36" rx="18" fill="#153540"/>
-  <text x="640" y="1019" text-anchor="middle" font-size="20" class="mint">下一问：先讨论，再单独确认</text>
-  <text x="640" y="1080" text-anchor="middle" font-size="21" class="light">是否进入下一问由用户决定；整题路线认可不替代后问确认。</text>
-
-  <path d="M640 1120V1184" class="flow"/>
-  <text x="666" y="1156" font-size="19" class="muted">全题证据齐备，且需要完整参考稿</text>
-
-  <!-- 04: evidence and paper, only when requested -->
-  <rect x="56" y="1194" width="1168" height="258" rx="20" class="card"/>
-  <circle cx="102" cy="1239" r="23" fill="#E0F3EE"/>
-  <text x="102" y="1247" text-anchor="middle" font-size="21" class="bold" style="fill:#147969">04</text>
-  <text x="148" y="1249" font-size="31" class="bold">组织证据，写成完整参考论文</text>
-  <rect x="88" y="1285" width="300" height="112" rx="12" fill="#EFF7F5"/>
-  <rect x="432" y="1285" width="300" height="112" rx="12" fill="#EFF7F5"/>
-  <rect x="776" y="1285" width="416" height="112" rx="12" fill="#EFF7F5"/>
-  <text x="111" y="1327" font-size="25" class="bold">冻结证据</text>
-  <text x="111" y="1367" font-size="19" class="muted">结果 / Run / 图表 / 结论</text>
-  <text x="455" y="1327" font-size="25" class="bold">AI 内部参考稿</text>
-  <text x="455" y="1367" font-size="19" class="muted">摘要 / 模型 / 验证 / 限制</text>
-  <text x="799" y="1327" font-size="25" class="bold">队员重写与终稿复审</text>
-  <text x="799" y="1367" font-size="20" class="muted">按当年官方规则核对与导出</text>
-  <path d="M395 1341H424" class="flow"/>
-  <path d="M739 1341H768" class="flow"/>
-  <text x="88" y="1431" font-size="18" class="muted">参考稿不可直接提交；已有队员终稿可直接复审，内部四包按需生成。</text>
-  <text x="640" y="1501" text-anchor="middle" font-size="18" class="muted">通用流程示意 · 不含赛题答案或实测成绩 · 只加载当前任务需要的规范</text>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 71.28 146.88
+C 76.244602 146.88 81.006535 148.852457 84.517039 152.362961
+C 88.027543 155.873465 90 160.635398 90 165.6
+C 90 170.564602 88.027543 175.326535 84.517039 178.837039
+C 81.006535 182.347543 76.244602 184.32 71.28 184.32
+C 66.315398 184.32 61.553465 182.347543 58.042961 178.837039
+C 54.532457 175.326535 52.56 170.564602 52.56 165.6
+C 52.56 160.635398 54.532457 155.873465 58.042961 152.362961
+C 61.553465 148.852457 66.315398 146.88 71.28 146.88
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 810 136.8
+L 1083.6 136.8
+Q 1098 136.8 1098 151.2
+L 1098 191.52
+Q 1098 205.92 1083.6 205.92
+L 810 205.92
+Q 795.6 205.92 795.6 191.52
+L 795.6 151.2
+Q 795.6 136.8 810 136.8
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #e8f0e9; stroke: #e8f0e9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 71.28 200.002588
+Q 71.28 215.639966 71.28 229.041275
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 74.28 223.041275
+L 71.28 229.041275
+L 68.28 223.041275
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 71.28 241.2
+C 76.244602 241.2 81.006535 243.172457 84.517039 246.682961
+C 88.027543 250.193465 90 254.955398 90 259.92
+C 90 264.884602 88.027543 269.646535 84.517039 273.157039
+C 81.006535 276.667543 76.244602 278.64 71.28 278.64
+C 66.315398 278.64 61.553465 276.667543 58.042961 273.157039
+C 54.532457 269.646535 52.56 264.884602 52.56 259.92
+C 52.56 254.955398 54.532457 250.193465 58.042961 246.682961
+C 61.553465 243.172457 66.315398 241.2 71.28 241.2
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 71.28 293.599248
+Q 71.28 307.080916 71.28 318.326517
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 74.28 312.326517
+L 71.28 318.326517
+L 68.28 312.326517
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 66.96 334.08
+L 1083.6 334.08
+Q 1098 334.08 1098 348.48
+L 1098 545.04
+Q 1098 559.44 1083.6 559.44
+L 66.96 559.44
+Q 52.56 559.44 52.56 545.04
+L 52.56 348.48
+Q 52.56 334.08 66.96 334.08
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #eaf1e9; stroke: #eaf1e9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 84.24 398.88
+L 372.24 398.88
+Q 383.04 398.88 383.04 409.68
+L 383.04 515.52
+Q 383.04 526.32 372.24 526.32
+L 84.24 526.32
+Q 73.44 526.32 73.44 515.52
+L 73.44 409.68
+Q 73.44 398.88 84.24 398.88
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 390.877338 459.36
+Q 397.442994 459.36 404.008651 459.36
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 396.877338 462.36
+L 390.877338 459.36
+L 396.877338 456.36
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 398.008651 456.36
+L 404.008651 459.36
+L 398.008651 462.36
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 422.64 398.88
+L 710.64 398.88
+Q 721.44 398.88 721.44 409.68
+L 721.44 515.52
+Q 721.44 526.32 710.64 526.32
+L 422.64 526.32
+Q 411.84 526.32 411.84 515.52
+L 411.84 409.68
+Q 411.84 398.88 422.64 398.88
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 729.277338 459.36
+Q 735.842994 459.36 742.408651 459.36
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 735.277338 462.36
+L 729.277338 459.36
+L 735.277338 456.36
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 736.408651 456.36
+L 742.408651 459.36
+L 736.408651 462.36
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 761.04 398.88
+L 1049.04 398.88
+Q 1059.84 398.88 1059.84 409.68
+L 1059.84 515.52
+Q 1059.84 526.32 1049.04 526.32
+L 761.04 526.32
+Q 750.24 526.32 750.24 515.52
+L 750.24 409.68
+Q 750.24 398.88 761.04 398.88
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 71.28 598.32
+C 76.244602 598.32 81.006535 600.292457 84.517039 603.802961
+C 88.027543 607.313465 90 612.075398 90 617.04
+C 90 622.004602 88.027543 626.766535 84.517039 630.277039
+C 81.006535 633.787543 76.244602 635.76 71.28 635.76
+C 66.315398 635.76 61.553465 633.787543 58.042961 630.277039
+C 54.532457 626.766535 52.56 622.004602 52.56 617.04
+C 52.56 612.075398 54.532457 607.313465 58.042961 603.802961
+C 61.553465 600.292457 66.315398 598.32 71.28 598.32
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 813.6 586.8
+L 1083.6 586.8
+Q 1098 586.8 1098 601.2
+L 1098 644.4
+Q 1098 658.8 1083.6 658.8
+L 813.6 658.8
+Q 799.2 658.8 799.2 644.4
+L 799.2 601.2
+Q 799.2 586.8 813.6 586.8
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #faeddf; stroke: #faeddf; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 71.28 650.721401
+Q 71.28 669.242338 71.28 685.527207
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 74.28 679.527207
+L 71.28 685.527207
+L 68.28 679.527207
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 71.28 698.4
+C 76.244602 698.4 81.006535 700.372457 84.517039 703.882961
+C 88.027543 707.393465 90 712.155398 90 717.12
+C 90 722.084602 88.027543 726.846535 84.517039 730.357039
+C 81.006535 733.867543 76.244602 735.84 71.28 735.84
+C 66.315398 735.84 61.553465 733.867543 58.042961 730.357039
+C 54.532457 726.846535 52.56 722.084602 52.56 717.12
+C 52.56 712.155398 54.532457 707.393465 58.042961 703.882961
+C 61.553465 700.372457 66.315398 698.4 71.28 698.4
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 806.4 709.2
+L 858.96 709.2
+Q 866.16 709.2 866.16 716.4
+L 866.16 736.56
+Q 866.16 743.76 858.96 743.76
+L 806.4 743.76
+Q 799.2 743.76 799.2 736.56
+L 799.2 716.4
+Q 799.2 709.2 806.4 709.2
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 881.28 709.2
+L 933.84 709.2
+Q 941.04 709.2 941.04 716.4
+L 941.04 736.56
+Q 941.04 743.76 933.84 743.76
+L 881.28 743.76
+Q 874.08 743.76 874.08 736.56
+L 874.08 716.4
+Q 874.08 709.2 881.28 709.2
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 956.16 709.2
+L 1008.72 709.2
+Q 1015.92 709.2 1015.92 716.4
+L 1015.92 736.56
+Q 1015.92 743.76 1008.72 743.76
+L 956.16 743.76
+Q 948.96 743.76 948.96 736.56
+L 948.96 716.4
+Q 948.96 709.2 956.16 709.2
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 1031.04 709.2
+L 1083.6 709.2
+Q 1090.8 709.2 1090.8 716.4
+L 1090.8 736.56
+Q 1090.8 743.76 1083.6 743.76
+L 1031.04 743.76
+Q 1023.84 743.76 1023.84 736.56
+L 1023.84 716.4
+Q 1023.84 709.2 1031.04 709.2
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #ffffff; stroke: #d2dfd8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 71.28 752.239512
+Q 71.28 768.241573 71.28 782.007565
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+    <path d="M 74.28 776.007565
+L 71.28 782.007565
+L 68.28 776.007565
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73; stroke: #137e73; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 71.28 794.88
+C 76.244602 794.88 81.006535 796.852457 84.517039 800.362961
+C 88.027543 803.873465 90 808.635398 90 813.6
+C 90 818.564602 88.027543 823.326535 84.517039 826.837039
+C 81.006535 830.347543 76.244602 832.32 71.28 832.32
+C 66.315398 832.32 61.553465 830.347543 58.042961 826.837039
+C 54.532457 823.326535 52.56 818.564602 52.56 813.6
+C 52.56 808.635398 54.532457 803.873465 58.042961 800.362961
+C 61.553465 796.852457 66.315398 794.88 71.28 794.88
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #137e73"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 812.16 784.8
+L 1083.6 784.8
+Q 1098 784.8 1098 799.2
+L 1098 842.4
+Q 1098 856.8 1083.6 856.8
+L 812.16 856.8
+Q 797.76 856.8 797.76 842.4
+L 797.76 799.2
+Q 797.76 784.8 812.16 784.8
+z
+" clip-path="url(#pa7e6d65782)" style="fill: #e0eee7; stroke: #e0eee7; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 53.28 900
+L 1098 900
+" clip-path="url(#pa7e6d65782)" style="fill: none; stroke: #d2dfd8; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 30px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="51.84" y="69.777334" transform="rotate(-0 51.84 69.777334)">从题意到交付，每一步都形成证据</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 18px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="54" y="102.515713" transform="rotate(-0 54 102.515713)">全题看清 · 每问确认 · 写作与图表同步推进</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #ffffff" x="71.28" y="172.164448" transform="rotate(-0 71.28 172.164448)">01</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="108.72" y="169.547378" transform="rotate(-0 108.72 169.547378)">选择方式，理解全题</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="108.72" y="195.499058" transform="rotate(-0 108.72 195.499058)">首次选择单代理或三角色；恢复已有选择、题意与证据。</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 18px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="813.6" y="170.628838" transform="rotate(-0 813.6 170.628838)">SINGLE  /  THREE_ROLE</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="813.6" y="194.553032" transform="rotate(-0 813.6 194.553032)">不开子代理，也采用相同质量标准</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #ffffff" x="71.28" y="266.455151" transform="rotate(-0 71.28 266.455151)">02</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="108.72" y="263.923081" transform="rotate(-0 108.72 263.923081)">确认当前问</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="108.72" y="289.819058" transform="rotate(-0 108.72 289.819058)">说明目标、关键假设、主 / 备用路线，再进入正式求解。</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #bd623a" x="813.6" y="273.40313" transform="rotate(-0 813.6 273.40313)">后问仍需单独确认</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 22px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="73.44" y="376.441982" transform="rotate(-0 73.44 376.441982)">03  本问协作：研究、实现、写作持续反馈</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 21px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="90" y="436.42979" transform="rotate(-0 90 436.42979)">建模手</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="90" y="466.355161" transform="rotate(-0 90 466.355161)">为什么用这个模型？</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="90" y="494.561787" transform="rotate(-0 90 494.561787)">定义 · 推导 · 验证依据</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 21px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="428.4" y="436.584009" transform="rotate(-0 428.4 436.584009)">代码手</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="428.4" y="466.430864" transform="rotate(-0 428.4 466.430864)">如何得到可信结果？</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="428.4" y="493.72835" transform="rotate(-0 428.4 493.72835)">实现 · 运行 · Python 图表</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 21px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="766.8" y="436.521665" transform="rotate(-0 766.8 436.521665)">论文手</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 17px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="766.8" y="466.355161" transform="rotate(-0 766.8 466.355161)">怎样讲清楚判断过程？</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="766.8" y="494.555225" transform="rotate(-0 766.8 494.555225)">主线 · 摘要 · 图表解释</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="74.16" y="550.203501" transform="rotate(-0 74.16 550.203501)">主 agent 整合与验收；同一正式文件只有一名写入者。</text>
+   </g>
+   <g id="text_23">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #ffffff" x="71.28" y="623.575151" transform="rotate(-0 71.28 623.575151)">04</text>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="108.72" y="620.953237" transform="rotate(-0 108.72 620.953237)">随问出图，写清图下说明</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="108.72" y="646.046089" transform="rotate(-0 108.72 646.046089)">nature-figure + Python；每张图表下解释内容、发现、判断与边界。</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 19px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #bd623a" x="815.76" y="623.56814" transform="rotate(-0 815.76 623.56814)">不要等到赛末才补画</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="815.76" y="646.706938" transform="rotate(-0 815.76 646.706938)">后期重点核对版本、编号与排版</text>
+   </g>
+   <g id="text_28">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #ffffff" x="71.28" y="723.655151" transform="rotate(-0 71.28 723.655151)">05</text>
+   </g>
+   <g id="text_29">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="108.72" y="721.090737" transform="rotate(-0 108.72 721.090737)">分别核验四项完成情况</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="108.72" y="746.945229" transform="rotate(-0 108.72 746.945229)">计算完成 ≠ 完整交付完成；缺失项和边界明确说明。</text>
+   </g>
+   <g id="text_31">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #183a3a" x="832.32" y="733.093735" transform="rotate(-0 832.32 733.093735)">计算</text>
+   </g>
+   <g id="text_32">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #183a3a" x="907.2" y="733.113032" transform="rotate(-0 907.2 733.113032)">核验</text>
+   </g>
+   <g id="text_33">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #183a3a" x="982.08" y="733.119126" transform="rotate(-0 982.08 733.119126)">论文材料</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #183a3a" x="1056.96" y="733.169907" transform="rotate(-0 1056.96 733.169907)">交付</text>
+   </g>
+   <g id="text_35">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: middle; fill: #ffffff" x="71.28" y="820.135151" transform="rotate(-0 71.28 820.135151)">06</text>
+   </g>
+   <g id="text_36">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #183a3a" x="108.72" y="817.5923" transform="rotate(-0 108.72 817.5923)">更新交付目录，讨论下一问</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="108.72" y="843.461558" transform="rotate(-0 108.72 843.461558)">保留当前有效论文与支撑材料；验证实际文件和复现入口。</text>
+   </g>
+   <g id="text_38">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #137e73" x="813.6" y="816.786401" transform="rotate(-0 813.6 816.786401)">论文 / 动态支撑材料 / 交付说明</text>
+   </g>
+   <g id="text_39">
+    <text style="font-size: 12px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="813.6" y="842.865059" transform="rotate(-0 813.6 842.865059)">草稿、审核稿与历史版本留在工作区</text>
+   </g>
+   <g id="text_40">
+    <text style="font-size: 13px; font-family: 'Microsoft YaHei'; text-anchor: start; fill: #546c6a" x="54" y="931.169907" transform="rotate(-0 54 931.169907)">流程示意，不含赛题答案、实测成绩或获奖承诺。</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa7e6d65782">
+   <rect x="0" y="0" width="1152" height="964.8"/>
+  </clipPath>
+ </defs>
 </svg>

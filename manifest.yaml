@@ -1,14 +1,30 @@
 name: cumcm-modeling-analyst
-version: "11.4"
+version: "12.0"
 description: >
-  Competition-first router for CUMCM modeling. Keep startup light, let the agent
-  explore freely inside confirmed boundaries, and load strict evidence/figure/paper
-  rules only when the corresponding artifact becomes formal.
+  Per-question modeling, evidence-led writing and usable delivery for CUMCM.
+  Choose SINGLE or THREE_ROLE once per full project; develop arguments and
+  Python figures during solving, with nature-figure as the figure authority.
 
 always_load:
   - references/core-workflow.md
 
+external_dependencies:
+  nature_figure:
+    repository: https://github.com/Yuan1z0825/nature-skills
+    skill_path: skills/nature-figure/SKILL.md
+    verified_commit: 9e2d90e2171a61dc0ae072e43e8d16e3fc73572f
+    verified_version: "2.8.0"
+    backend: python
+    required_for: paper figures and tables generated during each question
+    adapter: references/python-visualization-policy.md
+
 routes:
+  multi_agent:
+    when: THREE_ROLE is selected, existing three-role coordination resumes, or the user changes collaboration mode; never enable subagents merely because this route exists
+    load:
+      - references/multi-agent-collaboration.md
+      - assets/SUBAGENT_TASK_TEMPLATE.md
+
   initial_ingestion:
     when: first attached problem-package intake, continuation of its incomplete initial audit, or an explicit user request to re-audit; no file audit for an attachment-free text exercise, and never a routine trigger for later materials or question switches
     load:
@@ -34,7 +50,7 @@ routes:
       - references/python-code-documentation-policy.md
 
   visualization:
-    when: an exploratory, validation, paper, method or AI communication figure is planned or generated
+    when: plan, generate, revise or audit Python figures or tables during a question; paper visuals must load the external nature-figure skill through this adapter
     load:
       - references/python-visualization-policy.md
 
@@ -80,19 +96,21 @@ routes:
       - assets/AI_USAGE_LOG_TEMPLATE.md
 
   reference_paper:
-    when: the AI-authored internal reference paper is drafted or regenerated
+    when: organize or revise a collaborative manuscript from early outline through verified chapters and final freeze
     load:
       - references/paper-evidence-architecture.md
       - references/reference-paper-writing.md
+      - assets/PAPER_OUTLINE_TEMPLATE.md
+      - references/abstract-and-argumentation.md
       - references/python-visualization-policy.md
       - references/equation-rendering-policy.md
       - references/source-verification-policy.md
-      - references/final-consistency-sweep.md
 
   internal_delivery:
-    when: the internal deliverable packages are built or normally validated
+    when: initialize the delivery location, any artifact is added/changed/superseded or becomes stale, resume pending support-material synchronization, or build and validate requested archives
     load:
       - references/final-delivery-packaging.md
+      - assets/DELIVERY_README_TEMPLATE.md
       - references/final-consistency-sweep.md
 
   delivery_integrity_debug:
@@ -104,6 +122,7 @@ routes:
     when: the team-written paper is submitted for final review
     load:
       - references/final-paper-audit.md
+      - references/abstract-and-argumentation.md
       - references/final-consistency-sweep.md
       - references/paper-evidence-architecture.md
       - references/modeling-quality-gates.md
@@ -119,11 +138,20 @@ routes:
       - references/official-submission-policy.md
       - references/final-consistency-sweep.md
 
+  abstract_revision:
+    when: draft, revise or independently read an abstract or its argument; retain the team's own effective expression and verify claims against existing evidence
+    load:
+      - references/abstract-and-argumentation.md
+      - references/paper-evidence-architecture.md
+
 principles:
+  - Ask once for SINGLE or THREE_ROLE at the start of a full project unless already chosen; the main agent covers the same responsibilities in SINGLE, and confirmed-question boundaries apply in both modes.
   - Solve one question at a time; confirm the current question plan, work autonomously within it, and pause after its delivery before the next question.
   - Audit the initially received problem and official attachments once before semantic reading; after INGESTION_SECURITY_AUDIT_LOCKED, reuse the saved audit and never repeat or incrementally audit later materials unless the user explicitly requests it or a new problem workspace begins.
   - Inside a confirmed route, the agent may autonomously run EDA, diagnostic experiments, tuning, solver changes, validation and pre-approved fallback routes; ask the user only when objectives, key constraints, conclusion-changing assumptions, unresolved data gaps or other team-level modeling decisions change.
   - "QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS: explore mechanisms and plausible models before auditing them."
   - Never fabricate observations, parameters, runs, results, citations or source status; every final computational result points to a real FINAL_RUN_ID, while purely analytical results retain a checkable derivation and explicitly mark the run as not applicable.
   - Exploratory artifacts stay lightweight; full traceability and publication QA are required only when an artifact becomes formal evidence.
-  - Build the requirement/evidence skeleton incrementally, freeze it after Final/Validation Runs, and draft the full reference paper only after PAPER_EVIDENCE_BLUEPRINT_READY.
+  - Develop the manuscript and requirement/evidence skeleton incrementally; PAPER_EVIDENCE_BLUEPRINT_READY marks full evidence freeze, not permission to start writing. Distinguish calculation, validation, manuscript materials and delivery completion.
+  - Use nature-skills/nature-figure with Python for paper visuals during each question, not only at the end. Every figure and table has an explanation below it describing its content, finding, supported judgment and necessary limits.
+  - Keep support materials current in the same work cycle as artifact changes; mark stale dependencies immediately, then synchronize validated files, the delivery README and manifest without overwriting team edits.
