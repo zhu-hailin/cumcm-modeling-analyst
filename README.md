@@ -68,7 +68,9 @@
 使用 skill：https://github.com/zhu-hailin/cumcm-modeling-analyst 开始数学建模比赛。
 请先下载完整建模 skill 并读取 SKILL.md，再根据其中要求下载 nature-skills，
 读取 nature-figure 的入口和 Python 分支；已有完整副本则核对后复用。
-赛题见附件。先讨论第一问方案，等我确认后正式求解。
+赛题见附件。安全审计通过后，先通读完整题面及全部附件，
+向我说明全题初步认识、各问目标、附件用途与跨问关系。
+然后讨论第一问方案，等我确认后正式求解。
 ```
 
 **给 agent 的接入步骤：** 先将本仓库完整下载到可写项目的依赖目录，读取 [SKILL.md](SKILL.md) 与 [manifest.yaml](manifest.yaml)，再按[链接启动规范](references/link-bootstrap.md)获取 nature-skills 的已核对版本并读取其完整技能资源。首次完整比赛项目在启动阶段准备两个技能，随后恢复项目状态、询问尚未选择的协作模式并读题。用户无需再单独发送 nature-skills 链接。
@@ -91,7 +93,8 @@ git clone https://github.com/Yuan1z0825/nature-skills.git
 ```text
 使用 cumcm-modeling-analyst 分析附件中的赛题。
 先恢复已有状态；新项目询问一次单代理或三角色协作。
-完成必要的初始题包审计、全题拆解和路线研究，
+完成必要的初始题包审计，通读完整题面和全部附件，先汇报全题初步认识；
+再进行全题拆解和路线研究，
 给出每问交付项、建模理由、风险和跨问接口。
 论文从现在开始组织，图表在各问过程中用 Python 和 nature-figure 生成。
 先讨论第一问方案，等我确认后再正式求解。

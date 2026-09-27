@@ -45,6 +45,8 @@ description: 面向 CUMCM 及同类数学建模竞赛的逐问建模、真实求
 
 ## 4. 研究与求解
 
+完整比赛启动时，安全审计通过后必须先通读整道题及全部附件，形成全题初步认识，再进入路线研究和第一问方案讨论。不能只读第一问或只看附件文件名就开始局部建模；先向队员说明背景、各问目标、附件用途、跨问关系和待核实问题。大数据阅读覆盖结构、字段、范围与质量，不要求把每行打印出来；未读或不可读部分明确列出。
+
 1. 读题建立 Requirement 骨架：动作、对象、单位、硬约束、答案形式和跨问依赖。
 2. Stage 1 使用 [研究 Playbook](references/modeling-research-playbook.md)：机制猜想、区分性实验、baseline、候选比较。候选通常 1–3 个，路线明显时不凑数。
 3. 用 [建模质量门](references/modeling-quality-gates.md) 审计候选；QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS。
