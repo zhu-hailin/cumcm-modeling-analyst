@@ -19,6 +19,11 @@ external_dependencies:
     adapter: references/python-visualization-policy.md
 
 routes:
+  link_bootstrap:
+    when: user starts with the repository URL, or prepares missing skill dependencies for a full project
+    load:
+      - references/link-bootstrap.md
+
   multi_agent:
     when: THREE_ROLE is selected, existing three-role coordination resumes, or the user changes collaboration mode; never enable subagents merely because this route exists
     load:

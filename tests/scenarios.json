@@ -82,5 +82,13 @@
   {
     "id": "dynamic_support_materials",
     "prompt": "项目有交付文件夹/支撑材料，清单和论文仍引用R001并标READY。当前问进行中，已确认的模型修正使R001失效，代码手正在运行R002；队员还手改过交付说明。请说明此刻、R002验证通过后、恢复会话时分别如何动态管理支撑材料。不要等当前问结束，不假装运行已经完成，不覆盖队员改动。"
+  },
+  {
+    "id": "github_link_bootstrap",
+    "prompt": "使用 skill：https://github.com/zhu-hailin/cumcm-modeling-analyst 开始数学建模比赛，赛题附件稍后提供。这是空白可写工作区，允许联网和下载，没有安装这两个技能。请实际准备建模 Skill 及其要求的 nature-skills，记录可读取入口和实际版本，然后说明下一步；不要开始求解。"
+  },
+  {
+    "id": "github_link_resume",
+    "prompt": "使用 skill：https://github.com/zhu-hailin/cumcm-modeling-analyst 继续比赛。项目说明已记录完整建模 Skill 和 nature-skills 的来源、commit、路径，nature 副本还有队员改动，agent_mode:SINGLE，当前问尚未确认；网络暂不可用。说明如何恢复，不实际下载或求解，不覆盖已有文件。"
   }
 ]

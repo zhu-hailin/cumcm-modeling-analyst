@@ -56,7 +56,22 @@
 
 ## 快速开始
 
-### 获取与接入
+### 直接把链接发给 agent
+
+无需先手动安装。将下面这段话和赛题附件一起发给具备联网、文件读写和运行能力的 agent：
+
+```text
+使用 skill：https://github.com/zhu-hailin/cumcm-modeling-analyst 开始数学建模比赛。
+请先下载完整建模 skill 并读取 SKILL.md，再根据其中要求下载 nature-skills，
+读取 nature-figure 的入口和 Python 分支；已有完整副本则核对后复用。
+赛题见附件。先讨论第一问方案，等我确认后正式求解。
+```
+
+**给 agent 的接入步骤：** 先将本仓库完整下载到可写项目的依赖目录，读取 [SKILL.md](SKILL.md) 与 [manifest.yaml](manifest.yaml)，再按[链接启动规范](references/link-bootstrap.md)获取 nature-skills 的已核对版本并读取其完整技能资源。首次完整比赛项目在启动阶段准备两个技能，随后恢复项目状态、询问尚未选择的协作模式并读题。用户无需再单独发送 nature-skills 链接。
+
+已有可靠副本时复用，在项目说明记录实际路径和版本；不覆盖本地修改，不自动改变全局安装。若 agent 无法联网或保存文件，它应明确说明缺口，不能声称已下载或已加载。链接是获取入口，能否直接执行取决于所用 agent 的实际能力。
+
+### 手动获取与接入（可选）
 
 ```bash
 git clone https://github.com/zhu-hailin/cumcm-modeling-analyst.git
