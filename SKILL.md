@@ -65,7 +65,7 @@ description: 面向 CUMCM 及同类数学建模竞赛的逐问建模、真实求
 - 依 [论文协作规范](references/reference-paper-writing.md) 从读题阶段组织全文工作稿，逐问写入已验证材料；PAPER_EVIDENCE_BLUEPRINT_READY 只标识整题证据冻结，未完成内容不得伪装为整题完成。
 - 论文解释为什么选模型、怎样推导求解、如何证明最优性或验证有效性；[摘要与论证](references/abstract-and-argumentation.md) 保留队员表达，写清结果、权衡和选择，不能靠文笔掩盖错误。
 - 生成文档时按 [公式规范](references/equation-rendering-policy.md) 验收；蓝图冻结前的 [一致性检查](references/final-consistency-sweep.md) 只检查已有证据，写作后再检查正文。
-- 完整项目依 [交付规范](references/final-delivery-packaging.md) 维护当前有效成果目录，四包只按需导出。最终目录/ZIP 在隔离副本验收；出现跨环境问题再读 [交付诊断](references/delivery-integrity-policy.md)。
+- 完整项目依 [交付规范](references/final-delivery-packaging.md) 动态维护交付目录与支撑材料：成果新增、修改或失效时立即检查并同步有效副本、说明和清单，不只在每问结束或赛末整理。四包只按需导出。最终目录/ZIP 在隔离副本验收；出现跨环境问题再读 [交付诊断](references/delivery-integrity-policy.md)。
 - 已有队员终稿可直接进入复审与官方导出，不为流程补造 AI 参考稿或四个内部包；依法或按当年规则必需的 AI 披露、引用和许可说明必须保留。
 - 队员终稿使用 [复审规范](references/final-paper-audit.md)。实际比赛从开始维护真实 AI 使用记录，官方导出按 [合规提醒](references/competition-compliance.md) 与 [官方提交规范](references/official-submission-policy.md) 重新核验。
 - 旧题按 [盲测规范](references/blind-benchmark-provenance.md) 冻结独立方案，用户同意后才解锁历史答案；事后改进标记 POST_HOC。

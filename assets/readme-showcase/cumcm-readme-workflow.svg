@@ -13235,9 +13235,113 @@ z
     </g>
    </g>
    <g id="text_38">
-    <!-- 论文 / 支撑材料 / 交付说明 -->
-    <g style="fill: #137e73" transform="translate(813.6 817.958828) scale(0.16 -0.16)">
+    <!-- 论文 / 动态支撑材料 / 交付说明 -->
+    <g style="fill: #137e73" transform="translate(813.6 816.786401) scale(0.15 -0.15)">
      <defs>
+      <path id="MicrosoftYaHei-Bold-507" d="M 2469 2178
+L 3134 603
+Q 3563 1378 3553 3441
+L 2919 3441
+L 2919 4266
+L 3572 4266
+L 3581 5328
+L 4413 5328
+L 4400 4266
+L 6038 4266
+L 5966 734
+Q 5947 22 5905 -156
+Q 5863 -334 5731 -473
+Q 5600 -613 5387 -675
+Q 5175 -738 4269 -747
+Q 4169 -272 4044 191
+Q 4456 166 4728 166
+Q 4909 166 5006 237
+Q 5103 309 5120 445
+Q 5138 581 5161 1404
+Q 5184 2228 5194 3441
+L 4384 3441
+Q 4356 2047 4272 1445
+Q 4188 844 3925 228
+Q 3663 -388 3244 -866
+Q 2888 -584 2481 -341
+Q 2663 -156 2813 50
+L 1078 -97
+Q 688 -144 481 -228
+L 94 528
+Q 422 794 897 2491
+L 119 2491
+L 119 3291
+L 3006 3291
+L 3006 2491
+L 1806 2491
+Q 1516 1594 1188 747
+Q 1756 763 2216 788
+Q 1991 1416 1775 1947
+L 2469 2178
+z
+M 2788 4066
+L 388 4066
+L 388 4866
+L 2788 4866
+L 2788 4066
+z
+" transform="scale(0.015625)"/>
+      <path id="MicrosoftYaHei-Bold-34c6" d="M 300 4628
+L 2656 4628
+Q 2719 4953 2700 5334
+L 3625 5334
+Q 3613 4947 3584 4628
+L 6100 4628
+L 6100 3878
+L 3981 3878
+Q 4788 3000 6313 2703
+Q 6063 2228 5869 1784
+Q 4159 2303 3206 3700
+Q 2500 2331 588 1703
+Q 356 2197 88 2616
+Q 1869 3028 2369 3878
+L 300 3878
+L 300 4628
+z
+M 2919 3022
+Q 3356 2753 3950 2347
+L 3388 1784
+Q 2863 2222 2406 2528
+L 2919 3022
+z
+M 2975 1941
+Q 3619 1559 4163 1166
+L 3644 566
+Q 3119 997 2506 1372
+L 2975 1941
+z
+M 5494 1709
+Q 5969 997 6331 278
+L 5588 -128
+Q 5244 603 4775 1353
+L 5494 1709
+z
+M 4350 872
+Q 4813 647 5213 497
+Q 5022 -278 4744 -509
+Q 4466 -741 3913 -741
+L 2500 -741
+Q 1563 -741 1563 184
+L 1563 1491
+L 2388 1491
+L 2388 391
+Q 2388 9 2775 9
+L 3713 9
+Q 4019 9 4147 143
+Q 4275 278 4350 872
+z
+M 663 1466
+L 1438 1203
+Q 1119 253 863 -353
+L 81 -53
+Q 413 659 663 1466
+z
+" transform="scale(0.015625)"/>
       <path id="MicrosoftYaHei-Bold-756" d="M 5425 3066
 L 5425 2334
 Q 4878 1331 4031 625
@@ -13369,17 +13473,19 @@ z
      <use xlink:href="#MicrosoftYaHei-Bold-3" transform="translate(200 0)"/>
      <use xlink:href="#MicrosoftYaHei-Bold-15" transform="translate(229.78125 0)"/>
      <use xlink:href="#MicrosoftYaHei-Bold-3" transform="translate(277.046875 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-756" transform="translate(306.828125 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-38ca" transform="translate(406.828125 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-7b6" transform="translate(506.828125 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-76a" transform="translate(606.828125 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-3" transform="translate(706.828125 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-15" transform="translate(736.609375 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-3" transform="translate(783.875 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-440" transform="translate(813.65625 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-455" transform="translate(913.65625 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-a79" transform="translate(1013.65625 0)"/>
-     <use xlink:href="#MicrosoftYaHei-Bold-783" transform="translate(1113.65625 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-507" transform="translate(306.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-34c6" transform="translate(406.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-756" transform="translate(506.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-38ca" transform="translate(606.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-7b6" transform="translate(706.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-76a" transform="translate(806.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-3" transform="translate(906.828125 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-15" transform="translate(936.609375 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-3" transform="translate(983.875 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-440" transform="translate(1013.65625 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-455" transform="translate(1113.65625 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-a79" transform="translate(1213.65625 0)"/>
+     <use xlink:href="#MicrosoftYaHei-Bold-783" transform="translate(1313.65625 0)"/>
     </g>
    </g>
    <g id="text_39">

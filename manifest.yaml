@@ -107,7 +107,7 @@ routes:
       - references/source-verification-policy.md
 
   internal_delivery:
-    when: maintain the current team delivery folder or build and validate requested archives
+    when: initialize the delivery location, any artifact is added/changed/superseded or becomes stale, resume pending support-material synchronization, or build and validate requested archives
     load:
       - references/final-delivery-packaging.md
       - assets/DELIVERY_README_TEMPLATE.md
@@ -154,3 +154,4 @@ principles:
   - Exploratory artifacts stay lightweight; full traceability and publication QA are required only when an artifact becomes formal evidence.
   - Develop the manuscript and requirement/evidence skeleton incrementally; PAPER_EVIDENCE_BLUEPRINT_READY marks full evidence freeze, not permission to start writing. Distinguish calculation, validation, manuscript materials and delivery completion.
   - Use nature-skills/nature-figure with Python for paper visuals during each question, not only at the end. Every figure and table has an explanation below it describing its content, finding, supported judgment and necessary limits.
+  - Keep support materials current in the same work cycle as artifact changes; mark stale dependencies immediately, then synchronize validated files, the delivery README and manifest without overwriting team edits.
