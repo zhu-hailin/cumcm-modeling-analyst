@@ -4,8 +4,8 @@
 
 | 文件 | 用途 |
 |---|---|
-| [hero-cumcm-modeling-analyst.svg](hero-cumcm-modeling-analyst.svg) | v12介绍图：国赛实战经验、可选单代理/三角色、论证、Python赛中制图与交付 |
-| [cumcm-readme-workflow.svg](cumcm-readme-workflow.svg) | v12流程图：选择、逐问确认、三角色反馈、图表说明、四项验收和交付 |
+| [hero-cumcm-modeling-analyst-v12.svg](hero-cumcm-modeling-analyst-v12.svg) | v12介绍图：国赛实战经验、可选单代理/三角色、论证、Python赛中制图与交付 |
+| [cumcm-readme-workflow-v12.svg](cumcm-readme-workflow-v12.svg) | v12流程图：选择、逐问确认、三角色反馈、图表说明、四项验收和交付 |
 | [source/hero.svg](source/hero.svg) / [source/workflow.svg](source/workflow.svg) | 同次生成的可编辑文字母版 |
 | [生成脚本](../../scripts/render_readme_assets.py) | 两图的唯一生成源，修改内容时从此重生成全部版本 |
 

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/readme-showcase/hero-cumcm-modeling-analyst.svg" alt="经过国赛实战使用的 CUMCM Skill，v12 来自赛后复盘。可选单代理或建模手、代码手、论文手协作，将建模思路转化为完整论证。逐问确认，赛中 Python 制图，清楚交付。" width="100%" />
+  <img src="assets/readme-showcase/hero-cumcm-modeling-analyst-v12.svg" alt="经过国赛实战使用的 CUMCM Skill，v12 来自赛后复盘。可选单代理或建模手、代码手、论文手协作，将建模思路转化为完整论证。逐问确认，赛中 Python 制图，清楚交付。" width="100%" />
 </p>
 
 # CUMCM Modeling Analyst
@@ -43,7 +43,7 @@
 ## 全题看清，逐问确认，随题成稿
 
 <p align="center">
-  <img src="assets/readme-showcase/cumcm-readme-workflow.svg" alt="选择协作模式后理解全题；确认当前问，建模、实现和论文同步推进；Python 随问生成图表并配解释；分别检查计算、核验、论文材料和交付；当前问交付后等待下一问确认。" width="100%" />
+  <img src="assets/readme-showcase/cumcm-readme-workflow-v12.svg" alt="选择协作模式后理解全题；确认当前问，建模、实现和论文同步推进；Python 随问生成图表并配解释；分别检查计算、核验、论文材料和交付；当前问交付后等待下一问确认。" width="100%" />
 </p>
 
 **认可整题路线，不代替后问确认。** 已确认本问内的实现、调参、求解器调整、验证和修复可自主完成；目标、关键约束或影响结论的重要假设变化时，再由队伍决定。

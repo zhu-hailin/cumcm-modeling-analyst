@@ -180,8 +180,8 @@ def main():
     font_manager.fontManager.addfont(str(selected))
     family = font_manager.FontProperties(fname=selected).get_name()
     matplotlib.rcParams.update({"font.family": family, "svg.hashsalt": "cumcm-v12-readme", "axes.unicode_minus": False})
-    export(hero(), "hero-cumcm-modeling-analyst.svg", "hero.svg", "CUMCM v12：让建模思路成为完整论证", args.preview_dir)
-    export(workflow(), "cumcm-readme-workflow.svg", "workflow.svg", "CUMCM v12：可选三角色与逐问交付流程", args.preview_dir)
+    export(hero(), "hero-cumcm-modeling-analyst-v12.svg", "hero.svg", "CUMCM v12：让建模思路成为完整论证", args.preview_dir)
+    export(workflow(), "cumcm-readme-workflow-v12.svg", "workflow.svg", "CUMCM v12：可选三角色与逐问交付流程", args.preview_dir)
     print("Generated two README SVGs and editable masters; inspect the PNG previews.")
 
 
