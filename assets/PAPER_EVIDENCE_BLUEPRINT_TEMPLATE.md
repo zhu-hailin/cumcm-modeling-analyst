@@ -8,7 +8,7 @@
 - 当前阶段：EARLY_SKELETON / FINAL_FREEZE
 - 当前状态：PLANNED / READY / BLOCKED
 
-> 读题后即可建立 `EARLY_SKELETON` 与完整论文工作稿，未完成部分明确标记；每问 Final Run 后增量补充。只有全部关键问题冻结并通过 Ready Gate 后才进入 `FINAL_FREEZE` 并标记 `PAPER_EVIDENCE_BLUEPRINT_READY`。READY 是整题证据冻结状态，不是开始写作的门槛。
+> 需要跨问管理或准备论文证据时沿用已有需求骨架增量填写。字段是引用接口，尚无成果的部分留空；早期提纲仅使用 `PAPER_OUTLINE_TEMPLATE.md`。冻结条件统一按[证据架构](../references/paper-evidence-architecture.md)第 8 节，`PAPER_EVIDENCE_BLUEPRINT_READY` 不限制开始工作稿。
 
 ---
 
@@ -74,7 +74,7 @@ status: PLANNED | READY | BLOCKED | NOT_APPLICABLE
 | Artifact | 类型：PAPER_CORE / PAPER_SUPPORT / RUN_ONLY | 支撑什么 | 正文/附录位置 | Run ID/方法版本 | 备注 |
 |---|---|---|---|---|---|
 
-有助于选型、边界或取舍的被否决候选可以进入正文或支撑材料；只有无决策价值的探索才留在 RUN_ONLY。
+论文位置分类按[证据架构](../references/paper-evidence-architecture.md)第 3 节；正式入选及同步按[交付规范](../references/final-delivery-packaging.md)。
 
 ---
 
@@ -83,9 +83,7 @@ status: PLANNED | READY | BLOCKED | NOT_APPLICABLE
 | 信息主题 | 候选图 | 候选表 | 最终保留 | 理由 | 删除后损失 |
 |---|---|---|---|---|---|
 
-只有升级为正式证据的图才进入蓝图；普通 `EXPLORATION_FIGURE` 不要求逐张登记。
-
-需要的论文图表在比赛过程中随问以 Python 代码生成，统一通过 `python-visualization-policy.md` 使用 nature-skills。不得以“最终排版再画”代替当前问的结果解释和视觉检查。
+有实际重复信息时才填写去重表。图表生成、来源与下方说明按[绘图规范](../references/python-visualization-policy.md)，探索图不逐张登记。
 
 ---
 
@@ -125,24 +123,4 @@ Run ID：N/A（方法结构图）
 
 ## FINAL_FREEZE Ready Gate
 
-- [ ] 每个原题交付项都有 Requirement ID；
-- [ ] `required_location` 与实际/计划位置一致；
-- [ ] 关键模型选择可通过 `decision_refs` 追到理由、证据和取舍；
-- [ ] 每项有直接 `primary_answer` 或合规 `NOT_IDENTIFIABLE`；
-- [ ] 每项有真实 Final/Validation Run 或明确不适用原因；
-- [ ] 科学有效性与竞赛完成度分别判断；完成度 FAIL 的项不得标 READY，NOT_IDENTIFIABLE 不自动豁免原题交付项；
-- [ ] 关键结论有与风险匹配的独立验证；
-- [ ] `PAPER_CORE` 已安排进正文；
-- [ ] 图/表/公式没有机械配额和明显重复；
-- [ ] 所需图表已随问用 Python 生成，nature-skills 视觉验收与输入版本可追溯；
-- [ ] 每张图表下方的说明解释展示什么、反映什么、支持什么判断及必要边界；
-- [ ] 总体技术路线图已评估；
-- [ ] 前后问接口从正式文件读取；
-- [ ] `SUPERSEDED` 结果已排除；
-- [ ] 无未解决 `BLOCKED` 项。
-
-通过后：
-
-```text
-PAPER_EVIDENCE_BLUEPRINT_READY
-```
+使用[证据架构](../references/paper-evidence-architecture.md)第 8 节的唯一检查清单，本模板不维护副本。运行引用按[运行账本](../references/model-run-ledger.md)；各问完成状态按[核心流程](../references/core-workflow.md)。

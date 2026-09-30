@@ -16,9 +16,19 @@ def main() -> int:
         "references/multi-agent-collaboration.md", "assets/SUBAGENT_TASK_TEMPLATE.md"
     }
     assert "references/abstract-and-argumentation.md" in loads("abstract_revision")
-    assert "assets/PAPER_OUTLINE_TEMPLATE.md" in loads("reference_paper")
+    assert loads("paper_outline") == {"assets/PAPER_OUTLINE_TEMPLATE.md"}
+    assert loads("reference_paper") == {"references/reference-paper-writing.md"}
+    assert loads("document_rendering") == {"references/equation-rendering-policy.md"}
+    early_exclusions = {
+        "references/reference-paper-writing.md", "references/final-consistency-sweep.md",
+        "references/equation-rendering-policy.md", "references/final-delivery-packaging.md",
+        "references/final-paper-audit.md", "references/python-visualization-policy.md",
+    }
+    assert not (loads("paper_outline") & early_exclusions)
     assert "references/final-consistency-sweep.md" not in loads("reference_paper")
     assert "assets/DELIVERY_README_TEMPLATE.md" in loads("internal_delivery")
+    assert "references/final-consistency-sweep.md" not in loads("internal_delivery")
+    assert "references/final-consistency-sweep.md" in loads("delivery_validation")
     figure = manifest["external_dependencies"]["nature_figure"]
     assert figure["repository"] == "https://github.com/Yuan1z0825/nature-skills"
     assert figure["skill_path"] == "skills/nature-figure/SKILL.md"
