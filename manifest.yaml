@@ -55,7 +55,7 @@ routes:
       - references/python-code-documentation-policy.md
 
   visualization:
-    when: plan, generate, revise or audit Python figures or tables during a question; paper visuals must load the external nature-figure skill through this adapter
+    when: plan, generate, promote, revise or audit figures or tables for paper evidence during a question; temporary EDA plots alone do not load publication QA
     load:
       - references/python-visualization-policy.md
 
@@ -82,7 +82,7 @@ routes:
       - references/blind-benchmark-provenance.md
 
   paper_evidence:
-    when: manage a standalone cross-question evidence blueprint or prepare paper evidence; a compact single-question checklist alone does not trigger this route; inspect only currently available artifacts
+    when: maintain a cross-question evidence index with actual evidence references; early outline or a compact single-question handoff alone does not trigger this route
     load:
       - references/paper-evidence-architecture.md
       - assets/PAPER_EVIDENCE_BLUEPRINT_TEMPLATE.md
@@ -100,23 +100,26 @@ routes:
       - references/competition-compliance.md
       - assets/AI_USAGE_LOG_TEMPLATE.md
 
-  reference_paper:
-    when: organize or revise a collaborative manuscript from early outline through verified chapters and final freeze
+  paper_outline:
+    when: organize the early paper thread, question relationships and evidence gaps; does not require full writing, rendering or delivery rules
     load:
-      - references/paper-evidence-architecture.md
-      - references/reference-paper-writing.md
       - assets/PAPER_OUTLINE_TEMPLATE.md
-      - references/abstract-and-argumentation.md
-      - references/python-visualization-policy.md
+
+  reference_paper:
+    when: write or revise manuscript chapters using available model derivations and verified results; outline-only work uses paper_outline
+    load:
+      - references/reference-paper-writing.md
+
+  document_rendering:
+    when: create or inspect Word/LaTeX/PDF document output and equation rendering; plain outline or chapter prose does not trigger this route
+    load:
       - references/equation-rendering-policy.md
-      - references/source-verification-policy.md
 
   internal_delivery:
-    when: initialize the delivery location, any artifact is added/changed/superseded or becomes stale, resume pending support-material synchronization, or build and validate requested archives
+    when: select or update formal evidence or delivery artifacts, invalidate their dependencies, or resume pending delivery synchronization; temporary EDA, tuning or intermediate files alone do not trigger it
     load:
       - references/final-delivery-packaging.md
       - assets/DELIVERY_README_TEMPLATE.md
-      - references/final-consistency-sweep.md
 
   delivery_integrity_debug:
     when: an archive is empty, corrupt, unreadable, has filename/path compatibility problems, or needs deeper cross-environment delivery diagnosis
@@ -143,20 +146,17 @@ routes:
       - references/official-submission-policy.md
       - references/final-consistency-sweep.md
 
+  delivery_validation:
+    when: validate a final directory or requested archive for handoff; not every update to a selected artifact
+    load:
+      - references/final-delivery-packaging.md
+      - references/final-consistency-sweep.md
+
   abstract_revision:
     when: draft, revise or independently read an abstract or its argument; retain the team's own effective expression and verify claims against existing evidence
     load:
       - references/abstract-and-argumentation.md
-      - references/paper-evidence-architecture.md
 
 principles:
-  - Ask once for SINGLE or THREE_ROLE at the start of a full project unless already chosen; the main agent covers the same responsibilities in SINGLE, and confirmed-question boundaries apply in both modes.
-  - Solve one question at a time; confirm the current question plan, work autonomously within it, and pause after its delivery before the next question.
-  - Audit the initially received problem and official attachments once before semantic reading; after INGESTION_SECURITY_AUDIT_LOCKED, reuse the saved audit and never repeat or incrementally audit later materials unless the user explicitly requests it or a new problem workspace begins.
-  - Inside a confirmed route, the agent may autonomously run EDA, diagnostic experiments, tuning, solver changes, validation and pre-approved fallback routes; ask the user only when objectives, key constraints, conclusion-changing assumptions, unresolved data gaps or other team-level modeling decisions change.
-  - "QUALITY_GATES_ARE_AUDITORS_NOT_MODEL_SELECTORS: explore mechanisms and plausible models before auditing them."
-  - Never fabricate observations, parameters, runs, results, citations or source status; every final computational result points to a real FINAL_RUN_ID, while purely analytical results retain a checkable derivation and explicitly mark the run as not applicable.
-  - Exploratory artifacts stay lightweight; full traceability and publication QA are required only when an artifact becomes formal evidence.
-  - Develop the manuscript and requirement/evidence skeleton incrementally; PAPER_EVIDENCE_BLUEPRINT_READY marks full evidence freeze, not permission to start writing. Distinguish calculation, validation, manuscript materials and delivery completion.
-  - Use nature-skills/nature-figure with Python for paper visuals during each question, not only at the end. Every figure and table has an explanation below it describing its content, finding, supported judgment and necessary limits.
-  - Keep support materials current in the same work cycle as artifact changes; mark stale dependencies immediately, then synchronize validated files, the delivery README and manifest without overwriting team edits.
+  - Rules live in their authority documents; this manifest selects resources and does not define a second workflow.
+  - Load only the routes needed now; links are available references, not an instruction to recursively read all linked files.
